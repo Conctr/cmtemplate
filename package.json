@@ -1,0 +1,27 @@
+{
+  "name": "mywimo",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.16.2",
+    "dotenv": "^4.0.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^3.1.0",
+    "material-ui": "^0.18.7",
+    "moment": "^2.18.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-router-dom": "^4.1.2",
+    "react-scripts": "1.0.10",
+    "react-tap-event-plugin": "^2.0.1"
+  },
+  "proxy": "https://api.staging.conctr.com",
+  "scripts": {
+    "sass": "gulp sass:watch",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
