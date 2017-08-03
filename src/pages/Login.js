@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-function submitSignIn(event, onSignIn) {
+function submitToAuth(event, callback) {
   // Stop usual browser form submission
   event.preventDefault()
 
@@ -9,8 +9,8 @@ function submitSignIn(event, onSignIn) {
   // Get values from the field
   const email = form.elements['email'].value
   const password = form.elements['password'].value
-  // Call the onSignIn function with our values
-  onSignIn({ email, password })
+  // Call the callback function with our values
+  callback({ email, password })
 }
 
 class LoginPage extends Component {
@@ -29,7 +29,7 @@ class LoginPage extends Component {
       </button>
       { this.state.createAccount ? (
         <form
-          // onSubmit={ (event) => submitCreateAccount(event, onCreateAccount) }
+          onSubmit={ (event) => submitToAuth(event, this.props.onRegister) }
         >
           <label>
             <span>Email </span>
@@ -43,7 +43,7 @@ class LoginPage extends Component {
         </form>
         ) : (
           <form
-            onSubmit={ (event) => submitSignIn(event, this.props.onSignIn) }
+            onSubmit={ (event) => submitToAuth(event, this.props.onSignIn) }
           >
             <label>
               <span>Email </span>

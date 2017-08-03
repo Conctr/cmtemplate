@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 class HomePage extends Component {
   render() {
     return (
-      <h1>Welcome!</h1>
+      <div>
+        <h1>Welcome!</h1>
+        <button onClick={()=> {this.props.onSignOut()}}>Sign Out</button>
+      </div>
     )
   }
 }

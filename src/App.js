@@ -17,13 +17,13 @@ const savedToken = localStorage.getItem(tokenKey)
 setApiToken(savedToken)
 injectTapEventPlugin()
 
-
 class App extends Component {
   state = {
-    token: null,
+    token: savedToken,
     error: null,
     createAccount: false
   }
+
 
   handleSignIn = ({ email, password }) => {
     authAPI.signIn({ email, password })
@@ -34,6 +34,20 @@ class App extends Component {
       .catch(error => {
         this.setState({ error: error.message })
       })
+  }
+
+  handleRegister = ({ email, password }) => {
+    authAPI.register({ email, password })
+      .then(json => {
+        this.setToken(json.jwt)
+      })
+      .catch(error => {
+        this.setState({ error: error.message })
+      })
+  }
+
+  handleSignOut = () => {
+    this.setToken(null)
   }
 
   // setToken(null) === signOut()
@@ -54,11 +68,19 @@ class App extends Component {
     {// NavBar and shit
     }
     <h1>{this.state.error}</h1>
+    <h1>{!!this.state.token ? 'SignedIn' : 'SignedOut'}</h1>
     <Switch>
       { !!this.state.token ? (
-        <Route exact path='/' component={ HomePage } />
+        <Route exact path='/' render={
+            () => <HomePage onSignOut={this.handleSignOut}/>
+        } />
       ): (
-        <Route exact path='/' render={ () => (<LoginPage title={'asdf'} onSignIn={this.handleSignIn}/>) } />
+        <Route exact path='/' render={
+            () => <LoginPage
+            title={'asdf'}
+            onSignIn={this.handleSignIn}
+            onRegister={this.handleRegister}/>
+        } />
       )}
       <Route exact path='/devices' render={ () => (
           // Create token checker method that renders please login
