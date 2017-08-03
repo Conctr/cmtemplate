@@ -1,7 +1,7 @@
 let moment = require("moment");
 //let actionheroClient = require('./actionheroClient')
 let applicationID = '2bf8fdd3b3144deea63aa54402938d68'
-export function getDevicesData(deviceId, changeState,hoursBack){
+export function getDevicesData(deviceId, changeState,hoursBack,updateData){
 
   let query = {
     limit:10000,
@@ -47,8 +47,8 @@ export function getDevicesData(deviceId, changeState,hoursBack){
   });
   clientDeviceDetails.on("message", (message) => {
     if (message.context === "current_data" && message.event === "update_data" && message.data && message.data.new_val && message.data.new_val._device_id === deviceId) {
-      // update value
-      console.log('first if',message)
+      console.log('first if')
+      updateData(message.data.new_val)
     } else if (message.context === "historical_data" && message.event === "update_data" && message.data && message.data.new_val && message.data.new_val._device_id === deviceId) {
       console.log('second if',message)
       if (message.data.new_val && message.data.new_val._device_id) {

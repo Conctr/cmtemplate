@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as deviceWebSocket from '../api/deviceWebSockets'
-import { VictoryLine,VictoryChart,VictoryTheme } from 'victory'
+import { VictoryLine,VictoryChart,VictoryTheme,VictoryVoronoiContainer } from 'victory'
 import CircularProgress from 'material-ui/CircularProgress'
 import Slider from 'material-ui/Slider'
 import moment from 'moment'
@@ -31,12 +31,10 @@ function sorter(data,dataKeys){
     sortedValues[key]['domainX'] = [maxX + domainValX,minX - domainValX]
     sortedValues[key]['domainY'] = [minY - domainValY,maxY + domainValY]
   })
-  console.log('sorted data',sortedValues)
   }
   return sortedValues
 }
 
-let graphLoading = false
 class DevicePage extends Component {
 
   graphs = ['humidity','pressure','temperature']
@@ -50,12 +48,12 @@ class DevicePage extends Component {
   }
 
   componentDidMount(){
-    deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack)
+    deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack,this.handleUpdateData)
   }
 
   componentWillUpdate(nextProps, nextState){
     if (nextState.hoursBack !== this.state.hoursBack) {
-      deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, nextState.hoursBack)
+      deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, nextState.hoursBack,this.handleUpdateData)
     }
   }
 
@@ -64,11 +62,11 @@ class DevicePage extends Component {
       data: newData
     })
   }
-  pushNewData = (newData)=>{
-
-    // this.setState({
-    //   data: this.state.data.push(newData)
-    // })
+  handleUpdateData = (newData)=>{
+    
+    this.setState({
+      data: this.state.data.concat(newData)
+    })
   }
 
   handleSlider = (value)=>{
@@ -80,6 +78,7 @@ class DevicePage extends Component {
   render() {
     //deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData,this.state.hoursBack)
     let defaultChange = null
+    console.log(this.state.data)
     const sortedData = sorter(this.state.data,this.graphs)
     return (
       <div>
@@ -102,7 +101,12 @@ class DevicePage extends Component {
             width: '80%'}} key={`${keyName}Graph`}>
               <h1>{keyName}</h1>
               <VictoryChart
-              animate={{ duration: 1500 }}
+              containerComponent={<VictoryVoronoiContainer
+                 labels={(d) => {
+                   return `time:${d.x} value:${d.y}`
+                 }}
+               />}
+              animate={{ duration: 500 }}
               theme={VictoryTheme.material}
               style={{parent: { border: "2px solid purple"}}}
               >
