@@ -25,8 +25,11 @@ function sorter(data,dataKeys){
     let maxX = Math.max.apply(null, allX)
     let minY = Math.min.apply(null, allY)
     let maxY = Math.max.apply(null, allY)
-    sortedValues[key]['x'] = {min: minX,max: maxX}
-    sortedValues[key]['y'] = {min: minY,max: maxY}
+    let domainValX = (maxX - minX)/10
+    let domainValY = (maxY - minY)/10
+
+    sortedValues[key]['domainX'] = [maxX + domainValX,minX - domainValX]
+    sortedValues[key]['domainY'] = [minY - domainValY,maxY + domainValY]
   })
   console.log('sorted data',sortedValues)
   }
@@ -78,7 +81,6 @@ class DevicePage extends Component {
     //deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData,this.state.hoursBack)
     let defaultChange = null
     const sortedData = sorter(this.state.data,this.graphs)
-    console.log(this.state.data)
     return (
       <div>
         { sortedData ? (
