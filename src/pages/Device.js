@@ -56,6 +56,7 @@ class DevicePage extends Component {
     super(props);
     this.state = {
        data: {},
+       hoursBackShown:3,
        hoursBack: 3,
        loaderShown : false
     };
@@ -84,23 +85,28 @@ class DevicePage extends Component {
     })
   }
 
-  handleSlider = (value)=>{
+  handleSliderStop = (value)=>{
     this.setState({
       hoursBack: value,
       loaderShown: true
+    })
+  }
+  handleSlider = (value)=>{
+    this.setState({
+      hoursBackShown: value
     })
   }
 
   render() {
     //deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData,this.state.hoursBack)
     let defaultChange = null
-    console.log(this.state);
+    console.log(this.state)
     const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
     return (
       <div>
         { sortedData ? (
           <div style={{textAlign: 'center'}}>
-            <h2>{this.state.hoursBack}</h2>
+            <h2>{this.state.hoursBackShown}</h2>
               { this.state.loaderShown &&  <MuiThemeProvider><CircularProgress /></MuiThemeProvider> }
 
           <MuiThemeProvider>
@@ -110,8 +116,11 @@ class DevicePage extends Component {
             step={1}
             value={this.state.hoursBack}
             axis="x-reverse"
-            onChange={(event,value) => {defaultChange = value}}
-            onDragStop={() => (defaultChange > 0 ? this.handleSlider(defaultChange): (''))}
+            onChange={(event,value) => {
+              defaultChange = value
+              // this.handleSlider(value)
+            }}
+            onDragStop={() => (defaultChange > 0 ? this.handleSliderStop(defaultChange): (''))}
           />
           </MuiThemeProvider>
           {this.graphs.map(graphPreference => (

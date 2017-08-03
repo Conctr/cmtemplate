@@ -6,12 +6,14 @@ import DevicesPage from './pages/Devices'
 import DevicePage from './pages/Device'
 import * as authAPI from './api/auth'
 import * as deviceAPI from './api/device'
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import injectTapEventPlugin from 'react-tap-event-plugin'
 import {
   BrowserRouter as Router,
   Route,
   Switch
 } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css'
 const tokenKey = 'userToken'
 const savedToken = localStorage.getItem(tokenKey)
 setApiToken(savedToken)
@@ -62,12 +64,22 @@ class App extends Component {
   }
 
   render() {
+    if (!!this.state.error){
+      toast.error(this.state.error)
+    }
     return (
       <Router>
   <main>
     {// NavBar and shit
     }
-    <h1>{this.state.error}</h1>
+    <ToastContainer
+    position="top-right"
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick>
+    <button>hai</button>
+    </ToastContainer>
+    <button onClick={this.notify}>Add Notification</button>
     <h1>{!!this.state.token ? 'SignedIn' : 'SignedOut'}</h1>
     <Switch>
       { !!this.state.token ? (
@@ -77,7 +89,6 @@ class App extends Component {
       ): (
         <Route exact path='/' render={
             () => <LoginPage
-            title={'asdf'}
             onSignIn={this.handleSignIn}
             onRegister={this.handleRegister}/>
         } />

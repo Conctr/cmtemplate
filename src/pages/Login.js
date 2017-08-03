@@ -23,7 +23,6 @@ class LoginPage extends Component {
   render() {
     return (
       <div>
-      <h1>{this.props.title}</h1>
       <button onClick={this.handleAccountChange} >
         { this.state.createAccount ? ('Sign In') : ('Create Account') }
       </button>
