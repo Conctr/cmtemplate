@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import * as deviceWebSocket from '../api/deviceWebSockets'
-import { VictoryLine,VictoryChart,VictoryTheme,VictoryVoronoiContainer } from 'victory'
+import { VictoryLine,VictoryChart,VictoryTheme,VictoryVoronoiContainer,VictoryAxis } from 'victory'
 import CircularProgress from 'material-ui/CircularProgress'
 import Slider from 'material-ui/Slider'
 import moment from 'moment'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+require('moment-duration-format')
 
 
 function sorter(data,dataKeys){
@@ -37,7 +38,19 @@ function sorter(data,dataKeys){
 
 class DevicePage extends Component {
 
-  graphs = ['humidity','pressure','temperature']
+  graphs = [{
+    key: 'humidity',
+    displayTitle: 'Humidity',
+    unit: '%'
+  },{
+    key: 'pressure',
+    displayTitle: 'Pressure',
+    unit: 'pSi'
+  },{
+    key: 'temperature',
+    displayTitle: 'Temperature',
+    unit: '°C'
+  }]
 
   constructor(props){
     super(props);
@@ -63,7 +76,7 @@ class DevicePage extends Component {
     })
   }
   handleUpdateData = (newData)=>{
-    
+
     this.setState({
       data: this.state.data.concat(newData)
     })
@@ -79,11 +92,11 @@ class DevicePage extends Component {
     //deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData,this.state.hoursBack)
     let defaultChange = null
     console.log(this.state.data)
-    const sortedData = sorter(this.state.data,this.graphs)
+    const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
     return (
       <div>
         { sortedData ? (
-          <div>
+          <div style={{textAlign: 'center'}}>
             <h2>{this.state.hoursBack}</h2>
           <MuiThemeProvider>
             <Slider
@@ -96,26 +109,38 @@ class DevicePage extends Component {
             onDragStop={() => (defaultChange > 0 ? this.handleSlider(defaultChange): (''))}
           />
           </MuiThemeProvider>
-          {this.graphs.map(keyName => (
-            <div  style={{height: '80%',
-            width: '80%'}} key={`${keyName}Graph`}>
-              <h1>{keyName}</h1>
+          {this.graphs.map(graphPreference => (
+            <div  style={{height: '500px',
+            width: '500px'}} key={`${graphPreference.key}Graph`}>
+              <h1>{graphPreference.key}</h1>
               <VictoryChart
               containerComponent={<VictoryVoronoiContainer
                  labels={(d) => {
-                   return `time:${d.x} value:${d.y}`
+                   return `time:${moment.duration(d.x*-3600000).format("h [hours], m [minutes], s [seconds]")} value:${d.y}`
                  }}
                />}
               animate={{ duration: 500 }}
               theme={VictoryTheme.material}
               style={{parent: { border: "2px solid purple"}}}
               >
+              <VictoryAxis
+                label="Time In Hours"
+                style={{
+                  axisLabel: { padding: 30 }
+                }}
+              />
+              <VictoryAxis dependentAxis
+                label={`${graphPreference.displayTitle} in ${graphPreference.unit}`}
+                style={{
+                  axisLabel: { padding: 40 }
+                }}
+              />
               <VictoryLine
                 style={{
                   data: { stroke: "#c43a31"},
                   parent: { border: "6px solid blue"}
                 }}
-                data={sortedData[keyName].values}
+                data={sortedData[graphPreference.key].values}
               />
             </VictoryChart></div>
             ))}</div>
