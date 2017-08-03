@@ -56,7 +56,8 @@ class DevicePage extends Component {
     super(props);
     this.state = {
        data: {},
-       hoursBack: 3
+       hoursBack: 3,
+       loaderShown : false
     };
   }
 
@@ -72,7 +73,8 @@ class DevicePage extends Component {
 
   updateData = (newData)=>{
     this.setState({
-      data: newData
+      data: newData,
+      loaderShown:false
     })
   }
   handleUpdateData = (newData)=>{
@@ -84,20 +86,23 @@ class DevicePage extends Component {
 
   handleSlider = (value)=>{
     this.setState({
-      hoursBack: value
+      hoursBack: value,
+      loaderShown: true
     })
   }
 
   render() {
     //deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData,this.state.hoursBack)
     let defaultChange = null
-    console.log(this.state.data)
+    console.log(this.state);
     const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
     return (
       <div>
         { sortedData ? (
           <div style={{textAlign: 'center'}}>
             <h2>{this.state.hoursBack}</h2>
+              { this.state.loaderShown &&  <MuiThemeProvider><CircularProgress /></MuiThemeProvider> }
+
           <MuiThemeProvider>
             <Slider
             min={1}
@@ -112,7 +117,7 @@ class DevicePage extends Component {
           {this.graphs.map(graphPreference => (
             <div  style={{height: '500px',
             width: '500px'}} key={`${graphPreference.key}Graph`}>
-              <h1>{graphPreference.key}</h1>
+              <h1>{graphPreference.displayTitle}</h1>
               <VictoryChart
               containerComponent={<VictoryVoronoiContainer
                  labels={(d) => {
