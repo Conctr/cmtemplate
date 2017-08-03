@@ -12,7 +12,7 @@ export function getDevicesData(deviceId, changeState,hoursBack){
     where: {
       "_ts":{
         type: "datetime",
-        "gt": moment().subtract(1,"hours").format()
+        "gt": moment().subtract(hoursBack,"hours").format()
       }
     }
   }
@@ -26,10 +26,18 @@ export function getDevicesData(deviceId, changeState,hoursBack){
     authorization: `jwt:${window.localStorage.getItem('userToken')}`,
     _device_id: deviceId,
     app_id: applicationID,
+    where: query.where,
     limit: query.limit,
     orderBy: query.orderBy,
     access_level: "consumer"
   };
+
+
+ if (clientDeviceDetails.status === "connected") {
+   clientDeviceDetails.disconnect();
+   clientDeviceDetails = null;
+ }
+
 
   clientDeviceDetails.connect((err, details) => {
     if (err) {
@@ -40,9 +48,11 @@ export function getDevicesData(deviceId, changeState,hoursBack){
   clientDeviceDetails.on("message", (message) => {
     if (message.context === "current_data" && message.event === "update_data" && message.data && message.data.new_val && message.data.new_val._device_id === deviceId) {
       // update value
+      console.log('first if',message)
     } else if (message.context === "historical_data" && message.event === "update_data" && message.data && message.data.new_val && message.data.new_val._device_id === deviceId) {
-      //
+      console.log('second if',message)
       if (message.data.new_val && message.data.new_val._device_id) {
+        console.log('in second if',message)
         // update graphs
       }
     } else if (message.context === "historical_data" && message.event === "initial_data" && !!message.data) {
