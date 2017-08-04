@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as deviceWebSocket from '../api/deviceWebSockets'
-import { VictoryLine,VictoryChart,VictoryTheme,VictoryVoronoiContainer,VictoryAxis } from 'victory'
+import { VictoryTooltip,VictoryScatter,VictoryLine,VictoryChart,VictoryTheme,VictoryVoronoiContainer,VictoryAxis } from 'victory'
 import CircularProgress from 'material-ui/CircularProgress'
 import Slider from 'material-ui/Slider'
 import moment from 'moment'
@@ -14,12 +14,12 @@ function sorter(data,dataKeys){
     dataKeys.forEach(key => {
     sortedValues[key] = {}
     sortedValues[key].values = []
-    for(let i = 0; i < data.length; i++){
-      let time = moment().diff(moment(data[i]['_ts']))
-      // Turn into hours
-      time /= -3600000
-      sortedValues[key].values.push({x: time,y: data[i][key]})
-    }
+      for(let i = 0; i < data.length; i++){
+        let time = moment().diff(moment(data[i]['_ts']))
+        // Turn into hours
+        time /= 3600000
+        sortedValues[key].values.push({x: time,y: data[i][key]})
+      }
     let allX = sortedValues[key].values.map(val => (val.x))
     let allY = sortedValues[key].values.map(val => (val.y))
     let minX = Math.min.apply(null, allX)
@@ -29,7 +29,7 @@ function sorter(data,dataKeys){
     let domainValX = (maxX - minX)/10
     let domainValY = (maxY - minY)/10
 
-    sortedValues[key]['domainX'] = [maxX + domainValX,minX - domainValX]
+    sortedValues[key]['domainX'] = [minX - domainValX,maxX + domainValX]
     sortedValues[key]['domainY'] = [minY - domainValY,maxY + domainValY]
   })
   }
@@ -102,6 +102,7 @@ class DevicePage extends Component {
     let defaultChange = null
     console.log(this.state)
     const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
+    console.log(sortedData);
     return (
       <div>
         { sortedData ? (
@@ -125,29 +126,46 @@ class DevicePage extends Component {
           </MuiThemeProvider>
           {this.graphs.map(graphPreference => (
             <div  style={{height: '500px',
-            width: '500px'}} key={`${graphPreference.key}Graph`}>
+            width: '500px', display: 'inline-block'}} key={`${graphPreference.key}Graph`}>
+
               <h1>{graphPreference.displayTitle}</h1>
+
+              <h2>Min and Max : {Number(sortedData[graphPreference.key].domainY[0]).toFixed(2)} and {Number(sortedData[graphPreference.key].domainY[1]).toFixed(2)}</h2>
               <VictoryChart
-              containerComponent={<VictoryVoronoiContainer
-                 labels={(d) => {
-                   return `time:${moment.duration(d.x*-3600000).format("h [hours], m [minutes], s [seconds]")} value:${d.y}`
-                 }}
-               />}
-              animate={{ duration: 500 }}
-              theme={VictoryTheme.material}
-              style={{parent: { border: "2px solid purple"}}}
+                containerComponent={<VictoryVoronoiContainer/>}
+                animate={{ duration: 500 }}
+                theme={VictoryTheme.material}
+                style={{parent: { border: "2px solid purple"}}}
+                padding={{ top: 40, bottom: 40, left: 60, right: 40 }}
+                domainPadding={30}
+                /* domain={
+                  {
+                    x: [
+                        Number(sortedData[graphPreference.key].domainX[0]).toFixed(2),
+                        Number(sortedData[graphPreference.key].domainX[1]).toFixed(2)
+                       ],
+                    y: [
+                        Number(sortedData[graphPreference.key].domainY[0]).toFixed(2),
+                        Number(sortedData[graphPreference.key].domainY[1]).toFixed(2)
+                       ]
+                  }
+                } */
+
               >
               <VictoryAxis
-                label="Time In Hours"
+                orientation="bottom"
+                label="Hours Ago"
                 style={{
-                  axisLabel: { padding: 30 }
+                  axisLabel: { padding: 25 }
                 }}
               />
               <VictoryAxis dependentAxis
-                label={`${graphPreference.displayTitle} in ${graphPreference.unit}`}
+
+                label={`${graphPreference.displayTitle} (${graphPreference.unit})`}
                 style={{
                   axisLabel: { padding: 40 }
                 }}
+
               />
               <VictoryLine
                 style={{
@@ -155,6 +173,17 @@ class DevicePage extends Component {
                   parent: { border: "6px solid blue"}
                 }}
                 data={sortedData[graphPreference.key].values}
+              />
+              <VictoryScatter
+                style={{
+                  data: { stroke: "#c43a31", strokeWidth: 2, fill: "white" }
+                }}
+                size={4}
+                data={sortedData[graphPreference.key].values}
+                labelComponent={<VictoryTooltip/>}
+                labels={(d) => {
+                    return `Time:${moment.duration(d.x*-3600000).format("h [hours], m [minutes], s [seconds]")} value:${d.y}`
+                  }}
               />
             </VictoryChart></div>
             ))}</div>
