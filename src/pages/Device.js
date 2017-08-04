@@ -146,7 +146,7 @@ class DevicePage extends Component {
                 orientation="bottom"
                 label="Hours Ago"
                 style={{
-                  axisLabel: { padding: 30 }
+                  axisLabel: { padding: 25 }
                 }}
               />
               <VictoryAxis dependentAxis
