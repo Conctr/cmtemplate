@@ -4,6 +4,7 @@ import HomePage from './pages/Home'
 import LoginPage from './pages/Login'
 import DevicesPage from './pages/Devices'
 import DevicePage from './pages/Device'
+import NavBar from './components/molecules/NavBar'
 import * as authAPI from './api/auth'
 import * as deviceAPI from './api/device'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -70,8 +71,7 @@ class App extends Component {
     return (
       <Router>
   <main>
-    {// NavBar and shit
-    }
+    {!!this.state.token && <NavBar/>}
     <ToastContainer
     position="top-right"
     hideProgressBar={false}
