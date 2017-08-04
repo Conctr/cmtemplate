@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import Checkbox from '../components/atoms/Checkbox'
+import RaisedButton from '../components/atoms/RaisedButton'
+import LoginModal from '../components/molecules/LoginModal'
 
 function submitToAuth(event, callback) {
   // Stop usual browser form submission
@@ -18,14 +21,20 @@ class LoginPage extends Component {
     super(props);
     this.state = {createAccount: false};
   }
+  
   handleAccountChange = () => this.setState({createAccount: !this.state.createAccount})
 
   render() {
     return (
       <div>
-      <button onClick={this.handleAccountChange} >
-        { this.state.createAccount ? ('Sign In') : ('Create Account') }
-      </button>
+        <Checkbox label="remember me" labelPosition='left' />
+        <div>
+          <RaisedButton label="Register" />
+          <LoginModal />
+        </div>
+      <RaisedButton onTouchTap={this.handleAccountChange}
+        label={ this.state.createAccount ? ('Sign In') : ('Create Account') } />
+
       { this.state.createAccount ? (
         <form
           onSubmit={ (event) => submitToAuth(event, this.props.onRegister) }
@@ -42,8 +51,7 @@ class LoginPage extends Component {
         </form>
         ) : (
           <form
-            onSubmit={ (event) => submitToAuth(event, this.props.onSignIn) }
-          >
+            onSubmit={ (event) => submitToAuth(event, this.props.onSignIn) } >
             <label>
               <span>Email </span>
               <input name='email' />

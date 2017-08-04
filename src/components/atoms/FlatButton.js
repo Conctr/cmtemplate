@@ -1,10 +1,9 @@
 import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import Button from 'material-ui/RaisedButton'
+import Button from 'material-ui/FlatButton'
 
-export default function RaisedButton({
+export default function FlatButton ({
   buttonColor,
-  className,
   href,
   label,
   labelColor,
@@ -14,11 +13,10 @@ export default function RaisedButton({
   return (
     <MuiThemeProvider>
       <Button
-        className={ className }
-        buttonColor={ buttonColor }
+        buttonColor={ buttonColor } 
+        href={ href }
         label={ label }
         labelColor={ labelColor }
-        href={ href } 
         onTouchTap={ onTouchTap } />
     </MuiThemeProvider>
   )
