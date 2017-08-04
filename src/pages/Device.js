@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as deviceWebSocket from '../api/deviceWebSockets'
-import { VictoryLine,VictoryChart,VictoryTheme,VictoryVoronoiContainer,VictoryAxis } from 'victory'
+import { VictoryTooltip,VictoryScatter,VictoryLine,VictoryChart,VictoryTheme,VictoryVoronoiContainer,VictoryAxis } from 'victory'
 import CircularProgress from 'material-ui/CircularProgress'
 import Slider from 'material-ui/Slider'
 import moment from 'moment'
@@ -94,8 +94,8 @@ class DevicePage extends Component {
   render() {
     //deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData,this.state.hoursBack)
     let defaultChange = null
-    console.log(this.state);
     const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
+    console.log(sortedData);
     return (
       <div>
         { sortedData ? (
@@ -116,20 +116,19 @@ class DevicePage extends Component {
           </MuiThemeProvider>
           {this.graphs.map(graphPreference => (
             <div  style={{height: '500px',
-            width: '500px'}} key={`${graphPreference.key}Graph`}>
+            width: '500px', display: 'inline-block'}} key={`${graphPreference.key}Graph`}>
+              
               <h1>{graphPreference.displayTitle}</h1>
               <VictoryChart
-              containerComponent={<VictoryVoronoiContainer
-                 labels={(d) => {
-                   return `time:${moment.duration(d.x*-3600000).format("h [hours], m [minutes], s [seconds]")} value:${d.y}`
-                 }}
-               />}
-              animate={{ duration: 500 }}
-              theme={VictoryTheme.material}
-              style={{parent: { border: "2px solid purple"}}}
+                containerComponent={<VictoryVoronoiContainer/>}
+                animate={{ duration: 500 }}
+                theme={VictoryTheme.material}
+                style={{parent: { border: "2px solid purple"}}}
+                domainPadding={10}
               >
               <VictoryAxis
-                label="Time In Hours"
+                orientation="bottom"
+                label="Hours Ago"
                 style={{
                   axisLabel: { padding: 30 }
                 }}
@@ -137,7 +136,7 @@ class DevicePage extends Component {
               <VictoryAxis dependentAxis
                 label={`${graphPreference.displayTitle} in ${graphPreference.unit}`}
                 style={{
-                  axisLabel: { padding: 40 }
+                  axisLabel: { padding: -40 }
                 }}
               />
               <VictoryLine
@@ -146,6 +145,17 @@ class DevicePage extends Component {
                   parent: { border: "6px solid blue"}
                 }}
                 data={sortedData[graphPreference.key].values}
+              />
+              <VictoryScatter 
+                style={{
+                  data: { stroke: "#c43a31", strokeWidth: 2, fill: "white" }
+                }}
+                size={4}
+                data={sortedData[graphPreference.key].values}
+                labelComponent={<VictoryTooltip/>}
+                labels={(d) => {
+                    return `Time:${moment.duration(d.x*-3600000).format("h [hours], m [minutes], s [seconds]")} value:${d.y}`
+                  }}
               />
             </VictoryChart></div>
             ))}</div>
