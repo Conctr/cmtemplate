@@ -1,6 +1,6 @@
 let moment = require("moment");
 //let actionheroClient = require('./actionheroClient')
-let applicationID = '2bf8fdd3b3144deea63aa54402938d68'
+let applicationID = process.env.REACT_APP_APP_ID
 export function getDevicesData(deviceId, changeState,hoursBack,updateData){
 
   let query = {
