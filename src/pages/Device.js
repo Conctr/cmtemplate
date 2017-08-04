@@ -14,12 +14,12 @@ function sorter(data,dataKeys){
     dataKeys.forEach(key => {
     sortedValues[key] = {}
     sortedValues[key].values = []
-    for(let i = 0; i < data.length; i++){
-      let time = moment().diff(moment(data[i]['_ts']))
-      // Turn into hours
-      time /= -3600000
-      sortedValues[key].values.push({x: time,y: data[i][key]})
-    }
+      for(let i = 0; i < data.length; i++){
+        let time = moment().diff(moment(data[i]['_ts']))
+        // Turn into hours
+        time /= 3600000
+        sortedValues[key].values.push({x: time,y: data[i][key]})
+      }
     let allX = sortedValues[key].values.map(val => (val.x))
     let allY = sortedValues[key].values.map(val => (val.y))
     let minX = Math.min.apply(null, allX)
@@ -29,7 +29,7 @@ function sorter(data,dataKeys){
     let domainValX = (maxX - minX)/10
     let domainValY = (maxY - minY)/10
 
-    sortedValues[key]['domainX'] = [maxX + domainValX,minX - domainValX]
+    sortedValues[key]['domainX'] = [minX - domainValX,maxX + domainValX]
     sortedValues[key]['domainY'] = [minY - domainValY,maxY + domainValY]
   })
   }
@@ -117,14 +117,30 @@ class DevicePage extends Component {
           {this.graphs.map(graphPreference => (
             <div  style={{height: '500px',
             width: '500px', display: 'inline-block'}} key={`${graphPreference.key}Graph`}>
-              
+
               <h1>{graphPreference.displayTitle}</h1>
+              
+              <h2>Min and Max : {Number(sortedData[graphPreference.key].domainY[0]).toFixed(2)} and {Number(sortedData[graphPreference.key].domainY[1]).toFixed(2)}</h2>             
               <VictoryChart
                 containerComponent={<VictoryVoronoiContainer/>}
                 animate={{ duration: 500 }}
                 theme={VictoryTheme.material}
                 style={{parent: { border: "2px solid purple"}}}
-                domainPadding={10}
+                padding={{ top: 40, bottom: 40, left: 60, right: 40 }}
+                domainPadding={30}
+                /* domain={
+                  { 
+                    x: [
+                        Number(sortedData[graphPreference.key].domainX[0]).toFixed(2), 
+                        Number(sortedData[graphPreference.key].domainX[1]).toFixed(2)
+                       ],
+                    y: [
+                        Number(sortedData[graphPreference.key].domainY[0]).toFixed(2), 
+                        Number(sortedData[graphPreference.key].domainY[1]).toFixed(2)
+                       ]
+                  }
+                } */
+
               >
               <VictoryAxis
                 orientation="bottom"
@@ -134,10 +150,12 @@ class DevicePage extends Component {
                 }}
               />
               <VictoryAxis dependentAxis
-                label={`${graphPreference.displayTitle} in ${graphPreference.unit}`}
+
+                label={`${graphPreference.displayTitle} (${graphPreference.unit})`}
                 style={{
-                  axisLabel: { padding: -40 }
+                  axisLabel: { padding: 40 }
                 }}
+
               />
               <VictoryLine
                 style={{
