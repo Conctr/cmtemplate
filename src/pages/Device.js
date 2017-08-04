@@ -15,10 +15,9 @@ function sorter(data,dataKeys){
     sortedValues[key] = {}
     sortedValues[key].values = []
       for(let i = 0; i < data.length; i++){
-        let time = moment().diff(moment(data[i]['_ts']))
-        // Turn into hours
-        time /= 3600000
-        sortedValues[key].values.push({x: time,y: data[i][key]})
+        let time = data[i]['_ts']
+
+        sortedValues[key].values.push({ts: time,value: data[i][key]})
       }
     let allX = sortedValues[key].values.map(val => (val.x))
     let allY = sortedValues[key].values.map(val => (val.y))
@@ -34,6 +33,22 @@ function sorter(data,dataKeys){
   })
   }
   return sortedValues
+}
+
+function epochToTime(values,milisecondConverter){
+  let array = values.map(value => {
+    return {x:moment().diff(value.ts)/milisecondConverter,y: value.value}
+  })
+  return array
+}
+
+function averageDataIntoTimeBlocks(values){
+  // let a = values.map
+  // console.log('data',a)
+  /*{
+  includedValues: [numbers],
+  averaged: {ts: averagedTime,value: }
+  }*/
 }
 
 class DevicePage extends Component {
@@ -60,16 +75,11 @@ class DevicePage extends Component {
        hoursBack: 3,
        loaderShown : false
     };
+    this.defaultChange = null;
   }
 
   componentDidMount(){
     deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack,this.handleUpdateData)
-  }
-
-  componentWillUpdate(nextProps, nextState){
-    if (nextState.hoursBack !== this.state.hoursBack) {
-      deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, nextState.hoursBack,this.handleUpdateData)
-    }
   }
 
   updateData = (newData)=>{
@@ -86,9 +96,13 @@ class DevicePage extends Component {
   }
 
   handleSliderStop = (value)=>{
+    console.log(value);
+    deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, value,this.handleUpdateData)
+
     this.setState({
       hoursBack: value,
-      loaderShown: true
+      loaderShown: true,
+      hoursBackShown: value
     })
   }
   handleSlider = (value)=>{
@@ -99,17 +113,14 @@ class DevicePage extends Component {
 
   render() {
     //deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData,this.state.hoursBack)
-    let defaultChange = null
-    console.log(this.state)
     const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
-    console.log(sortedData);
+
     return (
-      <div>
-        { sortedData ? (
-          <div style={{textAlign: 'center'}}>
+      <div style={{textAlign: 'center'}}>
+        { !!this.state.data.length ? (
+          <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
             <h2>{this.state.hoursBackShown}</h2>
               { this.state.loaderShown &&  <MuiThemeProvider><CircularProgress /></MuiThemeProvider> }
-
           <MuiThemeProvider>
             <Slider
             min={1}
@@ -118,19 +129,19 @@ class DevicePage extends Component {
             value={this.state.hoursBack}
             axis="x-reverse"
             onChange={(event,value) => {
-              defaultChange = value
-              // this.handleSlider(value)
+              this.defaultChange = value
+              this.handleSlider(value)
             }}
-            onDragStop={() => (defaultChange > 0 ? this.handleSliderStop(defaultChange): (''))}
+            onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
           />
           </MuiThemeProvider>
           {this.graphs.map(graphPreference => (
+
+
             <div  style={{height: '500px',
             width: '500px', display: 'inline-block'}} key={`${graphPreference.key}Graph`}>
-
               <h1>{graphPreference.displayTitle}</h1>
 
-              <h2>Min and Max : {Number(sortedData[graphPreference.key].domainY[0]).toFixed(2)} and {Number(sortedData[graphPreference.key].domainY[1]).toFixed(2)}</h2>
               <VictoryChart
                 containerComponent={<VictoryVoronoiContainer/>}
                 animate={{ duration: 500 }}
@@ -138,19 +149,6 @@ class DevicePage extends Component {
                 style={{parent: { border: "2px solid purple"}}}
                 padding={{ top: 40, bottom: 40, left: 60, right: 40 }}
                 domainPadding={30}
-                /* domain={
-                  {
-                    x: [
-                        Number(sortedData[graphPreference.key].domainX[0]).toFixed(2),
-                        Number(sortedData[graphPreference.key].domainX[1]).toFixed(2)
-                       ],
-                    y: [
-                        Number(sortedData[graphPreference.key].domainY[0]).toFixed(2),
-                        Number(sortedData[graphPreference.key].domainY[1]).toFixed(2)
-                       ]
-                  }
-                } */
-
               >
               <VictoryAxis
                 orientation="bottom"
@@ -160,7 +158,6 @@ class DevicePage extends Component {
                 }}
               />
               <VictoryAxis dependentAxis
-
                 label={`${graphPreference.displayTitle} (${graphPreference.unit})`}
                 style={{
                   axisLabel: { padding: 40 }
@@ -172,20 +169,22 @@ class DevicePage extends Component {
                   data: { stroke: "#c43a31"},
                   parent: { border: "6px solid blue"}
                 }}
-                data={sortedData[graphPreference.key].values}
+                data={epochToTime(sortedData[graphPreference.key].values,3600000)}
               />
+            {averageDataIntoTimeBlocks(sortedData[graphPreference.key].values)}
               <VictoryScatter
                 style={{
                   data: { stroke: "#c43a31", strokeWidth: 2, fill: "white" }
                 }}
                 size={4}
-                data={sortedData[graphPreference.key].values}
+                data={epochToTime(sortedData[graphPreference.key].values,3600000)}
                 labelComponent={<VictoryTooltip/>}
                 labels={(d) => {
                     return `Time:${moment.duration(d.x*-3600000).format("h [hours], m [minutes], s [seconds]")} value:${d.y}`
                   }}
               />
-            </VictoryChart></div>
+            </VictoryChart>
+                </div>
             ))}</div>
         ) : <MuiThemeProvider><CircularProgress /></MuiThemeProvider>}
       </div>
