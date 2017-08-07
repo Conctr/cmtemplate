@@ -3,6 +3,7 @@ import * as deviceWebSocket from '../api/deviceWebSockets'
 import { VictoryTooltip,VictoryScatter,VictoryLine,VictoryChart,VictoryTheme,VictoryVoronoiContainer,VictoryAxis } from 'victory'
 import CircularProgress from 'material-ui/CircularProgress'
 import Slider from 'material-ui/Slider'
+import BatteryIcon from '../components/molecules/BatteryIcon'
 import moment from 'moment'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 require('moment-duration-format')
@@ -96,7 +97,6 @@ class DevicePage extends Component {
   }
 
   handleSliderStop = (value)=>{
-    console.log(value);
     deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, value,this.handleUpdateData)
 
     this.setState({
@@ -110,16 +110,23 @@ class DevicePage extends Component {
       hoursBackShown: value
     })
   }
+  getBatteryPercentage = (latestBattery) =>{
+    let lower = 2.31
+    let upper = 2.794
+    let value = latestBattery
+    let percentage = (value - lower) / (upper - lower)
+    return percentage * 100
+  }
 
   render() {
     //deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData,this.state.hoursBack)
     const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
-
     return (
       <div style={{textAlign: 'center'}}>
         { !!this.state.data.length ? (
           <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-            <h2>{this.state.hoursBackShown}</h2>
+            <BatteryIcon percentage={this.getBatteryPercentage(this.state.data[0].battery)}/>
+            <h2>{`Searching data ${this.state.hoursBackShown} hours old`}</h2>
               { this.state.loaderShown &&  <MuiThemeProvider><CircularProgress /></MuiThemeProvider> }
           <MuiThemeProvider>
             <Slider
