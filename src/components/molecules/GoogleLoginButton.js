@@ -10,7 +10,7 @@ export default function GoogleLoginButton ({
     <div>
       <MuiThemeProvider>
         <IconButton
-          children={ <GoogleIcon /> } 
+          children={ <GoogleIcon /> }
           iconClassName='google-oauth-icon' />
       </MuiThemeProvider>
     </div>
