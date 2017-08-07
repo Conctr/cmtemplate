@@ -5,7 +5,6 @@ import LoginPage from './pages/Login'
 import DevicesPage from './pages/Devices'
 import DevicePage from './pages/Device'
 import './custom.css'
-import NavBar from './components/molecules/NavBar'
 import * as authAPI from './api/auth'
 import * as deviceAPI from './api/device'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -27,7 +26,6 @@ class App extends Component {
     error: null,
     createAccount: false
   }
-
 
   handleSignIn = ({ email, password }) => {
     authAPI.signIn({ email, password })
@@ -72,7 +70,7 @@ class App extends Component {
     return (
       <Router>
   <main>
-    {!!this.state.token && <NavBar/>}
+    {/*!!this.state.token && <NavBar/>*/}
     <ToastContainer
     position="top-right"
     hideProgressBar={false}
