@@ -10,7 +10,7 @@ require('moment-duration-format')
 
 function sorter(data,dataKeys){
   let sortedValues = {}
-  if(!!data) {
+  if(data != null) {
     dataKeys.forEach(key => {
     sortedValues[key] = {}
     sortedValues[key].values = []
@@ -19,17 +19,16 @@ function sorter(data,dataKeys){
 
         sortedValues[key].values.push({ts: time,value: data[i][key]})
       }
-    let allX = sortedValues[key].values.map(val => (val.x))
-    let allY = sortedValues[key].values.map(val => (val.y))
+    let allX = sortedValues[key].values.map(val => (val.ts))
+    let allY = sortedValues[key].values.map(val => (val.value))
     let minX = Math.min.apply(null, allX)
     let maxX = Math.max.apply(null, allX)
     let minY = Math.min.apply(null, allY)
     let maxY = Math.max.apply(null, allY)
-    let domainValX = (maxX - minX)/10
-    let domainValY = (maxY - minY)/10
 
-    sortedValues[key]['domainX'] = [minX - domainValX,maxX + domainValX]
-    sortedValues[key]['domainY'] = [minY - domainValY,maxY + domainValY]
+    sortedValues[key]['rangeX'] = {min: minX,max:maxX}
+    sortedValues[key]['rangeY'] = {min: minY,max:maxY}
+
   })
   }
   return sortedValues
@@ -96,7 +95,7 @@ class DevicePage extends Component {
   }
 
   handleSliderStop = (value)=>{
-    console.log(value);
+
     deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, value,this.handleUpdateData)
 
     this.setState({
@@ -116,11 +115,12 @@ class DevicePage extends Component {
     const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
 
     return (
-      <div style={{textAlign: 'center'}}>
-        { !!this.state.data.length ? (
-          <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-            <h2>{this.state.hoursBackShown}</h2>
-              { this.state.loaderShown &&  <MuiThemeProvider><CircularProgress /></MuiThemeProvider> }
+          <div style={{textAlign: 'center'}}>
+            { !!this.state.data.length ? (
+              <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
+                <h2>{this.state.hoursBackShown}</h2>
+                  { this.state.loaderShown &&  <MuiThemeProvider><CircularProgress /></MuiThemeProvider> }
+
           <MuiThemeProvider>
             <Slider
             min={1}
@@ -135,13 +135,14 @@ class DevicePage extends Component {
             onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
           />
           </MuiThemeProvider>
-          {this.graphs.map(graphPreference => (
 
+          {this.graphs.map(graphPreference => (
 
             <div  style={{height: '500px',
             width: '500px', display: 'inline-block'}} key={`${graphPreference.key}Graph`}>
               <h1>{graphPreference.displayTitle}</h1>
-
+              <h2> Min: {(sortedData[graphPreference.key].rangeY.min).toFixed(2)} -
+                   Max: {(sortedData[graphPreference.key].rangeY.max).toFixed(2)}  </h2>
               <VictoryChart
                 containerComponent={<VictoryVoronoiContainer/>}
                 animate={{ duration: 500 }}
@@ -171,7 +172,7 @@ class DevicePage extends Component {
                 }}
                 data={epochToTime(sortedData[graphPreference.key].values,3600000)}
               />
-            {averageDataIntoTimeBlocks(sortedData[graphPreference.key].values)}
+              {averageDataIntoTimeBlocks(sortedData[graphPreference.key].values)}
               <VictoryScatter
                 style={{
                   data: { stroke: "#c43a31", strokeWidth: 2, fill: "white" }
