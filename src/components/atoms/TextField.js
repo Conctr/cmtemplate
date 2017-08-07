@@ -5,8 +5,11 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 export default function Text({
   floatingLabelFixed,
   multiline,
+  onChange,
   rows,
-  text
+  text,
+  type,
+  value
 }) {
   return (
     <div>
@@ -15,7 +18,10 @@ export default function Text({
           floatingLabelFixed={ floatingLabelFixed }
           hintText={ text }
           multiLine={ multiline }
+          onChange= { onChange }
           rows={ rows }
+          type={ type }
+          value={ value }
         />
       </MuiThemeProvider> 
     </div>

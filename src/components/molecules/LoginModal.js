@@ -5,47 +5,56 @@ import FlatButton from '../atoms/FlatButton'
 import RaisedButton from '../atoms/RaisedButton'
 
 export default class LoginModal extends React.Component{
+
   state={
     open: false
   }
 
   handleOpen = () => {
-    this.setState({open: true})
+    this.setState({ open: true })
   }
 
   handleClose = () => {
-    this.setState({open: false})
+    this.setState({ open: false })
   }
 
   render() {
     const actions = [
       <FlatButton
         label='Log in with email address'
-        primary={true}
-        onTouchTap={this.handleClose}
+        primary={ true }
+        onTouchTap={ this.handleClose }
       />,
       <FlatButton
         label='Log in with Google'
-        primary={true}
-        onTouchTap={this.handleClose}
+        primary={ true }
+        onTouchTap={ this.handleClose }
       />,
       <FlatButton
         label='Cancel'
-        primary={false}
-        onTouchTap={this.handleClose}
+        primary={ false }
+        onTouchTap={ this.handleClose }
       />
     ]
 
     return (
       <MuiThemeProvider>
         <div>
-          <RaisedButton label='login' onTouchTap={this.handleOpen} />
+          <RaisedButton
+            fullWidth={ true }
+            label='login'
+            onTouchTap={ this.handleOpen } />
           <Dialog
             title='Log in!'
             actions={ actions }
-            modal={true}
-            open={this.state.open}
-          >
+            modal={ true }
+            open={ this.state.open }
+            actionsContainerClassName={ 'login-modal-actions' }
+            bodyClassName={ 'login-modal-body' }
+            contentClassName={ 'login-modal-content' } 
+            overlayClassName={ 'login-modal-overlay' }
+            paperClassName={ 'login-modal-paper' }
+            titleClassName={ 'login-modal-title' } >
           </Dialog>
         </div>
       </MuiThemeProvider>

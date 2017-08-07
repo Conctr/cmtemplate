@@ -1,23 +1,24 @@
 import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import Button from 'material-ui/RaisedButton'
+import Button from 'material-ui/IconButton'
 
-export default function RaisedButton({
+export default function IconButton ({
+  children,
   className,
-  fullWidth,
   href,
-  label,
+  iconClassName,
   onTouchTap
 
 }) {
   return (
     <MuiThemeProvider>
       <Button
-        className={ className }
-        fullWidth={ fullWidth }
-        href={ href } 
-        label={ label }
+        children={ children }
+        className={ className } 
+        href={ href }
+        iconClassName= { iconClassName }
         onTouchTap={ onTouchTap } />
     </MuiThemeProvider>
   )
 }
+
