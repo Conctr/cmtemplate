@@ -10,6 +10,15 @@ require('moment-duration-format')
 
 
 function sorter(data,dataKeys){
+  /* function to sort data into
+  {key:
+    {
+      values: [all the values],
+      rangeX: {min: minOfX, max: maxOfX}
+      rangeY: {min: minOfY, max: maxOfY}
+    }
+  }
+  */
   let sortedValues = {}
   if(!!data) {
     dataKeys.forEach(key => {
@@ -26,17 +35,17 @@ function sorter(data,dataKeys){
     let maxX = Math.max.apply(null, allX)
     let minY = Math.min.apply(null, allY)
     let maxY = Math.max.apply(null, allY)
-    let domainValX = (maxX - minX)/10
-    let domainValY = (maxY - minY)/10
 
-    sortedValues[key]['domainX'] = [minX - domainValX,maxX + domainValX]
-    sortedValues[key]['domainY'] = [minY - domainValY,maxY + domainValY]
+    sortedValues[key]['rangeX'] = {min: minX,max: maxX}
+    sortedValues[key]['rangeY'] = {min: minY,max: maxY}
   })
   }
+  console.log('data',sortedValues)
   return sortedValues
 }
 
 function epochToTime(values,milisecondConverter){
+  // change
   let array = values.map(value => {
     return {x:moment().diff(value.ts)/milisecondConverter,y: value.value}
   })
@@ -54,6 +63,7 @@ function averageDataIntoTimeBlocks(values){
 
 class DevicePage extends Component {
 
+  // Determines which graphs get rendered
   graphs = [{
     key: 'humidity',
     displayTitle: 'Humidity',
@@ -111,6 +121,7 @@ class DevicePage extends Component {
     })
   }
   getBatteryPercentage = (latestBattery) =>{
+    // Getting the percentage of how far between two points.
     let lower = 2.31
     let upper = 2.794
     let value = latestBattery
@@ -119,7 +130,6 @@ class DevicePage extends Component {
   }
 
   render() {
-    //deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData,this.state.hoursBack)
     const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
     return (
       <div style={{textAlign: 'center'}}>
