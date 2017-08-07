@@ -51,43 +51,29 @@ class LoginPage extends Component {
         <div className='welcome-dialogue'>
           <img src={ logo } className='hero-logo' />
           <div>
+            <TextField
+              onChange={ this.onEmailChange }
+              value={ this.state.email }
+              text='Email' />
+            <TextField
+              onChange={ this.onPasswordChange }
+              value={ this.state.password }
+              text='Password'
+              type='password' />
+            <RaisedButton
+              className="login-page-button"
+              label="Log in"
+              onTouchTap={
+                () => this.submitToAuth(this.props.onSignIn)}>Sign In
+            </RaisedButton>
+            <br />
             <RaisedButton
               className ="login-page-button"
               label="Register"
               fullWidth={ true } />
+            <br />
             <LoginModal className="login-modal" />
-            <GoogleLoginButton />
-          </div>
-          <RaisedButton onTouchTap={this.handleAccountChange }
-            label={ this.state.createAccount ? ('Create Account') : ('Sign In') } />
-          { this.state.createAccount ? (
-            <div>
-              <TextField
-                onChange={ this.onEmailChange }
-                value={ this.state.email }
-                text='Email' />
-              <TextField
-                onChange={ this.onPasswordChange }
-                value={ this.state.password }
-                text='Password'
-                type='password' />
-              <button>Create Account</button>
             </div>
-          ) : (
-            <div>
-              <TextField
-                onChange={ this.onEmailChange }
-                value={ this.state.email }
-                text='Email' />
-              <TextField
-                onChange={ this.onPasswordChange }
-                value={ this.state.password }
-                text='Password'
-                type='password' />
-              <Checkbox label="remember me" labelPosition='left' />
-              <RaisedButton onTouchTap={() => this.submitToAuth(this.props.onSignIn)}>Sign In</RaisedButton>
-            </div>
-          )}
         </div>
       </div>
     )
@@ -95,13 +81,3 @@ class LoginPage extends Component {
 }
 
 export default LoginPage
-
-
-//           <label>
-//             <span>Email </span>
-//             <input name='email' />
-//           </label>
-//           <label>
-//             <span>Password </span>
-//             <input type='password' name='password' />
-//           </label>
