@@ -3,9 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import IconButton from '../atoms/IconButton'
 import GoogleIcon from '../atoms/GoogleIcon'
 
-export default function GoogleLoginButton ({
-
-}) {
+export default function GoogleLoginButton () {
   return (
     <div>
       <MuiThemeProvider>

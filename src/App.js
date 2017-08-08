@@ -62,6 +62,11 @@ class App extends Component {
     setApiToken(savedToken)
     this.setState({ token: token })
   }
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.error === this.state.error && nextState.error != null){
+      this.setState({error: null})
+    }
+  }
 
   render() {
     if (!!this.state.error){

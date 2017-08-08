@@ -1,3 +1,42 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  text-align: center; }
+
+div.login-modal-actions {
+  background-color: grey;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+.login-page-button {
+  min-width: 150px; }
+
+.google-oauth {
+  background-color: grey;
+  font-size: 12px;
+  padding: 0px; }
+
+.welcome-container {
+  position: fixed;
+  max-width: 40%;
+  margin: 30vh 0 0 15%; }
+
+.welcome-dialogue {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px; }
+
+.hero-logo {
+  max-width: 100%;
+  padding: 0 20px 20px 20px; }
+
+.home-bg {
+  max-width: 100%;
+  z-index: -1;
+  position: fixed;
+  left: 0px;
+  top: 0px; }
 
 .container {
   display: block;

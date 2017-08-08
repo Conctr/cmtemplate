@@ -29,8 +29,8 @@ function sorter(data,dataKeys){
 
         sortedValues[key].values.push({ts: time,value: data[i][key]})
       }
-    let allX = sortedValues[key].values.map(val => (val.x))
-    let allY = sortedValues[key].values.map(val => (val.y))
+    let allX = sortedValues[key].values.map(val => (val.ts))
+    let allY = sortedValues[key].values.map(val => (val.value))
     let minX = Math.min.apply(null, allX)
     let maxX = Math.max.apply(null, allX)
     let minY = Math.min.apply(null, allY)
@@ -47,7 +47,7 @@ function sorter(data,dataKeys){
 function epochToTime(values,milisecondConverter){
   // change
   let array = values.map(value => {
-    return {x:moment().diff(value.ts)/milisecondConverter,y: value.value}
+    return {x: moment(value.ts).toDate(),y: value.value}
   })
   return array
 }
@@ -169,7 +169,8 @@ class DevicePage extends Component {
               >
               <VictoryAxis
                 orientation="bottom"
-                label="Hours Ago"
+                label="Time"
+                scale={{x: "time"}}
                 style={{
                   axisLabel: { padding: 25 }
                 }}
@@ -186,7 +187,7 @@ class DevicePage extends Component {
                   data: { stroke: "#c43a31"},
                   parent: { border: "6px solid blue"}
                 }}
-                data={epochToTime(sortedData[graphPreference.key].values,3600000)}
+                data={epochToTime(sortedData[graphPreference.key].values)}
               />
             {averageDataIntoTimeBlocks(sortedData[graphPreference.key].values)}
               <VictoryScatter
@@ -194,10 +195,11 @@ class DevicePage extends Component {
                   data: { stroke: "#c43a31", strokeWidth: 2, fill: "white" }
                 }}
                 size={4}
-                data={epochToTime(sortedData[graphPreference.key].values,3600000)}
+                data={epochToTime(sortedData[graphPreference.key].values)}
                 labelComponent={<VictoryTooltip/>}
                 labels={(d) => {
-                    return `Time:${moment.duration(d.x*-3600000).format("h [hours], m [minutes], s [seconds]")} value:${d.y}`
+                    return `${moment(d.x).format("h[:]m A")}
+                    value:${d.y}`
                   }}
               />
             </VictoryChart>

@@ -13,7 +13,7 @@ export default function FlatButton ({
   return (
     <MuiThemeProvider>
       <Button
-        buttonColor={ buttonColor } 
+        buttonColor={ buttonColor }
         href={ href }
         label={ label }
         labelColor={ labelColor }
