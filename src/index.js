@@ -5,7 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import axios from 'axios'
 import { toast } from 'react-toastify'
-
+import WebFont from 'webfontloader'
 
 axios.interceptors.response.use(function (response) {
     console.log("asdfasdf");
@@ -17,6 +17,13 @@ axios.interceptors.response.use(function (response) {
     toast.error('kefgbkk')
     return error;
   });
+
+WebFont.load({
+  google: {
+    families:[''] 
+  }
+})
+
 require('dotenv').config()
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

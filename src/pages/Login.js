@@ -23,7 +23,6 @@ class LoginPage extends Component {
   const email = this.state.email
   const password = this.state.password
   // Call the callback function with our values
-
   callback({ email, password })
 }
   onEmailChange = (e,newValue) => {
@@ -51,27 +50,29 @@ class LoginPage extends Component {
         <div className='welcome-dialogue'>
           <img src={ logo } className='hero-logo' />
           <div>
-            <TextField
-              onChange={ this.onEmailChange }
-              value={ this.state.email }
-              text='Email' />
-            <TextField
-              onChange={ this.onPasswordChange }
-              value={ this.state.password }
-              text='Password'
-              type='password' />
+            <div className='login-text-fields'>
+              <TextField
+                fullWidth={ true }
+                onChange={ this.onEmailChange }
+                value={ this.state.email }
+                text='Email' />
+              <TextField
+                fullWidth={ true }
+                onChange={ this.onPasswordChange }
+                value={ this.state.password }
+                text='Password'
+                type='password' />
+              </div>
             <RaisedButton
               className="login-page-button"
               label="Log in"
               onTouchTap={
                 () => this.submitToAuth(this.props.onSignIn)}>Sign In
             </RaisedButton>
-            <br />
             <RaisedButton
               className ="login-page-button"
               label="Register"
               fullWidth={ true } />
-            <br />
             <LoginModal className="login-modal" />
             </div>
         </div>

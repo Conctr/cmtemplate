@@ -4,7 +4,6 @@ body {
   text-align: center; }
 
 div.login-modal-actions {
-  background-color: grey;
   display: flex;
   flex-direction: column;
   align-items: center; }
@@ -18,25 +17,40 @@ div.login-modal-actions {
   padding: 0px; }
 
 .welcome-container {
-  position: fixed;
-  max-width: 40%;
-  margin: 30vh 0 0 15%; }
+  position: absolute;
+  top: 35%;
+  left: 15%;
+  max-width: 35%;
+  min-width: 200px;
+  margin: auto; }
 
 .welcome-dialogue {
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 5px; }
+  border-radius: 5px;
+  border-color: black;
+  border-style: solid;
+  border: 1px; }
 
 .hero-logo {
-  max-width: 100%;
-  padding: 0 20px 20px 20px; }
+  max-width: 85%;
+  padding-bottom: 20px; }
 
 .home-bg {
   max-width: 100%;
+  min-height: 100%;
   z-index: -1;
   position: fixed;
   left: 0px;
   top: 0px; }
+
+.login-text-fields {
+  margin: auto;
+  padding-bottom: 20px;
+  max-width: 85%; }
+
+.login-page-button {
+  margin: 10px 0 10px 0; }
 
 .container {
   display: block;

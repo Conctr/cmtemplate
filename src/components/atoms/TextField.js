@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 export default function Text({
   floatingLabelFixed,
+  fullWidth,
   multiline,
   onChange,
   rows,
@@ -16,6 +17,7 @@ export default function Text({
       <MuiThemeProvider>
         <TextField
           floatingLabelFixed={ floatingLabelFixed }
+          fullWidth={ fullWidth }
           hintText={ text }
           multiLine={ multiline }
           onChange= { onChange }
