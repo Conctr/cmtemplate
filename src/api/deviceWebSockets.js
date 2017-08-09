@@ -47,12 +47,9 @@ export function getDevicesData(deviceId, changeState,hoursBack,updateData){
   });
   clientDeviceDetails.on("message", (message) => {
     if (message.context === "current_data" && message.event === "update_data" && message.data && message.data.new_val && message.data.new_val._device_id === deviceId) {
-      console.log('first if')
       updateData(message.data.new_val)
     } else if (message.context === "historical_data" && message.event === "update_data" && message.data && message.data.new_val && message.data.new_val._device_id === deviceId) {
-      console.log('second if',message)
       if (message.data.new_val && message.data.new_val._device_id) {
-        console.log('in second if',message)
         // update graphs
       }
     } else if (message.context === "historical_data" && message.event === "initial_data" && !!message.data) {

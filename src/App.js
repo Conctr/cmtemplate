@@ -4,7 +4,8 @@ import HomePage from './pages/Home'
 import LoginPage from './pages/Login'
 import DevicesPage from './pages/Devices'
 import DevicePage from './pages/Device'
-import NavBar from './components/molecules/NavBar'
+import TestPage from './pages/Test'
+import './custom.css'
 import * as authAPI from './api/auth'
 import * as deviceAPI from './api/device'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -26,7 +27,6 @@ class App extends Component {
     error: null,
     createAccount: false
   }
-
 
   handleSignIn = ({ email, password }) => {
     authAPI.signIn({ email, password })
@@ -63,6 +63,11 @@ class App extends Component {
     setApiToken(savedToken)
     this.setState({ token: token })
   }
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.error === this.state.error && nextState.error != null){
+      this.setState({error: null})
+    }
+  }
 
   render() {
     if (!!this.state.error){
@@ -71,7 +76,7 @@ class App extends Component {
     return (
       <Router>
   <main>
-    {!!this.state.token && <NavBar/>}
+    {/*!!this.state.token && <NavBar/>*/}
     <ToastContainer
     position="top-right"
     hideProgressBar={false}
@@ -106,10 +111,8 @@ class App extends Component {
             }
           } />
 
-      <Route path='/lo' render={
-        () => (
-          <h1>low</h1>
-        )
+        <Route path='/test' render={
+        () => (<TestPage/>)
       } />
       <Route render={
         ({ location }) => <p>{ location.pathname } not found</p>
