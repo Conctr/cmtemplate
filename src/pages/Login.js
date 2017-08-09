@@ -6,6 +6,9 @@ import Checkbox from '../components/atoms/Checkbox'
 import RaisedButton from '../components/atoms/RaisedButton'
 import LoginModal from '../components/molecules/LoginModal'
 import GoogleLoginButton from '../components/molecules/GoogleLoginButton'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import CircularProgress from 'material-ui/CircularProgress'
+import * as oauthApi from '../api/oAuth'
 
 
 class LoginPage extends Component {
@@ -14,7 +17,8 @@ class LoginPage extends Component {
     this.state = {
       createAccount: false,
       email: '',
-      password: ''
+      password: '',
+      loading: false
     }
   }
 
@@ -32,49 +36,75 @@ class LoginPage extends Component {
       email: newValue
     })
   }
- 
+
   onPasswordChange = (e,newValue) => {
     console.log(newValue)
     this.setState({
       password: newValue
     })
-  } 
+  }
 
   handleAccountChange = () => this.setState({
     createAccount: !this.state.createAccount
   })
 
+  changeLoading = (loading) => {
+    this.setState({
+      loading
+    })
+  }
+
+  componentDidMount() {
+    // init google auth
+    oauthApi.start(this.changeLoading,this.props.setToken)
+  }
+
   render() {
     return (
       <div className='welcome-container'>
-        <img src={ bg } className='home-bg' />
-        <div className='welcome-dialogue'>
-          <img src={ logo } className='hero-logo' />
+        {this.state.loading ? (
+          <MuiThemeProvider>
+            <CircularProgress/>
+          </MuiThemeProvider>
+        ) : (
           <div>
-            <TextField
-              onChange={ this.onEmailChange }
-              value={ this.state.email }
-              text='Email' />
-            <TextField
-              onChange={ this.onPasswordChange }
-              value={ this.state.password }
-              text='Password'
-              type='password' />
-            <RaisedButton
-              className="login-page-button"
-              label="Log in"
-              onTouchTap={
-                () => this.submitToAuth(this.props.onSignIn)}>Sign In
-            </RaisedButton>
-            <br />
-            <RaisedButton
-              className ="login-page-button"
-              label="Register"
-              fullWidth={ true } />
-            <br />
-            <LoginModal className="login-modal" />
+            <img src={ bg } className='home-bg' />
+            <div className='welcome-dialogue'>
+              <img src={ logo } className='hero-logo' />
+              <div>
+                <TextField
+                  onChange={ this.onEmailChange }
+                  value={ this.state.email }
+                  text='Email' />
+                <TextField
+                  onChange={ this.onPasswordChange }
+                  value={ this.state.password }
+                  text='Password'
+                  type='password' />
+                <RaisedButton
+                  className="login-page-button"
+                  label="Log in"
+                  onTouchTap={
+                    () => this.submitToAuth(this.props.onSignIn)}>Sign In
+                </RaisedButton>
+
+                <RaisedButton
+                  className="login-page-button"
+                  label="Sign In with googles"
+                  onTouchTap={() => oauthApi.signIn('signin')}>
+                  Sign in with google
+                </RaisedButton>
+                <br />
+                <RaisedButton
+                  className ="login-page-button"
+                  label="Register"
+                  fullWidth={ true } />
+                <br />
+                <LoginModal className="login-modal" />
+                </div>
             </div>
-        </div>
+          </div>
+        )}
       </div>
     )
   }

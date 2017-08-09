@@ -1,7 +1,9 @@
 import api from './init'
 
+const appId = '2bf8fdd3b3144deea63aa54402938d68'
+
 export function signIn({ email, password }) {
-    return api.post(`/consumers/admin/${'2bf8fdd3b3144deea63aa54402938d68'}/login`, {
+    return api.post(`/consumers/admin/${appId}/login`, {
 	"userData": {
 		"email": email,
 		"pwd": password
@@ -13,7 +15,7 @@ export function signIn({ email, password }) {
 }
 
 export function register({ email, password }) {
-    return api.post(`/consumers/admin/${'2bf8fdd3b3144deea63aa54402938d68'}/register`, {
+    return api.post(`/consumers/admin/${appId}/register`, {
 	"userData": {
 		"email": email,
 		"pwd": password
@@ -24,6 +26,19 @@ export function register({ email, password }) {
     throw Error(error.response.data.error)})
 }
 
+export function authSignIn(email,provider,access_token) {
+  api.defaults.headers['Authorization'] = `oth:${access_token}`
+  return api.post(`/consumers/admin/${appId}/oauth/login`, {
+  "userData": {
+    "email": email
+    },
+  "provider": provider
+  }
+  )
+  .then(res => res.data)
+  .catch(error => {
+    throw Error(error.response.data.error)})
+  }
 
 // export function register({ email, password }) {
 //     return api.post('/auth/register', {
