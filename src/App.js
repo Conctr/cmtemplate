@@ -94,6 +94,7 @@ class App extends Component {
       ): (
         <Route exact path='/' render={
             () => <LoginPage
+            setToken={this.setToken}
             onSignIn={this.handleSignIn}
             onRegister={this.handleRegister}/>
         } />
