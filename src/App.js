@@ -4,6 +4,7 @@ import HomePage from './pages/Home'
 import LoginPage from './pages/Login'
 import DevicesPage from './pages/Devices'
 import DevicePage from './pages/Device'
+import TestPage from './pages/Test'
 import './custom.css'
 import * as authAPI from './api/auth'
 import * as deviceAPI from './api/device'
@@ -110,10 +111,8 @@ class App extends Component {
             }
           } />
 
-      <Route path='/lo' render={
-        () => (
-          <h1>low</h1>
-        )
+        <Route path='/test' render={
+        () => (<TestPage/>)
       } />
       <Route render={
         ({ location }) => <p>{ location.pathname } not found</p>
