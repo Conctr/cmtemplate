@@ -2,11 +2,8 @@ import React, { Component } from 'react'
 import bg from '../wimo-bg.png'
 import logo from '../wimo-logo.svg'
 import TextField from '../components/atoms/TextField'
-import Checkbox from '../components/atoms/Checkbox'
 import RaisedButton from '../components/atoms/RaisedButton'
 import LoginModal from '../components/molecules/LoginModal'
-import GoogleLoginButton from '../components/molecules/GoogleLoginButton'
-
 
 class LoginPage extends Component {
   constructor(props) {
@@ -25,15 +22,13 @@ class LoginPage extends Component {
   // Call the callback function with our values
   callback({ email, password })
 }
-  onEmailChange = (e,newValue) => {
-    console.log(newValue)
+  onEmailChange = (e, newValue) => {
     this.setState({
       email: newValue
     })
   }
  
-  onPasswordChange = (e,newValue) => {
-    console.log(newValue)
+  onPasswordChange = (e, newValue) => {
     this.setState({
       password: newValue
     })
@@ -46,9 +41,9 @@ class LoginPage extends Component {
   render() {
     return (
       <div className='welcome-container'>
-        <img src={ bg } className='home-bg' />
+        <img src={ bg } alt='' className='home-bg' />
         <div className='welcome-dialogue'>
-          <img src={ logo } className='hero-logo' />
+          <img src={ logo } alt='wimo logo' className='hero-logo' />
           <div>
             <div className='login-text-fields'>
               <TextField
