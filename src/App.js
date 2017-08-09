@@ -4,6 +4,7 @@ import HomePage from './pages/Home'
 import LoginPage from './pages/Login'
 import DevicesPage from './pages/Devices'
 import DevicePage from './pages/Device'
+import TestPage from './pages/Test'
 import './custom.css'
 import * as authAPI from './api/auth'
 import * as deviceAPI from './api/device'
@@ -62,7 +63,7 @@ class App extends Component {
     setApiToken(savedToken)
     this.setState({ token: token })
   }
-  
+
   componentWillUpdate(nextProps, nextState) {
     if (nextState.error === this.state.error && nextState.error != null){
       this.setState({ error: null })
@@ -75,52 +76,52 @@ class App extends Component {
     }
     return (
       <Router>
-        <main>
-          <ToastContainer
-            position="top-right"
-            hideProgressBar={ false }
-            newestOnTop={ false }
-            closeOnClick >
-            <button>hai</button>
-          </ToastContainer>
-          <button onClick={ this.notify }>Add Notification</button>
-          <h1>{ !!this.state.token ? 'SignedIn' : 'SignedOut' }</h1>
-          <Switch>
-            { !!this.state.token ? (
-              <Route exact path='/' render={
-                  () => <HomePage onSignOut={ this.handleSignOut }/>
-              } />
-            ): (
-              <Route exact path='/' render={
-                  () => <LoginPage
-                  onSignIn={ this.handleSignIn }
-                  onRegister={ this.handleRegister }/>
-              } />
-            )}
-            <Route exact path='/devices' render={ () => (
-                // Create token checker method that renders please login
-                <DevicesPage getDevicesData={ deviceAPI.getAll }/>
-              ) } />
-            <Route exact path='/devices/:deviceId' render={
-                  ({ match }) => {
-                    const deviceId = match.params.deviceId
-                    return (
-                      <DevicePage deviceId={ deviceId } />
-                    )
-                  }
-                } />
-
-            <Route path='/lo' render={
-              () => (
-                <h1>low</h1>
+  <main>
+    <ToastContainer
+      position="top-right"
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+    >
+      <button>hai</button>
+    </ToastContainer>
+    <button onClick={this.notify}>Add Notification</button>
+    <h1>{!!this.state.token ? 'SignedIn' : 'SignedOut'}</h1>
+    <Switch>
+      { !!this.state.token ? (
+        <Route exact path='/' render={
+            () => <HomePage onSignOut={this.handleSignOut}/>
+        } />
+      ): (
+        <Route exact path='/' render={
+            () => <LoginPage
+            setToken={this.setToken}
+            onSignIn={this.handleSignIn}
+            onRegister={this.handleRegister}/>
+        } />
+      )}
+      <Route exact path='/devices' render={ () => (
+          // Create token checker method that renders please login
+          <DevicesPage getDevicesData={deviceAPI.getAll}/>
+        ) } />
+      <Route exact path='/devices/:deviceId' render={
+            ({ match }) => {
+              const deviceId = match.params.deviceId
+              return (
+                <DevicePage deviceId={deviceId} />
               )
-            } />
-            <Route render={
-              ({ location }) => <p>{ location.pathname } not found</p>
-            } />
-          </Switch>
-        </main>
-      </Router>
+            }
+          } />
+
+        <Route path='/test' render={
+        () => (<TestPage/>)
+      } />
+      <Route render={
+        ({ location }) => <p>{ location.pathname } not found</p>
+      } />
+    </Switch>
+  </main>
+</Router>
     );
   }
 }
