@@ -2,14 +2,12 @@ import React, { Component } from 'react'
 import bg from '../wimo-bg.png'
 import logo from '../wimo-logo.svg'
 import TextField from '../components/atoms/TextField'
-import Checkbox from '../components/atoms/Checkbox'
 import RaisedButton from '../components/atoms/RaisedButton'
 import LoginModal from '../components/molecules/LoginModal'
-import GoogleLoginButton from '../components/molecules/GoogleLoginButton'
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import CircularProgress from 'material-ui/CircularProgress'
 import * as oauthApi from '../api/oAuth'
-
 
 class LoginPage extends Component {
   constructor(props) {
@@ -27,18 +25,15 @@ class LoginPage extends Component {
   const email = this.state.email
   const password = this.state.password
   // Call the callback function with our values
-
   callback({ email, password })
 }
-  onEmailChange = (e,newValue) => {
-    console.log(newValue)
+  onEmailChange = (e, newValue) => {
     this.setState({
       email: newValue
     })
   }
 
-  onPasswordChange = (e,newValue) => {
-    console.log(newValue)
+  onPasswordChange = (e, newValue) => {
     this.setState({
       password: newValue
     })
@@ -68,38 +63,46 @@ class LoginPage extends Component {
           </MuiThemeProvider>
         ) : (
           <div>
-            <img src={ bg } className='home-bg' />
+            <img src={ bg } alt='wine bottles' className='home-bg' />
             <div className='welcome-dialogue'>
-              <img src={ logo } className='hero-logo' />
+              <img src={ logo } alt='wimo logo' className='hero-logo' />
               <div>
-                <TextField
-                  onChange={ this.onEmailChange }
-                  value={ this.state.email }
-                  text='Email' />
-                <TextField
-                  onChange={ this.onPasswordChange }
-                  value={ this.state.password }
-                  text='Password'
-                  type='password' />
+                <div className='login-text-fields'>
+                  <TextField
+                    fullWidth={ true }
+                    onChange={ this.onEmailChange }
+                    value={ this.state.email }
+                    onEnterKeyDown={
+                      () => this.submitToAuth(this.props.onSignIn)
+                    }
+                    text='Email' />
+                  <TextField
+                    fullWidth={ true }
+                    onChange={ this.onPasswordChange }
+                    onEnterKeyDown={
+                      () => this.submitToAuth(this.props.onSignIn)
+                    }
+                    value={ this.state.password }
+                    text='Password'
+                    type='password' />
+                </div>
                 <RaisedButton
                   className="login-page-button"
                   label="Log in"
                   onTouchTap={
-                    () => this.submitToAuth(this.props.onSignIn)}>Sign In
-                </RaisedButton>
-
+                    () => this.submitToAuth(this.props.onSignIn)
+                  }
+                />
                 <RaisedButton
                   className="login-page-button"
                   label="Sign In with googles"
-                  onTouchTap={() => oauthApi.signIn('signin')}>
-                  Sign in with google
-                </RaisedButton>
-                <br />
+                  onTouchTap={() => oauthApi.signIn('signin')}
+                />
                 <RaisedButton
                   className ="login-page-button"
                   label="Register"
-                  fullWidth={ true } />
-                <br />
+                  fullWidth={ true }
+                />
                 <LoginModal className="login-modal" />
                 </div>
             </div>

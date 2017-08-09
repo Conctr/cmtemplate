@@ -27,7 +27,6 @@ function updateSigninStatus(isSignedIn) {
     } else if (signInOrRegister === 'register'){
 
     }
-    console.log('email',email,'token',access_token)
   }
 }
 

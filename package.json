@@ -1,5 +1,5 @@
 {
-  "name": "mywimo",
+  "name": "wimo",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -16,7 +16,8 @@
     "react-scripts": "1.0.10",
     "react-tap-event-plugin": "^2.0.1",
     "react-toastify": "^2.0.0-rc.3",
-    "victory": "^0.21.3"
+    "victory": "^0.21.3",
+    "webfontloader": "^1.6.28"
   },
   "proxy": "https://api.staging.conctr.com",
   "scripts": {
@@ -27,7 +28,11 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "eslint-config-airbnb": "^15.1.0",
     "eslint-config-google": "^0.9.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-sass": "^3.1.0"

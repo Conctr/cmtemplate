@@ -63,9 +63,10 @@ class App extends Component {
     setApiToken(savedToken)
     this.setState({ token: token })
   }
+
   componentWillUpdate(nextProps, nextState) {
     if (nextState.error === this.state.error && nextState.error != null){
-      this.setState({error: null})
+      this.setState({ error: null })
     }
   }
 
@@ -76,13 +77,13 @@ class App extends Component {
     return (
       <Router>
   <main>
-    {/*!!this.state.token && <NavBar/>*/}
     <ToastContainer
-    position="top-right"
-    hideProgressBar={false}
-    newestOnTop={false}
-    closeOnClick>
-    <button>hai</button>
+      position="top-right"
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+    >
+      <button>hai</button>
     </ToastContainer>
     <button onClick={this.notify}>Add Notification</button>
     <h1>{!!this.state.token ? 'SignedIn' : 'SignedOut'}</h1>
