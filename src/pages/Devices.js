@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import CircularProgress from 'material-ui/CircularProgress'
+import NavBar from '../components/molecules/NavBar'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 class DevicePage extends Component {

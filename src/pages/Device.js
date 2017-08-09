@@ -6,6 +6,7 @@ import Slider from 'material-ui/Slider'
 import BatteryIcon from '../components/molecules/BatteryIcon'
 import moment from 'moment'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import NavBar from '../components/molecules/NavBar'
 require('moment-duration-format')
 
 
