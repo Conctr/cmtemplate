@@ -55,10 +55,16 @@ class LoginPage extends Component {
                 fullWidth={ true }
                 onChange={ this.onEmailChange }
                 value={ this.state.email }
+                onEnterKeyDown={
+                  () => this.submitToAuth(this.props.onSignIn)
+                }
                 text='Email' />
               <TextField
                 fullWidth={ true }
                 onChange={ this.onPasswordChange }
+                onEnterKeyDown={
+                  () => this.submitToAuth(this.props.onSignIn) 
+                }
                 value={ this.state.password }
                 text='Password'
                 type='password' />
@@ -67,7 +73,9 @@ class LoginPage extends Component {
               className="login-page-button"
               label="Log in"
               onTouchTap={
-                () => this.submitToAuth(this.props.onSignIn)}>Sign In
+                () => this.submitToAuth(this.props.onSignIn)
+              }
+            > Sign In
             </RaisedButton>
             <RaisedButton
               className ="login-page-button"
