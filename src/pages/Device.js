@@ -201,7 +201,7 @@ class DevicePage extends Component {
                 labelComponent={<VictoryTooltip/>}
                 labels={(d) => {
                     return `${moment(d.x).format("h[:]m A")}
-                    value:${d.y}`
+                    value: ${(d.y).toFixed(2)}`
                   }}
               />
             </VictoryChart>
