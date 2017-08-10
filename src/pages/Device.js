@@ -133,12 +133,14 @@ class DevicePage extends Component {
   render() {
     const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
     return (
+      
       <div style={{textAlign: 'center'}}>
         { !!this.state.data.length ? (
           <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
             <BatteryIcon percentage={this.getBatteryPercentage(this.state.data[0].battery)}/>
             <h2>{`Searching data ${this.state.hoursBackShown} hours old`}</h2>
               { this.state.loaderShown &&  <MuiThemeProvider><CircularProgress /></MuiThemeProvider> }
+              <div><MuiThemeProvider><NavBar/></MuiThemeProvider></div>
           <MuiThemeProvider>
             <Slider
             min={1}

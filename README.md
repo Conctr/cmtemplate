@@ -85,7 +85,7 @@ We will be using the GitFlow branching model for version control, as this makes 
 
 * put the text about OAuth2 here *
 
-## ActionHeroClient
+## Conctr client library
 
 * put the text about AHC here *
 

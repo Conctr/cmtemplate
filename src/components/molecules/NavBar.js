@@ -34,20 +34,20 @@ export default class NavBar extends React.Component {
       <Toolbar>
         <ToolbarGroup firstChild={true}>
           <DropDownMenu value={this.state.value} onChange={this.handleChange}>
-            <MenuItem value={1} primaryText="All Broadcasts" />
-            <MenuItem value={2} primaryText="All Voice" />
-            <MenuItem value={3} primaryText="All Text" />
-            <MenuItem value={4} primaryText="Complete Voice" />
-            <MenuItem value={5} primaryText="Complete Text" />
-            <MenuItem value={6} primaryText="Active Voice" />
-            <MenuItem value={7} primaryText="Active Text" />
+            <MenuItem value={1} primaryText="Temperature" />
+            <MenuItem value={2} primaryText="Humidity" />
+            <MenuItem value={3} primaryText="VOC" />
+            <MenuItem value={4} primaryText="Movement" />
+            <MenuItem value={5} primaryText="Pressure" />
+            <MenuItem value={6} primaryText="Light" />
+            <MenuItem value={7} primaryText="Activity" />
           </DropDownMenu>
         </ToolbarGroup>
         <ToolbarGroup>
-          <ToolbarTitle text="Options" />
+          <ToolbarTitle text="Wimo" />
           <FontIcon className="muidocs-icon-custom-sort" />
           <ToolbarSeparator />
-          <RaisedButton label="Create Broadcast" primary={true} />
+          <RaisedButton label="Change Device" primary={true} />
           <IconMenu
             iconButtonElement={
               <IconButton touch={true}>
@@ -55,8 +55,9 @@ export default class NavBar extends React.Component {
               </IconButton>
             }
           >
-            <MenuItem primaryText="Download" />
-            <MenuItem primaryText="More Info" />
+            <MenuItem primaryText="Blog" />
+            <MenuItem primaryText="Contact" />
+            <MenuItem primaryText="Log Out" />
           </IconMenu>
         </ToolbarGroup>
       </Toolbar>
