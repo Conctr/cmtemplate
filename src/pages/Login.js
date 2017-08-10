@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import bg from '../wimo-bg.png'
-import logo from '../wimo-logo.svg'
+import bg from '../wimo-bg-y.png'
+import logo from '../wimo-logo-3.svg'
 import TextField from '../components/atoms/TextField'
 import RaisedButton from '../components/atoms/RaisedButton'
 import LoginModal from '../components/molecules/LoginModal'
@@ -65,7 +65,8 @@ class LoginPage extends Component {
           <div>
             <img src={ bg } alt='wine bottles' className='home-bg' />
             <div className='welcome-dialogue'>
-              <img src={ logo } alt='wimo logo' className='hero-logo' />
+              <img
+                src={ logo } alt='wimo logo' className='hero-logo' />
               <div>
                 <div className='login-text-fields'>
                   <TextField
@@ -106,6 +107,7 @@ class LoginPage extends Component {
                 <LoginModal className="login-modal" />
                 </div>
             </div>
+            <span>powered by</span>
           </div>
         )}
       </div>

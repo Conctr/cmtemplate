@@ -76,54 +76,61 @@ class App extends Component {
     }
     return (
       <Router>
-  <main>
-    <ToastContainer
-      position="top-right"
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-    >
-      <button>hai</button>
-    </ToastContainer>
-    <button onClick={this.notify}>Add Notification</button>
-    <h1>{!!this.state.token ? 'SignedIn' : 'SignedOut'}</h1>
-    <Switch>
-      { !!this.state.token ? (
-        <Route exact path='/' render={
-            () => <HomePage onSignOut={this.handleSignOut}/>
-        } />
-      ): (
-        <Route exact path='/' render={
-            () => <LoginPage
-            setToken={this.setToken}
-            onSignIn={this.handleSignIn}
-            onRegister={this.handleRegister}/>
-        } />
-      )}
-      <Route exact path='/devices' render={ () => (
-          // Create token checker method that renders please login
-          <DevicesPage getDevicesData={deviceAPI.getAll}/>
-        ) } />
-      <Route exact path='/devices/:deviceId' render={
-            ({ match }) => {
-              const deviceId = match.params.deviceId
-              return (
-                <DevicePage deviceId={deviceId} />
-              )
-            }
+        <main>
+          <ToastContainer
+            position="top-right"
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+          >
+            <button>hai</button>
+          </ToastContainer>
+          <button onClick={this.notify}>Add Notification</button>
+          <Route render={
+            ({ location }) => <h1>{
+              location.pathname
+            }</h1>
           } />
+          <h1>{!!this.state.token ? 'SignedIn' : 'SignedOut'}</h1>
+          <Switch>
+            { !!this.state.token ? (
+              <Route exact path='/' render={
+                  () => <HomePage onSignOut={this.handleSignOut}/>
+              } />
+            ): (
+              <Route exact path='/' render={
+                  () => <LoginPage
+                  setToken={this.setToken}
+                  onSignIn={this.handleSignIn}
+                  onRegister={this.handleRegister}/>
+              } />
+            )}
+            <Route exact path='/devices' render={ () => (
+                // Create token checker method that renders please login
+                <DevicesPage getDevicesData={deviceAPI.getAll}/>
+              ) } />
+            <Route exact path='/devices/:deviceId' render={
+                  ({ match }) => {
+                    const deviceId = match.params.deviceId
+                    return (
+                      <DevicePage deviceId={deviceId} />
+                    )
+                  }
+                } />
 
-        <Route path='/test' render={
-        () => (<TestPage/>)
-      } />
-      <Route render={
-        ({ location }) => <p>{ location.pathname } not found</p>
-      } />
-    </Switch>
-  </main>
-</Router>
-    );
-  }
-}
+              <Route path='/test' render={
+              () => (<TestPage/>)
+            } />
+            <Route render={
+              ({ location }) => <p>{
+                location.pathname
+              } not found</p>
+            } />
+          </Switch>
+        </main>
+      </Router>
+          );
+        }
+      }
 
 export default App;

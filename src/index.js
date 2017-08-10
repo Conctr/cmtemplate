@@ -20,7 +20,7 @@ axios.interceptors.response.use(function (response) {
 
 WebFont.load({
   google: {
-    families:[''] 
+    families:['Quattrocento: 400', 'serif'] 
   }
 })
 
