@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import RaisedButton from 'material-ui/RaisedButton';
+import NewClusterModal from '../components/organisms/NewClusterModal';
+import RaisedButton from '../components/atoms/RaisedButton'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class HomePage extends Component {
@@ -11,6 +12,7 @@ class HomePage extends Component {
         <button onClick={()=> {this.props.onSignOut()}}>Sign Out</button>
         <br/>
         <Link to={`/devices`}><MuiThemeProvider><RaisedButton label="Devices" primary={true} /></MuiThemeProvider></Link>
+        <NewClusterModal />
       </div>
     )
   }

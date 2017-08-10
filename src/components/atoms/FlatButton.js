@@ -13,10 +13,10 @@ export default function FlatButton ({
   return (
     <MuiThemeProvider>
       <Button
-        buttonColor={ buttonColor }
+        backgroundColor={ buttonColor }
         href={ href }
         label={ label }
-        labelColor={ labelColor }
+        labelStyle={{color: labelColor}}
         onTouchTap={ onTouchTap } />
     </MuiThemeProvider>
   )
