@@ -4,15 +4,10 @@ import logo from '../wimo-logo-3.svg'
 import TextField from '../components/atoms/TextField'
 import RaisedButton from '../components/atoms/RaisedButton'
 import LoginModal from '../components/molecules/LoginModal'
-
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import Paper from 'material-ui/Paper'
-import { FormsyText } from 'formsy-material-ui/lib'
-import Formsy from 'formsy-react'
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import CircularProgress from 'material-ui/CircularProgress'
 import * as oauthApi from '../api/oAuth'
+import ValidatorForm from '../components/molecules/ValidatorForm'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -22,19 +17,6 @@ class LoginPage extends Component {
       email: '',
       password: '',
       loading: false,
-      canSubmit: false,
-      errorMessages: {
-        wordsError: "Please only use letters",
-        numericError: "Please provide a number",
-        urlError: "Please provide a valid URL"
-      },
-      styles: {
-        paperStyle: {
-          width: 300,
-          margin: 'auto',
-          padding: 20
-        }
-      }
     }
   }
 
@@ -73,31 +55,8 @@ class LoginPage extends Component {
     oauthApi.start(this.changeLoading,this.props.setToken)
   }
 
-  enableButton = () => {
-    this.setState({
-      canSubmit: true,
-    });
-  }
-
-  disableButton = () => {
-    this.setState({
-      canSubmit: false,
-    });
-  }
-
-  submitForm = (data) => {
-    alert(JSON.stringify(data, null, 4));
-  }
-
-  notifyFormError = (data) => {
-    console.error('Form error:', data);
-  }
-
   render() {
 
-    let { paperStyle, switchStyle, submitStyle } = this.state.styles;
-    let { wordsError, numericError, urlError } = this.state.errorMessages;
-    
     return (
       <div className='welcome-container'>
         {this.state.loading ? (
@@ -148,24 +107,7 @@ class LoginPage extends Component {
                   fullWidth={ true }
                 />
                 <LoginModal className="login-modal" />
-                <MuiThemeProvider muiTheme={ getMuiTheme() }>
-                  <Paper style={ this.paperStyle }>
-                    <Formsy.Form
-                      onValid={ this.enableButton }
-                      onInvalid={ this.disableButton }
-                      onValidSubmit={ this.submitForm }
-                      onInvalidSubmit={ this.notifyFormError }
-                    >
-                      <FormsyText
-                        name="name"
-                        validations="isWords"
-                        required
-                        hintText="Email address"
-                        floatingLabelText="Email address"
-                      /> 
-                    </Formsy.Form>
-                  </Paper>
-                </MuiThemeProvider>
+                <ValidatorForm />
                 </div>
             </div>
             <span>powered by</span>
