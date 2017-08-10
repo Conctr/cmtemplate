@@ -7,6 +7,7 @@ import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-mo
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Link } from 'react-router-dom'
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
@@ -32,25 +33,30 @@ export default class NavBar extends React.Component {
 
   render() {
     return (
-      
-        <Toolbar>
+      <MuiThemeProvider>
         {this.props.signedIn ? (
-          <ToolbarGroup firstChild={true}>
-          <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+            <Toolbar>
+            <ToolbarGroup firstChild={true}>
+            <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+            <Link to={'/Home'}>
             <MenuItem value={1} primaryText="Temperature" />
+            </Link>
+            <Link to={'/Home'}>
             <MenuItem value={2} primaryText="Humidity" />
+            </Link>
+            <Link to={'/Home'}>
             <MenuItem value={3} primaryText="VOC" />
-            <MenuItem value={4} primaryText="Movement" />
-            <MenuItem value={5} primaryText="Pressure" />
+            </Link>
+            <Link to={'/Home'}>
             <MenuItem value={6} primaryText="Light" />
-            <MenuItem value={7} primaryText="Activity" />
+            </Link>
           </DropDownMenu>
         </ToolbarGroup>
         <ToolbarGroup>
           <ToolbarTitle text="Wimo" />
           <FontIcon className="muidocs-icon-custom-sort" />
           <ToolbarSeparator />
-          <Link to={'/'}>
+          <Link to={'/Devices'}>
           <RaisedButton label="Change Device" primary={true} />
           </Link>
           <IconMenu
@@ -60,16 +66,25 @@ export default class NavBar extends React.Component {
               </IconButton>
             }
           >
+            <Link to={'/Blog'}>
             <MenuItem primaryText="Blog" />
+            </Link>
+            <Link to={'/Contact'}>
             <MenuItem primaryText="Contact" />
+            </Link>
+            <Link to={'/Login'}>
             <MenuItem primaryText="Log Out" />
+            </Link>
           </IconMenu>
         </ToolbarGroup>
-
+        </Toolbar>
         ) : (
+          <Toolbar>
           <h1>'Log in dude'</h1>
+          </Toolbar>
         )}
-      </Toolbar>
+      
+      </MuiThemeProvider>
       
     );
   }
