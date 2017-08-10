@@ -36,8 +36,7 @@ Include wireframes for each page, with detailed descriptions of:
     Error handling.
     Dimensions and constraints.
 
-![Wimo login page](http://d.pr/i/wimo_front_page_goes_here)
-
+![Wimo](wimo-bg.png "sweetberry wine")
 
 These mockups have been created using Sketch, a common wireframing tool.
 

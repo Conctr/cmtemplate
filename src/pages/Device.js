@@ -6,7 +6,6 @@ import Slider from 'material-ui/Slider'
 import BatteryIcon from '../components/molecules/BatteryIcon'
 import moment from 'moment'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import NavBar from '../components/molecules/NavBar'
 require('moment-duration-format')
 
 
@@ -140,7 +139,6 @@ class DevicePage extends Component {
             <BatteryIcon percentage={this.getBatteryPercentage(this.state.data[0].battery)}/>
             <h2>{`Searching data ${this.state.hoursBackShown} hours old`}</h2>
               { this.state.loaderShown &&  <MuiThemeProvider><CircularProgress /></MuiThemeProvider> }
-              <div><MuiThemeProvider><NavBar/></MuiThemeProvider></div>
           <MuiThemeProvider>
             <Slider
             min={1}

@@ -7,6 +7,7 @@ import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-mo
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
+import { Link } from 'react-router-dom'
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 // export default ({
@@ -31,8 +32,10 @@ export default class NavBar extends React.Component {
 
   render() {
     return (
-      <Toolbar>
-        <ToolbarGroup firstChild={true}>
+      
+        <Toolbar>
+        {this.props.signedIn ? (
+          <ToolbarGroup firstChild={true}>
           <DropDownMenu value={this.state.value} onChange={this.handleChange}>
             <MenuItem value={1} primaryText="Temperature" />
             <MenuItem value={2} primaryText="Humidity" />
@@ -47,7 +50,9 @@ export default class NavBar extends React.Component {
           <ToolbarTitle text="Wimo" />
           <FontIcon className="muidocs-icon-custom-sort" />
           <ToolbarSeparator />
+          <Link to={'/'}>
           <RaisedButton label="Change Device" primary={true} />
+          </Link>
           <IconMenu
             iconButtonElement={
               <IconButton touch={true}>
@@ -60,9 +65,12 @@ export default class NavBar extends React.Component {
             <MenuItem primaryText="Log Out" />
           </IconMenu>
         </ToolbarGroup>
+
+        ) : (
+          <h1>'Log in dude'</h1>
+        )}
       </Toolbar>
+      
     );
   }
 }
-
-//export default WimoToolbar

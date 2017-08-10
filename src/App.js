@@ -4,13 +4,18 @@ import HomePage from './pages/Home'
 import LoginPage from './pages/Login'
 import DevicesPage from './pages/Devices'
 import DevicePage from './pages/Device'
+import NavBar from '../src/components/molecules/NavBar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './custom.css'
 import * as authAPI from './api/auth'
 import * as deviceAPI from './api/device'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import {
   BrowserRouter as Router,
-  Route,
+  Route, 
+  Link,
+  Redirect, 
+  withRouter,
   Switch
 } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
@@ -69,6 +74,10 @@ class App extends Component {
     }
   }
 
+  // handleNavbarRedirect = () => {
+  //   if ()
+  // }
+
   render() {
     if (!!this.state.error){
       toast.error(this.state.error)
@@ -76,6 +85,10 @@ class App extends Component {
     return (
       <Router>
         <main>
+       <MuiThemeProvider>
+       <NavBar signedIn={!!this.state.token}/>
+       </MuiThemeProvider>
+
           <ToastContainer
             position="top-right"
             hideProgressBar={ false }
@@ -88,35 +101,39 @@ class App extends Component {
           <Switch>
             { !!this.state.token ? (
               <Route exact path='/' render={
-                  () => <HomePage onSignOut={ this.handleSignOut }/>
+                  () => <HomePage onSignOut={ this.handleSignOut }
+                  handleNavbarRedirect={ this.handleNavbarRedirect }/>
               } />
             ): (
               <Route exact path='/' render={
                   () => <LoginPage
                   onSignIn={ this.handleSignIn }
-                  onRegister={ this.handleRegister }/>
+                  onRegister={ this.handleRegister }
+                  handleNavbarRedirect={ this.handleNavbarRedirect } />
               } />
             )}
-            <Route exact path='/devices' render={ () => (
+              <Route exact path='/devices' render={ () => (
                 // Create token checker method that renders please login
-                <DevicesPage getDevicesData={ deviceAPI.getAll }/>
+                <DevicesPage getDevicesData={ deviceAPI.getAll } 
+                handleNavbarRedirect={ this.handleNavbarRedirect }/>
               ) } />
-            <Route exact path='/devices/:deviceId' render={
+              <Route exact path='/devices/:deviceId' render={
                   ({ match }) => {
                     const deviceId = match.params.deviceId
                     return (
-                      <DevicePage deviceId={ deviceId } />
+                      <DevicePage deviceId={ deviceId } 
+                      handleNavbarRedirect={ this.handleNavbarRedirect }/>
                     )
                   }
                 } />
 
-            <Route path='/lo' render={
-              () => (
-                <h1>low</h1>
-              )
+              <Route path='/lo' render={
+                () => (
+                  <h1>low</h1>
+                )
             } />
-            <Route render={
-              ({ location }) => <p>{ location.pathname } not found</p>
+              <Route render={
+                ({ location }) => <p>{ location.pathname } not found</p>
             } />
           </Switch>
         </main>
