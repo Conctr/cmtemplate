@@ -5,10 +5,11 @@ import NavBar from '../components/molecules/NavBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from '../components/atoms/Paper'
 
-class HomePage extends Component {
+class DashBoard extends Component {
   render() {
     return (
-      <Paper>
+      /* <MuiThemeProvider>
+        <Paper>
         <div>
         <h1>Welcome!</h1>
         <button onClick={()=> {this.props.onSignOut()}}>Sign Out</button>
@@ -21,8 +22,10 @@ class HomePage extends Component {
       
       </div>
       </Paper>
+      </MuiThemeProvider> */
+      <h1>jahsgdjfygs</h1>
     )
   }
 }
 
-export default HomePage
+export default DashBoard

@@ -86,7 +86,7 @@ class App extends Component {
       <Router>
         <main>
        <MuiThemeProvider>
-       <NavBar signedIn={!!this.state.token}/>
+       <NavBar signedIn={!!this.state.token} logOut={() => this.setToken(null)}/>
        </MuiThemeProvider>
 
           <ToastContainer
@@ -98,7 +98,7 @@ class App extends Component {
           </ToastContainer>
           <button onClick={ this.notify }>Add Notification</button>
           <h1>{ !!this.state.token ? 'SignedIn' : 'SignedOut' }</h1>
-          <Switch>
+          <Switch>  
             { !!this.state.token ? (
               <Route exact path='/' render={
                   () => <HomePage onSignOut={ this.handleSignOut }

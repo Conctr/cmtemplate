@@ -140,6 +140,9 @@ class DevicePage extends Component {
             <h2>{`Searching data ${this.state.hoursBackShown} hours old`}</h2>
               { this.state.loaderShown &&  <MuiThemeProvider><CircularProgress /></MuiThemeProvider> }
           <MuiThemeProvider>
+            {/* <Link pathname={'../components/atoms/DeviceSettingsList'}>
+            <MuiThemeProvider><RaisedButton/><MuiThemeprovider/>
+            </Link> */}
             <Slider
             min={1}
             max={24}

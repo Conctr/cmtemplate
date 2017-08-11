@@ -30,14 +30,14 @@ export default class NavBar extends React.Component {
   }
 
   handleChange = (event, index, value) => this.setState({value});
-
+  
   render() {
     return (
       <MuiThemeProvider>
         {this.props.signedIn ? (
             <Toolbar>
             <ToolbarGroup firstChild={true}>
-            <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+            {/* <DropDownMenu value={this.state.value} onChange={this.handleChange}>
             <Link to={'/Home'}>
             <MenuItem value={1} primaryText="Temperature" />
             </Link>
@@ -50,7 +50,7 @@ export default class NavBar extends React.Component {
             <Link to={'/Home'}>
             <MenuItem value={6} primaryText="Light" />
             </Link>
-          </DropDownMenu>
+          </DropDownMenu> */}
         </ToolbarGroup>
         <ToolbarGroup>
           <ToolbarTitle text="Wimo" />
@@ -72,15 +72,13 @@ export default class NavBar extends React.Component {
             <Link to={'/Contact'}>
             <MenuItem primaryText="Contact" />
             </Link>
-            <Link to={'/Login'}>
-            <MenuItem primaryText="Log Out" />
-            </Link>
+            <MenuItem onTouchTap={this.props.logOut} primaryText="Log Out" />
           </IconMenu>
         </ToolbarGroup>
         </Toolbar>
         ) : (
           <Toolbar>
-          <h1>'Log in dude'</h1>
+          <h1>Log in dude</h1>
           </Toolbar>
         )}
       

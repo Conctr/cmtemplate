@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import CircularProgress from 'material-ui/CircularProgress'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import RaisedButton from '../components/atoms/RaisedButton'
 
 class DevicePage extends Component {
   constructor(props) {
@@ -20,6 +21,11 @@ class DevicePage extends Component {
         <Link to={`/devices/${device.device_id}`}>
           Go To Device
         </Link>
+        {/* <RaisedButton
+              className="device-page-button"
+              label="Device List"
+              onTouchTap={
+                () => this.submitToAuth(this.props.onSignIn)}>Sign In */}
         </div>
       )) :  <MuiThemeProvider><CircularProgress /></MuiThemeProvider>}
       </div>
