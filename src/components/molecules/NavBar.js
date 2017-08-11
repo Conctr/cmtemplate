@@ -20,7 +20,7 @@ export default class NavBar extends React.Component {
   }
 
   handleChange = (event, index, value) => this.setState({value});
-  
+
   render() {
     return (
       <MuiThemeProvider>
@@ -54,12 +54,12 @@ export default class NavBar extends React.Component {
         </Toolbar>
         ) : (
           <Toolbar>
-          <h1>Log in dude</h1>
+          <RaisedButton label='SignIn'/>
           </Toolbar>
         )}
-      
+
       </MuiThemeProvider>
-      
+
     );
   }
 }
