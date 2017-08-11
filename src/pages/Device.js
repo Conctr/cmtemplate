@@ -20,7 +20,7 @@ function sorter(data,dataKeys){
   }
   */
   let sortedValues = {}
-  if(!!data) {
+  if(data != null) {
     dataKeys.forEach(key => {
     sortedValues[key] = {}
     sortedValues[key].values = []
@@ -38,6 +38,7 @@ function sorter(data,dataKeys){
 
     sortedValues[key]['rangeX'] = {min: minX,max: maxX}
     sortedValues[key]['rangeY'] = {min: minY,max: maxY}
+
   })
   }
   console.log('data',sortedValues)
@@ -153,13 +154,14 @@ class DevicePage extends Component {
             onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
           />
           </MuiThemeProvider>
-          {this.graphs.map(graphPreference => (
 
+          {this.graphs.map(graphPreference => (
 
             <div  style={{height: '500px',
             width: '500px', display: 'inline-block'}} key={`${graphPreference.key}Graph`}>
               <h1>{graphPreference.displayTitle}</h1>
-
+              <h2> Min: {(sortedData[graphPreference.key].rangeY.min).toFixed(2)} /
+                   Max: {(sortedData[graphPreference.key].rangeY.max).toFixed(2)}  </h2>
               <VictoryChart
                 containerComponent={<VictoryVoronoiContainer/>}
                 animate={{ duration: 500 }}
@@ -190,7 +192,7 @@ class DevicePage extends Component {
                 }}
                 data={epochToTime(sortedData[graphPreference.key].values)}
               />
-            {averageDataIntoTimeBlocks(sortedData[graphPreference.key].values)}
+              {averageDataIntoTimeBlocks(sortedData[graphPreference.key].values)}
               <VictoryScatter
                 style={{
                   data: { stroke: "#c43a31", strokeWidth: 2, fill: "white" }
@@ -200,7 +202,7 @@ class DevicePage extends Component {
                 labelComponent={<VictoryTooltip/>}
                 labels={(d) => {
                     return `${moment(d.x).format("h[:]m A")}
-                    value:${d.y}`
+                    value: ${(d.y).toFixed(2)}`
                   }}
               />
             </VictoryChart>

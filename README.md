@@ -118,7 +118,6 @@ As the specification changes, updates will be included by the developer in both 
 The complete application should allow for the monitoring of environmental factors in the wine storage vessel to maintain an environment which will allow the maturation process to occur without introducing spoilage or unwanted flavour profile characteristics. 
 
 All updates should include the following information:
-
     What was the team just working on?
     What is the team member currently working on?
     What will the development team work on next?

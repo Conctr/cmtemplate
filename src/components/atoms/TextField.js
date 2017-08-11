@@ -7,11 +7,22 @@ export default function Text({
   fullWidth,
   multiline,
   onChange,
+  onEnterKeyDown,
   rows,
   text,
   type,
   value
 }) {
+
+  let handleKeyDown = (event) => {
+    switch (event.key) {
+      case 'Enter':
+        onEnterKeyDown()
+        break
+      default: break
+    }
+  }
+
   return (
     <div>
       <MuiThemeProvider>
@@ -20,7 +31,8 @@ export default function Text({
           fullWidth={ fullWidth }
           hintText={ text }
           multiLine={ multiline }
-          onChange= { onChange }
+          onChange={ onChange }
+          onKeyDown={ handleKeyDown }
           rows={ rows }
           type={ type }
           value={ value }
