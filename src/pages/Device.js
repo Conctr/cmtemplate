@@ -133,6 +133,7 @@ class DevicePage extends Component {
   render() {
     const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
     return (
+      
       <div style={{textAlign: 'center'}}>
         { !!this.state.data.length ? (
           <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
