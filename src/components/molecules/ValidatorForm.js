@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import Paper from 'material-ui/Paper'
+import Divider from 'material-ui/Divider'
 import Formsy from 'formsy-react'
 import { FormsyText } from 'formsy-material-ui/lib'
+import RaisedButton from '../atoms/RaisedButton'
 
 export default class ValidatorForm extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       canSubmit: false
     }
@@ -34,31 +36,35 @@ export default class ValidatorForm extends Component {
   }
 
   render() {
-  
-    let paperStyle = {
-      width: 300,
-      margin: 'auto',
-      padding: 20,
-    }
 
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
-        <Paper style={ this.paperStyle }>
-          <Formsy.Form
-            onValid={ this.enableButton }
-            onInvalid={ this.disableButton }
-            onValidSubmit={ this.submitForm }
-            onInvalidSubmit={ this.notifyFormError }
-          >
-            <FormsyText
-              name="name"
-              validations="isWords"
-              required
-              hintText="Email address"
-              floatingLabelText="Email address"
-            /> 
-          </Formsy.Form>
-        </Paper>
+        <Formsy.Form
+          onValid={ this.enableButton }
+          onInvalid={ this.disableButton }
+          onValidSubmit={ this.submitForm }
+          onInvalidSubmit={ this.notifyFormError }
+        >
+          <FormsyText
+            name="name"
+            validations="isWords"
+            required
+            hintText="Email address"
+            floatingLabelText="Email address"
+          /> 
+          <br />
+          <FormsyText
+            name="password"
+            validations="isWords"
+            required
+            hintText="Password"
+            floatingLabelText="Password"
+          /> 
+          <RaisedButton
+            fullWidth={ true }
+            label='Sign in using email'
+          /> 
+        </Formsy.Form>
       </MuiThemeProvider>
     )
   }

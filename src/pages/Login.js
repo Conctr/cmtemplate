@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import bg from '../wimo-bg-y.png'
 import logo from '../wimo-logo-3.svg'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from '../components/atoms/TextField'
 import RaisedButton from '../components/atoms/RaisedButton'
-import LoginModal from '../components/molecules/LoginModal'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import ValidatorForm from '../components/molecules/ValidatorForm'
+import ModalLogin from '../components/molecules/ModalLogin'
+import ModalRegister from '../components/molecules/ModalRegister'
 import CircularProgress from 'material-ui/CircularProgress'
 import * as oauthApi from '../api/oAuth'
-import ValidatorForm from '../components/molecules/ValidatorForm'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -78,7 +79,8 @@ class LoginPage extends Component {
                     onEnterKeyDown={
                       () => this.submitToAuth(this.props.onSignIn)
                     }
-                    text='Email' />
+                    text='Email'
+                  />
                   <TextField
                     fullWidth={ true }
                     onChange={ this.onPasswordChange }
@@ -87,7 +89,8 @@ class LoginPage extends Component {
                     }
                     value={ this.state.password }
                     text='Password'
-                    type='password' />
+                    type='password'
+                />
                 </div>
                 <RaisedButton
                   className="login-page-button"
@@ -101,14 +104,9 @@ class LoginPage extends Component {
                   label="Sign In with googles"
                   onTouchTap={() => oauthApi.signIn('signin')}
                 />
-                <RaisedButton
-                  className ="login-page-button"
-                  label="Register"
-                  fullWidth={ true }
-                />
-                <LoginModal className="login-modal" />
-                <ValidatorForm />
-                </div>
+                <ModalLogin className="login-modal" />
+                <ModalRegister className="register-modal" />
+              </div>
             </div>
             <span>powered by</span>
           </div>
