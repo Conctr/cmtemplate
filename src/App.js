@@ -95,7 +95,10 @@ class App extends Component {
           <Switch>
             { !!this.state.token ? (
               <Route exact path='/' render={
-                  () => <HomePage onSignOut={this.handleSignOut}/>
+                  () => <HomePage
+                  onSignOut={this.handleSignOut}
+                  getDevicesData={deviceAPI.getAll}
+                  />
               } />
             ): (
               <Route exact path='/' render={
