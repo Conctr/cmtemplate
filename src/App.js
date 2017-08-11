@@ -85,18 +85,15 @@ class App extends Component {
           >
             <button>hai</button>
           </ToastContainer>
-          <button onClick={this.notify}>Add Notification</button>
           <Route render={
-            ({ location }) => <h1>{
+            ({ location }) => <p style={{textAlign: 'left'}}>{
               location.pathname
-            }</h1>
+            }</p>
           } />
-          <h1>{!!this.state.token ? 'SignedIn' : 'SignedOut'}</h1>
           <Switch>
             { !!this.state.token ? (
               <Route exact path='/' render={
                   () => <HomePage
-                  onSignOut={this.handleSignOut}
                   getDevicesData={deviceAPI.getAll}
                   />
               } />
