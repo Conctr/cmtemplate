@@ -1,23 +1,13 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Link } from 'react-router-dom'
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-
-// export default ({
-//     isSignedIn = false
-// }) => (
-//     <nav>
-//         <NavLink exact to='/' activeClassName='active'>Home</NavLink>
-//     </nav>
-// )
 
 
 export default class NavBar extends React.Component {
@@ -37,20 +27,6 @@ export default class NavBar extends React.Component {
         {this.props.signedIn ? (
             <Toolbar>
             <ToolbarGroup firstChild={true}>
-            {/* <DropDownMenu value={this.state.value} onChange={this.handleChange}>
-            <Link to={'/Home'}>
-            <MenuItem value={1} primaryText="Temperature" />
-            </Link>
-            <Link to={'/Home'}>
-            <MenuItem value={2} primaryText="Humidity" />
-            </Link>
-            <Link to={'/Home'}>
-            <MenuItem value={3} primaryText="VOC" />
-            </Link>
-            <Link to={'/Home'}>
-            <MenuItem value={6} primaryText="Light" />
-            </Link>
-          </DropDownMenu> */}
         </ToolbarGroup>
         <ToolbarGroup>
           <ToolbarTitle text="Wimo" />

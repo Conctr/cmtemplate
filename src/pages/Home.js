@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
-import NavBar from '../components/molecules/NavBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Paper from '../components/atoms/Paper'
 
 class HomePage extends Component {
   render() {
     return (
-      <Paper>
         <div>
         <h1>Welcome!</h1>
         <button onClick={()=> {this.props.onSignOut()}}>Sign Out</button>
@@ -20,7 +17,6 @@ class HomePage extends Component {
       </Link>
       
       </div>
-      </Paper>
     )
   }
 }

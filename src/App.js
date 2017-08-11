@@ -5,17 +5,13 @@ import LoginPage from './pages/Login'
 import DevicesPage from './pages/Devices'
 import DevicePage from './pages/Device'
 import NavBar from '../src/components/molecules/NavBar';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './custom.css'
 import * as authAPI from './api/auth'
 import * as deviceAPI from './api/device'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import {
   BrowserRouter as Router,
-  Route, 
-  Link,
-  Redirect, 
-  withRouter,
+  Route,
   Switch
 } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
@@ -74,10 +70,6 @@ class App extends Component {
     }
   }
 
-  // handleNavbarRedirect = () => {
-  //   if ()
-  // }
-
   render() {
     if (!!this.state.error){
       toast.error(this.state.error)
@@ -85,9 +77,7 @@ class App extends Component {
     return (
       <Router>
         <main>
-       <MuiThemeProvider>
        <NavBar signedIn={!!this.state.token} logOut={() => this.setToken(null)}/>
-       </MuiThemeProvider>
 
           <ToastContainer
             position="top-right"
@@ -102,27 +92,27 @@ class App extends Component {
             { !!this.state.token ? (
               <Route exact path='/' render={
                   () => <HomePage onSignOut={ this.handleSignOut }
-                  handleNavbarRedirect={ this.handleNavbarRedirect }/>
+                  />
               } />
             ): (
               <Route exact path='/' render={
                   () => <LoginPage
                   onSignIn={ this.handleSignIn }
                   onRegister={ this.handleRegister }
-                  handleNavbarRedirect={ this.handleNavbarRedirect } />
+                   />
               } />
             )}
               <Route exact path='/devices' render={ () => (
                 // Create token checker method that renders please login
                 <DevicesPage getDevicesData={ deviceAPI.getAll } 
-                handleNavbarRedirect={ this.handleNavbarRedirect }/>
+                />
               ) } />
               <Route exact path='/devices/:deviceId' render={
                   ({ match }) => {
                     const deviceId = match.params.deviceId
                     return (
                       <DevicePage deviceId={ deviceId } 
-                      handleNavbarRedirect={ this.handleNavbarRedirect }/>
+                      />
                     )
                   }
                 } />

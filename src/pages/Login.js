@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import bg from '../wimo-bg.png'
 import logo from '../wimo-logo.svg'
 import TextField from '../components/atoms/TextField'
-import Checkbox from '../components/atoms/Checkbox'
 import RaisedButton from '../components/atoms/RaisedButton'
 import LoginModal from '../components/molecules/LoginModal'
-import GoogleLoginButton from '../components/molecules/GoogleLoginButton'
 
 
 class LoginPage extends Component {
@@ -46,9 +44,9 @@ class LoginPage extends Component {
   render() {
     return (
       <div className='welcome-container'>
-        <img src={ bg } className='home-bg' />
+        <img src={ bg } alt='wimo background' className='home-bg' />
         <div className='welcome-dialogue'>
-          <img src={ logo } className='hero-logo' />
+          <img src={ logo } alt='hero idk' className='hero-logo' />
           <div>
             <div className='login-text-fields'>
               <TextField
