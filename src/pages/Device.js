@@ -166,7 +166,7 @@ class DevicePage extends Component {
                 containerComponent={<VictoryVoronoiContainer/>}
                 animate={{ duration: 500 }}
                 theme={VictoryTheme.material}
-                style={{parent: { border: "2px solid purple"}}}
+                style={{parent: { border: "2px solid black"}}}
                 padding={{ top: 40, bottom: 40, left: 60, right: 40 }}
                 domainPadding={30}
               >
@@ -177,6 +177,7 @@ class DevicePage extends Component {
                 style={{
                   axisLabel: { padding: 25 }
                 }}
+                offsetY={40}
               />
               <VictoryAxis dependentAxis
                 label={`${graphPreference.displayTitle} (${graphPreference.unit})`}
@@ -197,7 +198,7 @@ class DevicePage extends Component {
                 style={{
                   data: { stroke: "#c43a31", strokeWidth: 2, fill: "white" }
                 }}
-                size={4}
+                size={2}
                 data={epochToTime(sortedData[graphPreference.key].values)}
                 labelComponent={<VictoryTooltip/>}
                 labels={(d) => {

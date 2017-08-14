@@ -11,6 +11,9 @@ div.login-modal-actions {
 .login-page-button {
   min-width: 150px; }
 
+.white {
+  color: white; }
+
 .google-oauth {
   background-color: grey;
   font-size: 12px;

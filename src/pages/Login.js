@@ -56,8 +56,8 @@ class LoginPage extends Component {
     oauthApi.start(this.changeLoading,this.props.setToken)
   }
 
-  render() {
 
+  render() {
     return (
       <div className='welcome-container'>
         {this.state.loading ? (
@@ -108,7 +108,7 @@ class LoginPage extends Component {
                 <ModalRegister className="register-modal" />
               </div>
             </div>
-            <span>powered by</span>
+            <p className="white" >Powered by Conctr</p>
           </div>
         )}
       </div>
