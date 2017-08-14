@@ -1,32 +1,27 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from '../styles/WimoThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
 import {Tabs, Tab} from 'material-ui/Tabs'
 import ClusterIcon from 'react-icons/lib/ti/flow-children'
 import DevicesIcon from 'react-icons/lib/go/circuit-board'
-import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import MobileTearSheet from '../components/molecules/MobileTearSheet';
-import moment from 'moment'
-require('moment-duration-format')
-
-/* <div key={device.device_id}>
-<h1>{device.device_id}</h1>
-<p>{device.avatar}</p>
-<p>{device.model_id}</p>
-<p>{device.last_online}</p>
-<Link to={`/devices/${device.device_id}`}>
-  Go To Device
-</Link>
-</div> */
+import NewClusterModal from '../components/organisms/NewClusterModal';
+import DevicesList from '../components/organisms/DevicesList';
+import ClustersGrid from '../components/organisms/ClustersGrid';
 
 class HomePage extends Component {
   constructor(props){
     super(props);
     this.state = {
       devicesData: null,
-      value: 'devices'
+      value: 'devices',
+      clusters: [],
+      rules: null
+      /* {
+        id: someId,
+        name: clusterName,
+        img: imgPath,
+        rules: clusterRules,
+      } */
     }
   }
   handleChange = (value) => {
@@ -34,6 +29,17 @@ class HomePage extends Component {
       value: value,
     });
   };
+
+  handleAddCluster = (cluster) => {
+    this.setState({clusters: this.state.clusters.concat(cluster)})
+  }
+
+  handleDeleteCluster = (clusterId) => {
+    // console.log('haiiii')
+    this.setState({clusters: this.state.clusters.filter(cluster => {
+      return cluster.id !== clusterId
+    })})
+  }
 
   componentDidMount(){
     this.props.getDevicesData()
@@ -45,6 +51,7 @@ class HomePage extends Component {
     })
   }
   render() {
+    console.log('clusters',this.state.clusters)
     return (
       <div>
         {this.state.value === 'welcome' ? (
@@ -55,53 +62,29 @@ class HomePage extends Component {
         ) : this.state.value === 'devices' ? (
           <div>
             {this.state.devicesData ? (
-              <div style={{paddingTop: '30px'}}>
-                <MuiThemeProvider>
-                  <MobileTearSheet>
-                    <div id='asdf'>
-                      <List>
-                        <Subheader>Devices</Subheader>
-                          {this.state.devicesData.data.map(device => (
-                            <ListItem
-                              leftAvatar={<RaisedButton href={`/devices/${device.device_id}`}label="View"/>}
-                              primaryText={device.device_id}
-                              key={device.device_id}
-                              // primaryTogglesNestedList={true}
-                              nestedListStyle={{backgroundColor: '#d3d3d3'}}
-                              nestedItems={[<div key='device_model'>{
-                                    [<h5 key='header_device_model'>Device model</h5>,
-                                    <p key='value_device_model'>{device.model_id}</p>]
-                                    }
-                                </div>,
-                                <div key='time'>{
-                                    [<h5 key='header_time'>Last Online(time)</h5>,
-                                    <p key='value_time_hours'>{moment(device.last_online).format("h:m A")}</p>,
-                                    <p key='value_time_further'>{moment(device.last_online).format("MMMM Do YYYY")}</p>]
-                                    }
-                                </div>,
-                                <div key='time_ago'>{
-                                    [<h5 key='header_time_ago'>Last Online(ago)</h5>,
-                                    <p key='value_time_ago'>{
-                                        moment
-                                        .duration(moment().diff(moment(device.last_online)))
-                                        .format('M [months],w [week],d [days],h [hrs], m [min] ago')
-                                      }</p>]
-                                    }
-                                </div>
-                              ]}
-                            />
-                        ))}
-                      </List>
-                    </div>
-                  </MobileTearSheet>
-                </MuiThemeProvider>
-              </div>
+              <DevicesList devicesData={this.state.devicesData}/>
             ) :  <MuiThemeProvider><CircularProgress /></MuiThemeProvider>}
           </div>
         ) : this.state.value === 'clusters' ? (
           <div>
-            <h1>Cluster</h1>
-            <p>All these clustes</p>
+            <h1>Clusters</h1>
+            {this.state.rules && JSON.stringify(this.state.rules)}
+            {this.state.clusters ? (
+              <div>
+                <NewClusterModal deviceIds={this.state.devicesData.data.map(device => (device.device_id))} addCluster={this.handleAddCluster}/>
+                {this.state.clusters.length > 0 ? (
+                  <ClustersGrid
+                    addCluster={this.handleAddCluster}
+                    deleteCluster={this.handleDeleteCluster}
+                    clusters={this.state.clusters}
+                    />
+                ) : (
+                  <h1>No clusters saved</h1>
+                )}
+              </div>
+            ) : (
+              <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
+            )}
           </div>
         ) : (
           <h1>I dunno</h1>

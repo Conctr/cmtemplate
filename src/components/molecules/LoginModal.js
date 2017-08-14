@@ -1,5 +1,5 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import MuiThemeProvider from '../../styles/WimoThemeProvider'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from '../atoms/FlatButton'
 import RaisedButton from '../atoms/RaisedButton'

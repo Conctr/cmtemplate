@@ -1,11 +1,10 @@
 import React from 'react';
+import MuiThemeProvider from '../../styles/WimoThemeProvider';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from '../atoms/RaisedButton';
 import { Link } from 'react-router-dom'
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
@@ -16,10 +15,18 @@ export default class NavBar extends React.Component {
     super(props);
     this.state = {
       value: 3,
+      openMenu: false
     };
   }
 
   handleChange = (event, index, value) => this.setState({value});
+  handleOnRequestChange = (value) => {
+    this.setState({
+      openMenu: value,
+    });
+  }
+
+  handleOpenMenu = () => this.setState({openMenu: true});
 
   render() {
     return (
@@ -27,20 +34,19 @@ export default class NavBar extends React.Component {
         {this.props.signedIn ? (
             <Toolbar>
             <ToolbarGroup firstChild={true}>
+              <ToolbarTitle style={{marginLeft: '100px',fontSize: '2em'}} text="Wimo" />
         </ToolbarGroup>
         <ToolbarGroup>
-          <ToolbarTitle text="Wimo" />
-          <FontIcon className="muidocs-icon-custom-sort" />
           <ToolbarSeparator />
-          <Link to={'/Devices'}>
-          <RaisedButton label="Change Device" primary={true} />
-          </Link>
+          <RaisedButton onTouchTap={this.handleOpenMenu} icon={<i class="material-icons">account_circle</i>} label='Dave Chapelle'/>
           <IconMenu
             iconButtonElement={
               <IconButton touch={true}>
                 <NavigationExpandMoreIcon />
               </IconButton>
             }
+          onRequestChange={this.handleOnRequestChange}
+          open={this.state.openMenu}
           >
             <Link to={'/Blog'}>
             <MenuItem primaryText="Blog" />
@@ -53,9 +59,7 @@ export default class NavBar extends React.Component {
         </ToolbarGroup>
         </Toolbar>
         ) : (
-          <Toolbar>
-          <RaisedButton label='SignIn'/>
-          </Toolbar>
+          false
         )}
 
       </MuiThemeProvider>
