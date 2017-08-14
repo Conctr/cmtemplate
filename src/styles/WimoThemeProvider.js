@@ -7,7 +7,9 @@ const wimoTheme = getMuiTheme({
   palette: {
     textColor: red800
   },
-
+  tabs: {
+    backgroundColor: red800
+  }
 })
 
 class WimoThemeProvider extends Component {

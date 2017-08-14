@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from '../styles/WimoThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
 import {Tabs, Tab} from 'material-ui/Tabs'
 import ClusterIcon from 'react-icons/lib/ti/flow-children'
