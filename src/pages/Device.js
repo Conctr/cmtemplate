@@ -140,6 +140,7 @@ class DevicePage extends Component {
 
       <div style={{textAlign: 'center'}}>
         { !!this.state.data.length ? (
+
           <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
             <div style={{width: '90%'}}>
               {this.getBatteryPercentage(this.state.data[0].battery) >= 80 ? (
