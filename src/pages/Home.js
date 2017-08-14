@@ -69,7 +69,7 @@ class HomePage extends Component {
           <div>
             <h1>Clusters</h1>
             {this.state.rules && JSON.stringify(this.state.rules)}
-            {this.state.clusters ? (
+            {this.state.clusters && this.state.devicesData ? (
               <div>
                 <NewClusterModal deviceIds={this.state.devicesData.data.map(device => (device.device_id))} addCluster={this.handleAddCluster}/>
                 {this.state.clusters.length > 0 ? (
