@@ -3,9 +3,13 @@ import * as deviceWebSocket from '../api/deviceWebSockets'
 import { VictoryTooltip,VictoryScatter,VictoryLine,VictoryChart,VictoryTheme,VictoryVoronoiContainer,VictoryAxis } from 'victory'
 import CircularProgress from 'material-ui/CircularProgress'
 import Slider from 'material-ui/Slider'
-import BatteryIcon from '../components/molecules/BatteryIcon'
 import moment from 'moment'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import FaBattery0 from 'react-icons/lib/fa/battery-0'
+import FaBattery1 from 'react-icons/lib/fa/battery-1'
+import FaBattery2 from 'react-icons/lib/fa/battery-2'
+import FaBattery3 from 'react-icons/lib/fa/battery-3'
+import FaBattery4 from 'react-icons/lib/fa/battery-4'
 require('moment-duration-format')
 
 
@@ -72,7 +76,7 @@ class DevicePage extends Component {
   },{
     key: 'pressure',
     displayTitle: 'Pressure',
-    unit: 'pSi'
+    unit: ' hPa'
   },{
     key: 'temperature',
     displayTitle: 'Temperature',
@@ -133,27 +137,45 @@ class DevicePage extends Component {
   render() {
     const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
     return (
-      
+
       <div style={{textAlign: 'center'}}>
         { !!this.state.data.length ? (
           <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-            <BatteryIcon percentage={this.getBatteryPercentage(this.state.data[0].battery)}/>
-            <h2>{`Searching data ${this.state.hoursBackShown} hours old`}</h2>
-              { this.state.loaderShown &&  <MuiThemeProvider><CircularProgress /></MuiThemeProvider> }
-          <MuiThemeProvider>
-            <Slider
-            min={1}
-            max={24}
-            step={1}
-            value={this.state.hoursBack}
-            axis="x-reverse"
-            onChange={(event,value) => {
-              this.defaultChange = value
-              this.handleSlider(value)
-            }}
-            onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
-          />
-          </MuiThemeProvider>
+            <div style={{width: '90%'}}>
+              {this.getBatteryPercentage(this.state.data[0].battery) >= 80 ? (
+                <FaBattery4 style={{display: 'block',float: 'right'}} size={60} color='green'/>
+              ): this.getBatteryPercentage(this.state.data[0].battery) >= 60 ? (
+                <FaBattery3 style={{display: 'block',float: 'right'}} size={60} color='green'/>
+              ): this.getBatteryPercentage(this.state.data[0].battery) >= 40 ? (
+                <FaBattery2 style={{display: 'block',float: 'right'}} size={60} color='yellow'/>
+              ): this.getBatteryPercentage(this.state.data[0].battery) >= 20 ? (
+                <FaBattery1 style={{display: 'block',float: 'right'}} size={60} color='red'/>
+              ): this.getBatteryPercentage(this.state.data[0].battery) >= 0 ? (
+                <FaBattery0 style={{display: 'block',float: 'right'}} size={60} color='red'/>
+              ): 'Inavlid battery data'}
+            </div>
+            <div style={{width: '100%',display: 'block'}}>
+              {!this.state.loaderShown ? (
+                <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
+                <h5 style={{height: '45px',width: '14%',display: 'inline-block'}}>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
+              <MuiThemeProvider>
+                <Slider style={{width: '85%',display: 'inline-block'}}
+                min={1}
+                max={24}
+                step={1}
+                value={this.state.hoursBack}
+                onChange={(event,value) => {
+                  this.defaultChange = value
+                  this.handleSlider(value)
+                }}
+                onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
+              />
+              </MuiThemeProvider>
+              </div>
+              ): (
+                <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
+              )}
+            </div>
 
           {this.graphs.map(graphPreference => (
 
@@ -166,7 +188,7 @@ class DevicePage extends Component {
                 containerComponent={<VictoryVoronoiContainer/>}
                 animate={{ duration: 500 }}
                 theme={VictoryTheme.material}
-                style={{parent: { border: "2px solid purple"}}}
+                style={{parent: { border: "2px solid black"}}}
                 padding={{ top: 40, bottom: 40, left: 60, right: 40 }}
                 domainPadding={30}
               >
@@ -177,6 +199,7 @@ class DevicePage extends Component {
                 style={{
                   axisLabel: { padding: 25 }
                 }}
+                offsetY={40}
               />
               <VictoryAxis dependentAxis
                 label={`${graphPreference.displayTitle} (${graphPreference.unit})`}
@@ -197,12 +220,12 @@ class DevicePage extends Component {
                 style={{
                   data: { stroke: "#c43a31", strokeWidth: 2, fill: "white" }
                 }}
-                size={4}
+                size={2}
                 data={epochToTime(sortedData[graphPreference.key].values)}
                 labelComponent={<VictoryTooltip/>}
                 labels={(d) => {
-                    return `${moment(d.x).format("h[:]m A")}
-                    value: ${(d.y).toFixed(2)}`
+                    return `${moment(d.x).format("h[:]mm A")}
+                    ${graphPreference.displayTitle}: ${(d.y).toFixed(2)}${graphPreference.unit}`
                   }}
               />
             </VictoryChart>
