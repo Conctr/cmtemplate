@@ -107,7 +107,7 @@ class LoginPage extends Component {
                 <LoginModal className="login-modal" />
                 </div>
             </div>
-            <span>powered by</span>
+            <span style={{color: 'white'}}>Powered by Conctr</span>
           </div>
         )}
       </div>

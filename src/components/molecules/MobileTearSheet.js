@@ -33,6 +33,8 @@ class MobileTearSheet extends Component {
         borderBottom: 'none',
         height: this.props.height,
         overflowY: 'scroll',
+        opacity: '0.99',
+        backgroundColor: 'white'
       }
     };
 
