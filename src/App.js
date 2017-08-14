@@ -61,7 +61,7 @@ class App extends Component {
     } else {
       localStorage.removeItem(tokenKey)
     }
-    setApiToken(savedToken)
+    setApiToken(token)
     this.setState({ token: token })
   }
 

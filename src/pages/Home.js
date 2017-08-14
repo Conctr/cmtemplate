@@ -8,6 +8,8 @@ import DevicesIcon from 'react-icons/lib/go/circuit-board'
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import MobileTearSheet from '../components/molecules/MobileTearSheet';
+import NewClusterModal from '../components/organisms/NewClusterModal';
+import {GridList, GridTile} from 'material-ui/GridList'
 import moment from 'moment'
 require('moment-duration-format')
 
@@ -26,7 +28,15 @@ class HomePage extends Component {
     super(props);
     this.state = {
       devicesData: null,
-      value: 'devices'
+      value: 'devices',
+      clusters: [],
+      rules: null
+      /* {
+        id: someId,
+        name: clusterName,
+        img: imgPath,
+        rules: clusterRules,
+      } */
     }
   }
   handleChange = (value) => {
@@ -34,6 +44,17 @@ class HomePage extends Component {
       value: value,
     });
   };
+
+  handleAddCluster = (cluster) => {
+    this.setState({clusters: this.state.clusters.concat(cluster)})
+  }
+
+  handleDeleteCluster = (clusterId) => {
+    // console.log('haiiii')
+    this.setState({clusters: this.state.clusters.filter(cluster => {
+      return cluster.id !== clusterId
+    })})
+  }
 
   componentDidMount(){
     this.props.getDevicesData()
@@ -100,8 +121,53 @@ class HomePage extends Component {
           </div>
         ) : this.state.value === 'clusters' ? (
           <div>
-            <h1>Cluster</h1>
-            <p>All these clustes</p>
+            <h1>Clusters</h1>
+            {this.state.rules && JSON.stringify(this.state.rules)}
+            {this.state.clusters ? (
+              <div>
+                <NewClusterModal deviceIds={this.state.devicesData.data.map(device => (device.device_id))} addCluster={this.handleAddCluster}/>
+                {this.state.clusters.length > 0 ? (
+                  <div className='clusters'>
+                    <MuiThemeProvider>
+                      <GridList
+                        cellHeight={180}
+                        cols={3}
+                        style={{width: '100%', height: 450, overflowY: 'auto'}}
+                        >
+                        <Subheader>Clusters</Subheader>
+                      {this.state.clusters.map(cluster => (
+                        <GridTile
+                          style={{backgroundColor: 'black'}}
+                          key={cluster.id}
+                          titleBackground="rgba(0,0,0,0.8)"
+                          titleStyle={{fontSize: '1.5em'}}
+                          title={cluster.name}
+                          subtitle={<span>Devices Count:<b>{Math.floor(Math.random() * (10 - 1))}</b></span>}
+                          actionIcon={<div style={{marginRight: '10px'}}>
+                            <RaisedButton
+                              style={{marginRight: '10px'}}
+                              onTouchTap={() => {
+                                this.setState({rules: cluster.rules})}}
+                              label='View'/>
+                            <RaisedButton
+                              onTouchTap={() => this.handleDeleteCluster(cluster.id)}
+                              style={{marginRight: '10px'}}
+                              label='Delete'/>
+                          </div>}
+                        >
+                          <img style={{backgroundSize: 'cover'}} src={`${cluster.imgPath}`} alt="wine bottle"/>
+                        </GridTile>
+                      ))}
+                      </GridList>
+                    </MuiThemeProvider>
+                  </div>
+                ) : (
+                  <h1>No clusters saved</h1>
+                )}
+              </div>
+            ) : (
+              <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
+            )}
           </div>
         ) : (
           <h1>I dunno</h1>
