@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { setApiToken } from './api/init'
 import HomePage from './pages/Home'
 import LoginPage from './pages/Login'
-import DevicesPage from './pages/Devices'
 import DevicePage from './pages/Device'
 import NavBar from '../src/components/molecules/NavBar';
 import TestPage from './pages/Test'
@@ -108,10 +107,6 @@ class App extends Component {
                   onRegister={this.handleRegister}/>
               } />
             )}
-              <Route exact path='/devices' render={ () => (
-                // Create token checker method that renders please login
-                <DevicesPage getDevicesData={deviceAPI.getAll}/>
-              ) } />
               <Route exact path='/devices/:deviceId' render={
                   ({ match }) => {
                     const deviceId = match.params.deviceId
