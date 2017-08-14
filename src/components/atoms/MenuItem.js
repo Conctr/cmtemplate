@@ -1,6 +1,6 @@
 import React from 'react'
+import MuiThemeProvider from '../../styles/WimoThemeProvider'
 import Item from 'material-ui/MenuItem' 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 export default function MenuItem () {
   return (

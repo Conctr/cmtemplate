@@ -1,5 +1,5 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import MuiThemeProvider from '../../styles/WimoThemeProvider'
 import Button from 'material-ui/IconButton'
 
 export default function IconButton ({

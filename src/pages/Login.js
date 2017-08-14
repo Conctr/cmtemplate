@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import bg from '../wimo-bg-y.png'
-import logo from '../wimo-logo-3.svg'
+import bg from '../imgs/wimo-bg-y.png'
+import logo from '../imgs/wimo-logo-3.svg'
 import TextField from '../components/atoms/TextField'
 import RaisedButton from '../components/atoms/RaisedButton'
 import LoginModal from '../components/molecules/LoginModal'

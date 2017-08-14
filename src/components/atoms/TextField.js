@@ -1,6 +1,6 @@
 import React from 'react'
+import MuiThemeProvider from '../../styles/WimoThemeProvider'
 import TextField from 'material-ui/TextField'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 export default function Text({
   floatingLabelFixed,
