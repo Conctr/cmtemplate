@@ -26,17 +26,13 @@ class LoginPage extends Component {
   const password = this.state.password
   // Call the callback function with our values
   callback({ email, password })
-}
-  onEmailChange = (e, newValue) => {
-    this.setState({
-      email: newValue
-    })
   }
 
-  onPasswordChange = (e, newValue) => {
-    this.setState({
-      password: newValue
-    })
+  onInputChange = (e, newValue) => {
+    console.log(e.target.id)
+    this.setState({ 
+      [e.target.id]: newValue 
+    }) 
   }
 
   handleAccountChange = () => this.setState({
@@ -70,22 +66,26 @@ class LoginPage extends Component {
               <div>
                 <div className='login-text-fields'>
                   <TextField
+                    id={ 'email' }
                     fullWidth={ true }
-                    onChange={ this.onEmailChange }
-                    value={ this.state.email }
+                    onChange={ this.onInputChange }
                     onEnterKeyDown={
                       () => this.submitToAuth(this.props.onSignIn)
                     }
-                    text='Email' />
+                    value={ this.state.email }
+                    hintText='Email'
+                  />
                   <TextField
+                    id={ 'password' }
                     fullWidth={ true }
-                    onChange={ this.onPasswordChange }
+                    onChange={ this.onInputChange }
                     onEnterKeyDown={
                       () => this.submitToAuth(this.props.onSignIn)
                     }
                     value={ this.state.password }
-                    text='Password'
-                    type='password' />
+                    hintText='Password'
+                    type='password'
+                  />
                 </div>
                 <RaisedButton
                   className="login-page-button"
@@ -96,7 +96,7 @@ class LoginPage extends Component {
                 />
                 <RaisedButton
                   className="login-page-button"
-                  label="Sign In with googles"
+                  label="Log in with Google"
                   onTouchTap={() => oauthApi.signIn('signin')}
                 />
                 <RaisedButton

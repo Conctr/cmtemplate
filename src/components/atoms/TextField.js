@@ -5,11 +5,12 @@ import TextField from 'material-ui/TextField'
 export default function Text({
   floatingLabelFixed,
   fullWidth,
+  hintText,
   multiline,
+  id,
   onChange,
   onEnterKeyDown,
   rows,
-  text,
   type,
   value
 }) {
@@ -29,8 +30,9 @@ export default function Text({
         <TextField
           floatingLabelFixed={ floatingLabelFixed }
           fullWidth={ fullWidth }
-          hintText={ text }
+          hintText={ hintText }
           multiLine={ multiline }
+          id={ id }
           onChange={ onChange }
           onKeyDown={ handleKeyDown }
           rows={ rows }
