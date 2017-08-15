@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import * as deviceWebSocket from '../api/deviceWebSockets'
+import { getModel as getDeviceModel } from '../api/device'
 import { VictoryTooltip,VictoryScatter,VictoryLine,VictoryChart,VictoryTheme,VictoryVoronoiContainer,VictoryAxis } from 'victory'
 import CircularProgress from 'material-ui/CircularProgress'
 import Slider from 'material-ui/Slider'
 import moment from 'moment'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import Chip from 'material-ui/Chip';
 import FaBattery0 from 'react-icons/lib/fa/battery-0'
 import FaBattery1 from 'react-icons/lib/fa/battery-1'
 import FaBattery2 from 'react-icons/lib/fa/battery-2'
@@ -69,19 +71,7 @@ function averageDataIntoTimeBlocks(values){
 class DevicePage extends Component {
 
   // Determines which graphs get rendered
-  graphs = [{
-    key: 'humidity',
-    displayTitle: 'Humidity',
-    unit: '%'
-  },{
-    key: 'pressure',
-    displayTitle: 'Pressure',
-    unit: ' hPa'
-  },{
-    key: 'temperature',
-    displayTitle: 'Temperature',
-    unit: '°C'
-  }]
+  allGraphs = []
 
   constructor(props){
     super(props);
@@ -89,14 +79,52 @@ class DevicePage extends Component {
        data: {},
        hoursBackShown:3,
        hoursBack: 3,
-       loaderShown : false
+       loaderShown: false,
+       graphsShown: [{
+          key: 'humidity',
+          displayTitle: 'Humidity',
+          unit: '%'
+        },{
+          key: 'pressure',
+          displayTitle: 'Pressure',
+          unit: ' hPa'
+        },{
+          key: 'temperature',
+          displayTitle: 'Temperature',
+          unit: '°C'
+        }], 
     };
     this.defaultChange = null;
   }
 
   componentDidMount(){
     deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack,this.handleUpdateData)
+    getDeviceModel(this.props.deviceId)
+    .then( res => {
+      this.allGraphs = res.map(modelData => {
+        return {
+          key: modelData.reference,
+          displayTitle: modelData.title,
+          unit: modelData.unit
+        }
+      })
+    }) 
+    .catch(error => {
+      this.props.handleError(error)
+    })
   }
+
+determineGraphsWithClass = (allGraphs) => {
+  this.state.graphsShown.forEach(graphShown => { 
+    allGraphs.forEach(graph => {
+      if(graphShown.key === graph.key) {
+        graph.display = true
+        // Optimasation issue, loop will keep running even when matched
+      }
+    })
+  })
+  return allGraphs
+}
 
   updateData = (newData)=>{
     this.setState({
@@ -104,6 +132,7 @@ class DevicePage extends Component {
       loaderShown:false
     })
   }
+
   handleUpdateData = (newData)=>{
 
     this.setState({
@@ -120,11 +149,13 @@ class DevicePage extends Component {
       hoursBackShown: value
     })
   }
+
   handleSlider = (value)=>{
     this.setState({
       hoursBackShown: value
     })
   }
+
   getBatteryPercentage = (latestBattery) =>{
     // Getting the percentage of how far between two points.
     let lower = 2.31
@@ -134,8 +165,31 @@ class DevicePage extends Component {
     return percentage * 100
   }
 
+  handleGraphDelete = (graphKey) => {
+    this.setState({
+      graphsShown: this.state.graphsShown.filter(graphShown =>{
+        return graphShown.key !== graphKey
+      })
+    })
+    this.allGraphs = this.allGraphs.map(graph => {
+      graph.display = false
+      return graph
+    })
+  }
+  handleGraphAdd = (graphKey) => {
+    let elementToAdd = this.allGraphs.find(graph => graph.key === graphKey)
+    this.setState({
+      graphsShown: this.state.graphsShown.concat(elementToAdd)
+    })
+    this.allGraphs = this.allGraphs.map(graph => {
+      graph.display = false
+      return graph
+    })
+  }
+
   render() {
-    const sortedData = sorter(this.state.data,this.graphs.map(graph => graph.key))
+    const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
+    const sortedData = sorter(this.state.data,this.state.graphsShown.map(graph => graph.key))
     return (
 
       <div style={{textAlign: 'center'}}>
@@ -177,8 +231,33 @@ class DevicePage extends Component {
                 <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
               )}
             </div>
+             {sortedGraphs.length > 0 ? (
+                <div className='chip-container'>
+                  {sortedGraphs.map(graph =>{
+                    return <MuiThemeProvider 
+                    key={graph.key}>
+                    {graph.display ? (
+                      <Chip 
+                      className='display-true' 
+                      onRequestDelete={() => this.handleGraphDelete(graph.key)} 
+                      style={{backgroundColor: 'red'}}>
+                        {graph.displayTitle}
+                      </Chip>
+                    ) : (
+                      <Chip 
+                      className='display-false' 
+                      onTouchTap={() => this.handleGraphAdd(graph.key)}>
+                        {graph.displayTitle}
+                      </Chip>
+                    )}
+                    </MuiThemeProvider>
+                  })}
+                </div>
+             ) : (
+               <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
+             )}
 
-          {this.graphs.map(graphPreference => (
+          {this.state.graphsShown.map(graphPreference => (
 
             <div  style={{height: '500px',
             width: '500px', display: 'inline-block'}} key={`${graphPreference.key}Graph`}>

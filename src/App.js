@@ -27,6 +27,10 @@ class App extends Component {
     error: null,
     createAccount: false
   }
+  
+  handleError = (error) => {
+    this.setState({error})
+  }
 
   handleSignIn = ({ email, password }) => {
     authAPI.signIn({ email, password })
@@ -111,7 +115,7 @@ class App extends Component {
                   ({ match }) => {
                     const deviceId = match.params.deviceId
                     return (
-                      <DevicePage deviceId={deviceId} />
+                      <DevicePage handleError={this.handleError} deviceId={deviceId} />
                     )
                   }
                 } />
