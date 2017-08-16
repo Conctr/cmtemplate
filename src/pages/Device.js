@@ -16,38 +16,28 @@ require('moment-duration-format')
 
 
 function sorter(data,dataKeys){
-  /* function to sort data into
-  {key:
-    {
-      values: [all the values],
-      rangeX: {min: minOfX, max: maxOfX}
-      rangeY: {min: minOfY, max: maxOfY}
-    }
-  }
-  */
   let sortedValues = {}
   if(data != null) {
     dataKeys.forEach(key => {
-    sortedValues[key] = {}
-    sortedValues[key].values = []
-      for(let i = 0; i < data.length; i++){
-        let time = data[i]['_ts']
+      sortedValues[key] = {}
+      sortedValues[key].values = []
+        for(let i = 0; i < data.length; i++){
+          let time = data[i]['_ts']
 
-        sortedValues[key].values.push({ts: time,value: data[i][key]})
-      }
-    let allX = sortedValues[key].values.map(val => (val.ts))
-    let allY = sortedValues[key].values.map(val => (val.value))
-    let minX = Math.min.apply(null, allX)
-    let maxX = Math.max.apply(null, allX)
-    let minY = Math.min.apply(null, allY)
-    let maxY = Math.max.apply(null, allY)
+          sortedValues[key].values.push({ts: time,value: data[i][key]})
+        }
+      let allX = sortedValues[key].values.map(val => (val.ts))
+      let allY = sortedValues[key].values.map(val => (val.value))
+      let minX = Math.min.apply(null, allX)
+      let maxX = Math.max.apply(null, allX)
+      let minY = Math.min.apply(null, allY)
+      let maxY = Math.max.apply(null, allY)
 
-    sortedValues[key]['rangeX'] = {min: minX,max: maxX}
-    sortedValues[key]['rangeY'] = {min: minY,max: maxY}
+      sortedValues[key]['rangeX'] = {min: minX,max: maxX}
+      sortedValues[key]['rangeY'] = {min: minY,max: maxY}
 
-  })
+    })
   }
-  console.log('data',sortedValues)
   return sortedValues
 }
 
@@ -193,22 +183,95 @@ determineGraphsWithClass = (allGraphs) => {
     return (
 
       <div style={{textAlign: 'center'}}>
+
+
+
         { !!this.state.data.length ? (
 
           <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-            <div style={{width: '90%'}}>
-              {this.getBatteryPercentage(this.state.data[0].battery) >= 80 ? (
-                <FaBattery4 style={{display: 'block',float: 'right'}} size={60} color='green'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 60 ? (
-                <FaBattery3 style={{display: 'block',float: 'right'}} size={60} color='green'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 40 ? (
-                <FaBattery2 style={{display: 'block',float: 'right'}} size={60} color='yellow'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 20 ? (
-                <FaBattery1 style={{display: 'block',float: 'right'}} size={60} color='red'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 0 ? (
-                <FaBattery0 style={{display: 'block',float: 'right'}} size={60} color='red'/>
-              ): 'Inavlid battery data'}
-            </div>
+            
+            {this.getBatteryPercentage(this.state.data[0].battery) >= 80 ? (
+              <div style={ { display: 'block', float: 'right' } }> 
+                <p style={ 
+                    { 
+                      position: 'absolute', color: 'darkgreen', 
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
+                    } 
+                } > 100% </p>
+                <FaBattery0 
+                    style={ {  color: 'darkgreen', marginRight: '14px' } } 
+                    size={60} 
+                  />
+              </div>
+            ) : this.getBatteryPercentage(this.state.data[0].battery) >= 60 ? (
+              <div style={ { display: 'block', float: 'right' } }> 
+                <p style={ 
+                    { 
+                      position: 'absolute', color: 'darkgreen', 
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
+                    } 
+                } > 80% </p>
+                <FaBattery0 
+                    style={ {  color: 'darkgreen', marginRight: '14px' } } 
+                    size={60} 
+                  />
+              </div>
+            ) : this.getBatteryPercentage(this.state.data[0].battery) >= 40 ? (
+              <div style={ { display: 'block', float: 'right' } }> 
+                <p style={ 
+                    { 
+                      position: 'absolute', color: 'green', 
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
+                    } 
+                } > 60% </p>
+                <FaBattery0 
+                    style={ {  color: 'green', marginRight: '14px' } } 
+                    size={60} 
+                  />
+              </div>
+            ) : this.getBatteryPercentage(this.state.data[0].battery) >= 20 ? (
+              <div style={ { display: 'block', float: 'right' } }> 
+                <p style={ 
+                    { 
+                      position: 'absolute', color: 'orange', 
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
+                    } 
+                } > 40% </p>
+                <FaBattery0 
+                    style={ {  color: 'orange', marginRight: '14px' } } 
+                    size={60} 
+                  />
+              </div>
+            ) : this.getBatteryPercentage(this.state.data[0].battery) >= 10 ? (
+              <div style={ { display: 'block', float: 'right' } }> 
+                <p style={ 
+                    { 
+                      position: 'absolute', color: 'red', 
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
+                    } 
+                } > 20% </p>
+                <FaBattery0 
+                    style={ {  color: 'red', marginRight: '14px' } } 
+                    size={60} 
+                  />
+              </div>
+            ) : this.getBatteryPercentage(this.state.data[0].battery) >= 0 ? (
+              <div style={ { display: 'block', float: 'right' } }> 
+                <p style={ 
+                    { 
+                      position: 'absolute', color: 'darkred', 
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
+                    } 
+                } > 10% </p>
+                <FaBattery0 
+                    style={ {  color: 'darkred', marginRight: '14px' } } 
+                    size={60} 
+                  />
+              </div>
+            ) : 'Inavlid battery data'}
+
+
+
             <div style={{width: '100%',display: 'block'}}>
               {!this.state.loaderShown ? (
                 <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
