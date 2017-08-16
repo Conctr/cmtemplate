@@ -1,17 +1,14 @@
 import React from 'react'
 import MuiThemeProvider from '../../styles/WimoThemeProvider'
-import { Checkbox as Chkbox } from 'material-ui' 
+import Checkbox from 'material-ui/Checkbox'
 
-export default function Checkbox({
-  label,
-  labelPosition
-}) {
+export default function Chkbox(props) {
+
   return (
     <MuiThemeProvider>
-      <Chkbox
-        label={ label }
-        labelPosition={ labelPosition } />
+      <Checkbox
+        {...props}
+      />
     </MuiThemeProvider>
   )
 }
-

@@ -1,43 +1,24 @@
 import React from 'react'
-import MuiThemeProvider from '../../styles/WimoThemeProvider'
+import WimoThemeProvider from '../../styles/WimoThemeProvider'
 import TextField from 'material-ui/TextField'
 
-export default function Text({
-  floatingLabelFixed,
-  fullWidth,
-  multiline,
-  onChange,
-  onEnterKeyDown,
-  rows,
-  text,
-  type,
-  value
-}) {
+export default function Text(props) {
 
   let handleKeyDown = (event) => {
     switch (event.key) {
       case 'Enter':
-        onEnterKeyDown()
+        props.onEnterKeyDown()
         break
       default: break
     }
   }
 
   return (
-    <div>
-      <MuiThemeProvider>
-        <TextField
-          floatingLabelFixed={ floatingLabelFixed }
-          fullWidth={ fullWidth }
-          hintText={ text }
-          multiLine={ multiline }
-          onChange={ onChange }
-          onKeyDown={ handleKeyDown }
-          rows={ rows }
-          type={ type }
-          value={ value }
-        />
-      </MuiThemeProvider> 
-    </div>
+    <WimoThemeProvider>
+      <TextField
+        { ...props }
+        onKeyDown={ handleKeyDown }
+      />
+    </WimoThemeProvider> 
   )
 }

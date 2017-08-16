@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import * as deviceWebSocket from '../api/deviceWebSockets'
 import { getModel as getDeviceModel } from '../api/device'
-import { VictoryTooltip,VictoryScatter,VictoryLine,VictoryChart,VictoryTheme,VictoryVoronoiContainer,VictoryAxis } from 'victory'
 import CircularProgress from 'material-ui/CircularProgress'
 import Slider from 'material-ui/Slider'
-import moment from 'moment'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Chip from 'material-ui/Chip';
 import FaBattery0 from 'react-icons/lib/fa/battery-0'
@@ -12,7 +10,7 @@ import FaBattery1 from 'react-icons/lib/fa/battery-1'
 import FaBattery2 from 'react-icons/lib/fa/battery-2'
 import FaBattery3 from 'react-icons/lib/fa/battery-3'
 import FaBattery4 from 'react-icons/lib/fa/battery-4'
-require('moment-duration-format')
+import LineGraph from '../components/molecules/LineGraph'
 
 
 function sorter(data,dataKeys){
@@ -41,23 +39,6 @@ function sorter(data,dataKeys){
   return sortedValues
 }
 
-function epochToTime(values,milisecondConverter){
-  // change
-  let array = values.map(value => {
-    return {x: moment(value.ts).toDate(),y: value.value}
-  })
-  return array
-}
-
-function averageDataIntoTimeBlocks(values){
-  // let a = values.map
-  // console.log('data',a)
-  /*{
-  includedValues: [numbers],
-  averaged: {ts: averagedTime,value: }
-  }*/
-}
-
 class DevicePage extends Component {
 
   // Determines which graphs get rendered
@@ -82,7 +63,7 @@ class DevicePage extends Component {
           key: 'temperature',
           displayTitle: 'Temperature',
           unit: '°C'
-        }], 
+        }],
     };
     this.defaultChange = null;
   }
@@ -98,14 +79,14 @@ class DevicePage extends Component {
           unit: modelData.unit
         }
       })
-    }) 
+    })
     .catch(error => {
       this.props.handleError(error)
     })
   }
 
 determineGraphsWithClass = (allGraphs) => {
-  this.state.graphsShown.forEach(graphShown => { 
+  this.state.graphsShown.forEach(graphShown => {
     allGraphs.forEach(graph => {
       if(graphShown.key === graph.key) {
         graph.display = true
@@ -297,18 +278,18 @@ determineGraphsWithClass = (allGraphs) => {
              {sortedGraphs.length > 0 ? (
                 <div className='chip-container'>
                   {sortedGraphs.map(graph =>{
-                    return <MuiThemeProvider 
+                    return <MuiThemeProvider
                     key={graph.key}>
                     {graph.display ? (
-                      <Chip 
-                      className='display-true' 
-                      onRequestDelete={() => this.handleGraphDelete(graph.key)} 
+                      <Chip
+                      className='display-true'
+                      onRequestDelete={() => this.handleGraphDelete(graph.key)}
                       style={{backgroundColor: 'red'}}>
                         {graph.displayTitle}
                       </Chip>
                     ) : (
-                      <Chip 
-                      className='display-false' 
+                      <Chip
+                      className='display-false'
                       onTouchTap={() => this.handleGraphAdd(graph.key)}>
                         {graph.displayTitle}
                       </Chip>
@@ -327,51 +308,7 @@ determineGraphsWithClass = (allGraphs) => {
               <h1>{graphPreference.displayTitle}</h1>
               <h2> Min: {(sortedData[graphPreference.key].rangeY.min).toFixed(2)} /
                    Max: {(sortedData[graphPreference.key].rangeY.max).toFixed(2)}  </h2>
-              <VictoryChart
-                containerComponent={<VictoryVoronoiContainer/>}
-                animate={{ duration: 500 }}
-                theme={VictoryTheme.material}
-                style={{parent: { border: "2px solid black"}}}
-                padding={{ top: 40, bottom: 40, left: 60, right: 40 }}
-                domainPadding={30}
-              >
-              <VictoryAxis
-                orientation="bottom"
-                label="Time"
-                scale={{x: "time"}}
-                style={{
-                  axisLabel: { padding: 25 }
-                }}
-                offsetY={40}
-              />
-              <VictoryAxis dependentAxis
-                label={`${graphPreference.displayTitle} (${graphPreference.unit})`}
-                style={{
-                  axisLabel: { padding: 40 }
-                }}
-
-              />
-              <VictoryLine
-                style={{
-                  data: { stroke: "#c43a31"},
-                  parent: { border: "6px solid blue"}
-                }}
-                data={epochToTime(sortedData[graphPreference.key].values)}
-              />
-              {averageDataIntoTimeBlocks(sortedData[graphPreference.key].values)}
-              <VictoryScatter
-                style={{
-                  data: { stroke: "#c43a31", strokeWidth: 2, fill: "white" }
-                }}
-                size={2}
-                data={epochToTime(sortedData[graphPreference.key].values)}
-                labelComponent={<VictoryTooltip/>}
-                labels={(d) => {
-                    return `${moment(d.x).format("h[:]mm A")}
-                    ${graphPreference.displayTitle}: ${(d.y).toFixed(2)}${graphPreference.unit}`
-                  }}
-              />
-            </VictoryChart>
+                 <LineGraph graphPreference={graphPreference} values={sortedData[graphPreference.key].values}/>
                 </div>
             ))}</div>
         ) : <MuiThemeProvider><CircularProgress /></MuiThemeProvider>}
