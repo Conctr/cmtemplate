@@ -21,9 +21,12 @@ class DevicePage extends Component {
             <MobileTearSheet>
                 <List>
                   <Subheader>Devices</Subheader>
-                    {this.state.devicesData.data.map(device => (
+                    {this.state.devicesData.map(device => (
                       <ListItem
-                        leftAvatar={<RaisedButton href={`/devices/${device.device_id}`}label="View"/>}
+                        leftAvatar={<RaisedButton onTouchTap={() => {
+                          this.props.handleModalClose()
+                          this.props.selectDevice(device.device_id)
+                        }} label="Select"/>}
                         primaryText={device.device_id}
                         key={device.device_id}
                         // primaryTogglesNestedList={true}

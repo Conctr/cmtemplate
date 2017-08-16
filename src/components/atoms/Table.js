@@ -1,16 +1,16 @@
 import React from 'react'
 import WimoThemeProvider from '../../styles/WimoThemeProvider'
-import Menu from 'material-ui/Menu'
+import Table from 'material-ui/Table'
 
-export default function SimpleMenu (props){
-  let mutableProps = { ...props }
+export default function CustomTable(props) {
+  let mutableProps = {...props}
   let children = mutableProps.children
   delete mutableProps.children
-  return(
+  return (
     <WimoThemeProvider>
-      <Menu { ...mutableProps }>
+      <Table {...mutableProps}>
         {children}
-      </Menu>
+      </Table>
     </WimoThemeProvider>
   )
 }

@@ -19,15 +19,6 @@ function epochToTime(values,milisecondConverter){
   return array
 }
 
-function averageDataIntoTimeBlocks(values){
-  // let a = values.map
-  // console.log('data',a)
-  /*{
-  includedValues: [numbers],
-  averaged: {ts: averagedTime,value: }
-  }*/
-}
-
 export default class NavBar extends React.Component {
 
   constructor(props) {
@@ -68,7 +59,6 @@ export default class NavBar extends React.Component {
         }}
         data={epochToTime(this.props.values)}
       />
-      {averageDataIntoTimeBlocks(this.props.values)}
       <VictoryScatter
         style={{
           data: { stroke: "#c43a31", strokeWidth: 2, fill: "white" }

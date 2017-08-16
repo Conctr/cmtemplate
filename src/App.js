@@ -7,7 +7,6 @@ import NavBar from '../src/components/molecules/NavBar';
 import TestPage from './pages/Test'
 import './custom.css'
 import * as authAPI from './api/auth'
-import * as deviceAPI from './api/device'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import {
   BrowserRouter as Router,
@@ -27,7 +26,7 @@ class App extends Component {
     error: null,
     createAccount: false
   }
-  
+
   handleError = (error) => {
     this.setState({error})
   }
@@ -35,7 +34,6 @@ class App extends Component {
   handleSignIn = ({ email, password }) => {
     authAPI.signIn({ email, password })
       .then(json => {
-        // console.log(json)
         this.setToken(json.jwt)
       })
       .catch(error => {
@@ -62,7 +60,7 @@ class App extends Component {
     if (token) {
       localStorage.setItem(tokenKey,token)
     } else {
-      localStorage.removeItem(tokenKey)
+localStorage.removeItem(tokenKey)
     }
     setApiToken(token)
     this.setState({ token: token })
@@ -100,7 +98,7 @@ class App extends Component {
             { !!this.state.token ? (
               <Route exact path='/' render={
                   () => <HomePage
-                  getDevicesData={deviceAPI.getAll}
+                  handleError={this.handleError}
                   />
               } />
             ): (

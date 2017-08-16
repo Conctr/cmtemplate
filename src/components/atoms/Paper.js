@@ -1,16 +1,16 @@
 import React from 'react'
 import WimoThemeProvider from '../../styles/WimoThemeProvider'
-import Menu from 'material-ui/Menu'
+import Paper from 'material-ui/Paper'
 
-export default function SimpleMenu (props){
-  let mutableProps = { ...props }
+export default function RaisedButton(props) {
+  let mutableProps = {...props}
   let children = mutableProps.children
   delete mutableProps.children
-  return(
+  return (
     <WimoThemeProvider>
-      <Menu { ...mutableProps }>
+      <Paper {...mutableProps}>
         {children}
-      </Menu>
+      </Paper>
     </WimoThemeProvider>
   )
 }

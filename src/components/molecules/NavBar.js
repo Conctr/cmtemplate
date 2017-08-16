@@ -30,39 +30,41 @@ export default class NavBar extends React.Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        {this.props.signedIn ? (
-            <Toolbar>
-            <ToolbarGroup firstChild={true}>
-              <ToolbarTitle style={{marginLeft: '100px',fontSize: '2em'}} text="Wimo" />
-        </ToolbarGroup>
-        <ToolbarGroup>
-          <ToolbarSeparator />
-          <RaisedButton onTouchTap={this.handleOpenMenu} icon={<i class="material-icons">account_circle</i>} label='Dave Chapelle'/>
-          <IconMenu
-            iconButtonElement={
-              <IconButton touch={true}>
-                <NavigationExpandMoreIcon />
-              </IconButton>
-            }
-          onRequestChange={this.handleOnRequestChange}
-          open={this.state.openMenu}
-          >
-            <Link to={'/Blog'}>
-            <MenuItem primaryText="Blog" />
-            </Link>
-            <Link to={'/Contact'}>
-            <MenuItem primaryText="Contact" />
-            </Link>
-            <MenuItem onTouchTap={this.props.logOut} primaryText="Log Out" />
-          </IconMenu>
-        </ToolbarGroup>
-        </Toolbar>
-        ) : (
-          false
-        )}
+        <div>
+          {this.props.signedIn ? (
+            <MuiThemeProvider>
+              <Toolbar>
+              <ToolbarGroup firstChild={true}>
+                <ToolbarTitle style={{marginLeft: '100px',fontSize: '2em'}} text="Wimo" />
+          </ToolbarGroup>
+          <ToolbarGroup>
+            <ToolbarSeparator />
+            <RaisedButton onTouchTap={this.handleOpenMenu} label='Dave Chapelle'/>
+            <IconMenu
+              iconButtonElement={
+                <IconButton touch={true}>
+                  <NavigationExpandMoreIcon />
+                </IconButton>
+              }
+            onRequestChange={this.handleOnRequestChange}
+            open={this.state.openMenu}
+            >
+              <Link to={'/Blog'}>
+              <MenuItem primaryText="Blog" />
+              </Link>
+              <Link to={'/Contact'}>
+              <MenuItem primaryText="Contact" />
+              </Link>
+              <MenuItem onTouchTap={this.props.logOut} primaryText="Log Out" />
+            </IconMenu>
+          </ToolbarGroup>
+          </Toolbar>
+        </MuiThemeProvider>
+          ) : (
+            false
+          )}
+        </div>
 
-      </MuiThemeProvider>
 
     );
   }

@@ -1,16 +1,16 @@
 import React from 'react'
 import WimoThemeProvider from '../../styles/WimoThemeProvider'
-import Menu from 'material-ui/Menu'
+import DropDownMenu from 'material-ui/DropDownMenu';
 
-export default function SimpleMenu (props){
-  let mutableProps = { ...props }
+export default function Checkbox(props) {
+  let mutableProps = {...props}
   let children = mutableProps.children
   delete mutableProps.children
-  return(
+  return (
     <WimoThemeProvider>
-      <Menu { ...mutableProps }>
+      <DropDownMenu {...props}>
         {children}
-      </Menu>
+      </DropDownMenu>
     </WimoThemeProvider>
   )
 }
