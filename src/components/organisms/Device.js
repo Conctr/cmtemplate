@@ -4,17 +4,16 @@ import { getModel as getDeviceModel } from '../../api/device';
 import CircularProgress from 'material-ui/CircularProgress';
 import Slider from 'material-ui/Slider';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Chip from 'material-ui/Chip';
 import FaBattery0 from 'react-icons/lib/fa/battery-0';
 import FaBattery1 from 'react-icons/lib/fa/battery-1';
 import FaBattery2 from 'react-icons/lib/fa/battery-2';
 import FaBattery3 from 'react-icons/lib/fa/battery-3';
 import FaBattery4 from 'react-icons/lib/fa/battery-4';
 import LineGraph from '../molecules/LineGraph';
-import Paper from '../atoms/Paper';
 import Menu from '../atoms/Menu';
 import MenuItem from '../atoms/MenuItem';
 import DeviceInfoTable from '../molecules/DeviceInfoTable';
+import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog';
 
 
 function sorter(data,dataKeys){
@@ -64,7 +63,9 @@ export default class DeviceInfo extends Component {
        hoursBackShown:3,
        hoursBack: 3,
        loaderShown: false,
-       keysShown: [],
+       keysShown: [{key: "temperature", displayTitle: "temperature", unit: "°c", display: true},
+       {key: "humidity", displayTitle: "humidity", unit: "%", display: true},
+       {key: "pressure", displayTitle: "pressure", unit: "hPa", display: true}],
        selectedGraphKey: null
     };
     this.defaultChange = null;
@@ -169,14 +170,13 @@ determineGraphsWithClass = (allGraphs) => {
   render() {
     const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
     const sortedData = sorter(this.state.data,this.state.keysShown.map(graph => graph.key))
-    console.log('keysShown',this.state.keysShown)
     return (
 
       <div style={{textAlign: 'center'}}>
         { !!this.state.data.length ? (
 
           <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-            <div style={{width: '90%'}}>
+            <div style={{width: '90%',display: 'inline-block'}}>
               {this.getBatteryPercentage(this.state.data[0].battery) >= 80 ? (
                 <FaBattery4 style={{display: 'block',float: 'right'}} size={60} color='green'/>
               ): this.getBatteryPercentage(this.state.data[0].battery) >= 60 ? (
@@ -212,33 +212,27 @@ determineGraphsWithClass = (allGraphs) => {
               )}
             </div>
              {sortedGraphs.length > 0 ? (
-                <div className='chip-container'>
-                  {sortedGraphs.map(graph =>{
-                    return <MuiThemeProvider
-                    key={graph.key}>
-                    {graph.display ? (
-                      <Chip
-                      className='display-true'
-                      onRequestDelete={() => this.handleGraphDelete(graph.key)}
-                      style={{backgroundColor: 'red'}}>
-                        {graph.displayTitle}
-                      </Chip>
-                    ) : (
-                      <Chip
-                      className='display-false'
-                      onTouchTap={() => this.handleGraphAdd(graph.key)}>
-                        {graph.displayTitle}
-                      </Chip>
-                    )}
-                    </MuiThemeProvider>
-                  })}
-                </div>
+               <DeviceSettingsDialog
+                 handleGraphDelete={this.handleGraphDelete}
+                 handleGraphAdd={this.handleGraphAdd}
+                 sortedGraphs={sortedGraphs}/>
              ) : (
                <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
              )}
              {this.state.keysShown.length > 0 ? (
-               <DeviceInfoTable sortedData={sortedData} keysShown={this.state.keysShown}/>
+               <div style={{display: 'flex',flexDirection: 'row',width: '100%',justifyContent: 'space-around'}}>
+                 {this.state.keysShown.map(keyShown => (
+                   <div style={{textAlign: 'center'}} key={keyShown.key} >
+                     <h3>{keyShown.displayTitle}</h3>
+                     <h3><b>{sortedData[keyShown.key].values[0].value} {keyShown.unit}</b></h3>
+                   </div>
+                 ))}
+                 {/*<DeviceInfoTable sortedData={sortedData} keysShown={this.state.keysShown}/>*/}
+               </div>
              ) : (<h1>Please Select Attributes to Display</h1>)}
+             <br/>
+             <br/>
+             <br/>
           <div className='graph-with-select' style={{height: '800px'}}>
             <div className='graph-select' style={{display: 'flex',flexDirection: 'column',height: '40%',width: '25%',float: 'left'}}>
               <Menu>
@@ -263,7 +257,7 @@ determineGraphsWithClass = (allGraphs) => {
               style={{height: '40%',width: '60%',float: 'right',marginRight: '20px'}}>
               {this.state.selectedGraphKey ? (
                 <LineGraph
-                graphPreference={this.state.keysShown.find(object => (object.key == this.state.selectedGraphKey))}
+                graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}
                 values={sortedData[this.state.selectedGraphKey].values}/>
               ) : ('Select Attribute to graph')}
             </div>
