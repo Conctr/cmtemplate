@@ -1,0 +1,28 @@
+.login-background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('./imgs/wimo-bg-y.png');
+  background-position: center;
+}
+
+.conctr-footer {
+  position: absolute;
+  bottom: 0; 
+  color: white;
+}
+
+.login-text-fields {
+  margin: auto;
+  padding-bottom: 20px;
+  max-width: 85%;
+}
+
+.login-page-button {
+  margin: 10px 0 10px 0;
+}
+
+.login-logo {
+  max-width: 85%;
+  padding-bottom: 20px;
+}

@@ -18,10 +18,10 @@ div.login-modal-actions {
 
 .welcome-container {
   position: absolute;
-  bottom: 10%;
-  left: 10%;
+  bottom: 7.5vw;
+  left: 7.5vw;
   max-width: 30%;
-  min-width: 200px;
+  min-width: 300px;
   margin: auto; }
 
 .welcome-dialogue {
@@ -32,10 +32,6 @@ div.login-modal-actions {
   border-style: solid;
   border: 1px; }
 
-.hero-logo {
-  max-width: 85%;
-  padding-bottom: 20px; }
-
 .home-bg {
   max-width: 100%;
   min-height: 100%;
@@ -43,19 +39,6 @@ div.login-modal-actions {
   position: fixed;
   left: 0px;
   top: 0px; }
-
-.login-text-fields {
-  margin: auto;
-  padding-bottom: 20px;
-  max-width: 85%; }
-
-.login-page-button {
-  margin: 10px 0 10px 0; }
-
-.home-splash {
-  background-image: url("./imgs/wimo-bg-y.png");
-  width: 100%;
-  height: 100%; }
 
 .container {
   display: block;
@@ -91,6 +74,30 @@ div.login-modal-actions {
   background: #3D3D3D;
   position: absolute;
   margin: 118px 0px 0px 433px; }
+
+.login-background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("./imgs/wimo-bg-y.png");
+  background-position: center; }
+
+.conctr-footer {
+  position: absolute;
+  bottom: 0;
+  color: white; }
+
+.login-text-fields {
+  margin: auto;
+  padding-bottom: 20px;
+  max-width: 85%; }
+
+.login-page-button {
+  margin: 10px 0 10px 0; }
+
+.login-logo {
+  max-width: 85%;
+  padding-bottom: 20px; }
 
 .chip-container {
   display: flex;

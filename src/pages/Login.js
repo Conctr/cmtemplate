@@ -1,18 +1,10 @@
 import React, { Component } from 'react'
-import Background from '../imgs/wimo-bg-y.png'
 import Logo from '../imgs/wimo-logo-3.svg'
 import TextField from '../components/atoms/TextField'
 import RaisedButton from '../components/atoms/RaisedButton'
+import CircularProgress from '../components/atoms/CircularProgress'
 import LoginModal from '../components/molecules/LoginModal'
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import CircularProgress from 'material-ui/CircularProgress'
 import * as oauthApi from '../api/oAuth'
-
-// let splashStyle = {
-//   width: '100%',
-//   backgroundImage: 'url(' + Background + ')'
-// }
 
 class LoginPage extends Component {
   constructor(props) {
@@ -33,8 +25,8 @@ class LoginPage extends Component {
   callback({ email, password })
   }
 
+  //handle user input and set password and email state 
   onInputChange = (e, newValue) => {
-    //handle user input and set password and email values
     this.setState({ 
       [e.target.id]: newValue 
     }) 
@@ -57,15 +49,11 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div
-        className='home-splash tip-top'
-        // style={ splashStyle }
-      >
+      <div className='login-background'>
+        <div className='conctr-footer'>Powered by Conctr</div>
         <div className='welcome-container'>
-          {this.state.loading ? (
-            <MuiThemeProvider>
-              <CircularProgress/>
-            </MuiThemeProvider>
+          { this.state.loading ? (
+            <CircularProgress />
           ) : (
               <div className='welcome-dialogue'>
                 <img
@@ -114,12 +102,10 @@ class LoginPage extends Component {
                     fullWidth={ true }
                   />
                   <LoginModal className="login-modal" />
+                </div>
               </div>
-              <div className='conctr-footer'>
-                <span style={{ color: 'white' }}>Powered by Conctr</span>
-              </div>
-            </div>
-          )}
+            )
+          }
         </div>
       </div>
     )
