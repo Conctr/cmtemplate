@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import * as deviceWebSocket from '../api/deviceWebSockets'
-import { getModel as getDeviceModel } from '../api/device'
-import CircularProgress from 'material-ui/CircularProgress'
-import Slider from 'material-ui/Slider'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import * as deviceWebSocket from '../../api/deviceWebSockets';
+import { getModel as getDeviceModel } from '../../api/device';
+import CircularProgress from 'material-ui/CircularProgress';
+import Slider from 'material-ui/Slider';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Chip from 'material-ui/Chip';
-import FaBattery0 from 'react-icons/lib/fa/battery-0'
-import FaBattery1 from 'react-icons/lib/fa/battery-1'
-import FaBattery2 from 'react-icons/lib/fa/battery-2'
-import FaBattery3 from 'react-icons/lib/fa/battery-3'
-import FaBattery4 from 'react-icons/lib/fa/battery-4'
-import LineGraph from '../components/molecules/LineGraph'
+import FaBattery0 from 'react-icons/lib/fa/battery-0';
+import FaBattery1 from 'react-icons/lib/fa/battery-1';
+import FaBattery2 from 'react-icons/lib/fa/battery-2';
+import FaBattery3 from 'react-icons/lib/fa/battery-3';
+import FaBattery4 from 'react-icons/lib/fa/battery-4';
+import LineGraph from '../molecules/LineGraph';
+import Paper from '../atoms/Paper';
+import Menu from '../atoms/Menu';
+import MenuItem from '../atoms/MenuItem';
+import DeviceInfoTable from '../molecules/DeviceInfoTable';
 
 
 function sorter(data,dataKeys){
@@ -48,7 +52,7 @@ function sorter(data,dataKeys){
   return sortedValues
 }
 
-class DevicePage extends Component {
+export default class DeviceInfo extends Component {
 
   // Determines which graphs get rendered
   allGraphs = []
@@ -60,19 +64,8 @@ class DevicePage extends Component {
        hoursBackShown:3,
        hoursBack: 3,
        loaderShown: false,
-       graphsShown: [{
-          key: 'humidity',
-          displayTitle: 'Humidity',
-          unit: '%'
-        },{
-          key: 'pressure',
-          displayTitle: 'Pressure',
-          unit: ' hPa'
-        },{
-          key: 'temperature',
-          displayTitle: 'Temperature',
-          unit: '°C'
-        }],
+       keysShown: [],
+       selectedGraphKey: null
     };
     this.defaultChange = null;
   }
@@ -90,12 +83,13 @@ class DevicePage extends Component {
       })
     })
     .catch(error => {
-      this.props.handleError(error)
+      // this.props.handleError(error)
+      console.error(error);
     })
   }
 
 determineGraphsWithClass = (allGraphs) => {
-  this.state.graphsShown.forEach(graphShown => {
+  this.state.keysShown.forEach(graphShown => {
     allGraphs.forEach(graph => {
       if(graphShown.key === graph.key) {
         graph.display = true
@@ -147,7 +141,7 @@ determineGraphsWithClass = (allGraphs) => {
 
   handleGraphDelete = (graphKey) => {
     this.setState({
-      graphsShown: this.state.graphsShown.filter(graphShown =>{
+      keysShown: this.state.keysShown.filter(graphShown =>{
         return graphShown.key !== graphKey
       })
     })
@@ -156,10 +150,11 @@ determineGraphsWithClass = (allGraphs) => {
       return graph
     })
   }
+
   handleGraphAdd = (graphKey) => {
     let elementToAdd = this.allGraphs.find(graph => graph.key === graphKey)
     this.setState({
-      graphsShown: this.state.graphsShown.concat(elementToAdd)
+      keysShown: this.state.keysShown.concat(elementToAdd)
     })
     this.allGraphs = this.allGraphs.map(graph => {
       graph.display = false
@@ -167,9 +162,14 @@ determineGraphsWithClass = (allGraphs) => {
     })
   }
 
+  handleGraphSelect = (selectedGraphKey) => {
+    this.setState({selectedGraphKey})
+  }
+
   render() {
     const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
-    const sortedData = sorter(this.state.data,this.state.graphsShown.map(graph => graph.key))
+    const sortedData = sorter(this.state.data,this.state.keysShown.map(graph => graph.key))
+    console.log('keysShown',this.state.keysShown)
     return (
 
       <div style={{textAlign: 'center'}}>
@@ -236,21 +236,41 @@ determineGraphsWithClass = (allGraphs) => {
              ) : (
                <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
              )}
-
-          {this.state.graphsShown.map(graphPreference => (
-
-            <div  style={{height: '500px',
-            width: '500px', display: 'inline-block'}} key={`${graphPreference.key}Graph`}>
-              <h1>{graphPreference.displayTitle}</h1>
-              <h2> Min: {(sortedData[graphPreference.key].rangeY.min).toFixed(2)} /
-                   Max: {(sortedData[graphPreference.key].rangeY.max).toFixed(2)}  </h2>
-                 <LineGraph graphPreference={graphPreference} values={sortedData[graphPreference.key].values}/>
-                </div>
-            ))}</div>
+             {this.state.keysShown.length > 0 ? (
+               <DeviceInfoTable sortedData={sortedData} keysShown={this.state.keysShown}/>
+             ) : (<h1>Please Select Attributes to Display</h1>)}
+          <div className='graph-with-select' style={{height: '800px'}}>
+            <div className='graph-select' style={{display: 'flex',flexDirection: 'column',height: '40%',width: '25%',float: 'left'}}>
+              <Menu>
+                {this.state.keysShown.map(keyShown => (
+                  <div key={`${keyShown.key}Graph`}>
+                    {keyShown.key === this.state.selectedGraphKey ? (
+                      <MenuItem
+                        style={{backgroundColor: 'linear-gradient(0deg, blue, white)'}}
+                        onTouchTap={() => this.handleGraphSelect(keyShown.key)}
+                        primaryText={keyShown.displayTitle}/>
+                    ) : (
+                      <MenuItem
+                        onTouchTap={() => this.handleGraphSelect(keyShown.key)}
+                        primaryText={keyShown.displayTitle}/>
+                    ) }
+                  </div>
+                ))}
+              </Menu>
+            </div>
+            <div
+              className='graph'
+              style={{height: '40%',width: '60%',float: 'right',marginRight: '20px'}}>
+              {this.state.selectedGraphKey ? (
+                <LineGraph
+                graphPreference={this.state.keysShown.find(object => (object.key == this.state.selectedGraphKey))}
+                values={sortedData[this.state.selectedGraphKey].values}/>
+              ) : ('Select Attribute to graph')}
+            </div>
+          </div>
+          </div>
         ) : <MuiThemeProvider><CircularProgress /></MuiThemeProvider>}
       </div>
     )
   }
 }
-
-export default DevicePage

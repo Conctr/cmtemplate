@@ -49,8 +49,4 @@ export function signIn(param){
   GoogleAuth.signOut()
   GoogleAuth.signIn()
 }
-
-export function sayHi(){
-  console.log(GoogleAuth.currentUser.get())
-}
 // 1. Load the JavaScript client library.

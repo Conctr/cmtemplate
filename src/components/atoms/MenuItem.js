@@ -1,9 +1,13 @@
-import React from 'react'
-import MuiThemeProvider from '../../styles/WimoThemeProvider'
-import Item from 'material-ui/MenuItem' 
+import React from 'react';
+import WimoThemeProvider from '../../styles/WimoThemeProvider'
+import MenuItem from 'material-ui/MenuItem'
 
-export default function MenuItem () {
-  return (
-
-  )
+export default function Item (props) {
+   return (
+     <WimoThemeProvider>
+       <MenuItem
+         {...props}
+       />
+     </WimoThemeProvider>
+   )
 }
