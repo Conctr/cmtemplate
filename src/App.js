@@ -28,7 +28,7 @@ class App extends Component {
   }
 
   handleError = (error) => {
-    this.setState({error})
+    this.setState({ error })
   }
 
   handleSignIn = ({ email, password }) => {
@@ -60,7 +60,7 @@ class App extends Component {
     if (token) {
       localStorage.setItem(tokenKey,token)
     } else {
-localStorage.removeItem(tokenKey)
+      localStorage.removeItem(tokenKey)
     }
     setApiToken(token)
     this.setState({ token: token })
@@ -79,57 +79,81 @@ localStorage.removeItem(tokenKey)
     return (
       <Router>
         <main>
-       <NavBar signedIn={!!this.state.token} logOut={() => this.setToken(null)}/>
-
+          <NavBar
+            signedIn={ !!this.state.token }
+            logOut={
+              () => this.setToken(null)
+            }
+          />
           <ToastContainer
             position="top-right"
-            hideProgressBar={false}
-            newestOnTop={false}
+            hideProgressBar={ false }
+            newestOnTop={ false }
             closeOnClick
-          >
-            <button>hai</button>
-          </ToastContainer>
-          <Route render={
-            ({ location }) => <p style={{textAlign: 'left'}}>{
-              location.pathname
-            }</p>
-          } />
+          />
+          <Route
+            render={
+              ({ location }) => <p style={{ textAlign: 'left' }}>
+                { location.pathname }
+              </p>
+            }
+          />
           <Switch>
-            { !!this.state.token ? (
-              <Route exact path='/' render={
-                  () => <HomePage
-                  handleError={this.handleError}
-                  />
-              } />
-            ): (
-              <Route exact path='/' render={
-                  () => <LoginPage
-                  setToken={this.setToken}
-                  onSignIn={this.handleSignIn}
-                  onRegister={this.handleRegister}/>
-              } />
-            )}
-              <Route exact path='/devices/:deviceId' render={
-                  ({ match }) => {
-                    const deviceId = match.params.deviceId
-                    return (
-                      <DevicePage handleError={this.handleError} deviceId={deviceId} />
-                    )
+            { !!this.state.token ?
+              (
+                <Route
+                  exact path='/'
+                  render={
+                    () => <HomePage
+                      handleError={ this.handleError }
+                    />
                   }
-                } />
-              <Route path='/test' render={
-              () => (<TestPage/>)
-            } />
-            <Route render={
-              ({ location }) => <p>{
-                location.pathname
-              } not found</p>
-            } />
+                />
+              ) : (
+                <Route
+                  exact path='/'
+                  render={
+                    () => <LoginPage
+                      setToken={ this.setToken }
+                      onSignIn={ this.handleSignIn }
+                      onRegister={ this.handleRegister }
+                    />
+                  }
+                />
+              )
+            }
+            <Route
+              exact path='/devices/:deviceId'
+              render={
+                ({ match }) => {
+                  const deviceId = match.params.deviceId
+                  return (
+                    <DevicePage
+                      handleError={ this.handleError }
+                      deviceId={ deviceId }
+                    />
+                  )
+                }
+              }
+            />
+            <Route
+              path='/test'
+              render={
+                () => (<TestPage/>)
+              }
+            />
+            <Route
+              render={
+                ({ location }) => <p>{
+                  location.pathname
+                } not found</p>
+              }
+            />
           </Switch>
         </main>
       </Router>
-          );
-        }
-      }
+    )
+  }
+}
 
-export default App;
+export default App

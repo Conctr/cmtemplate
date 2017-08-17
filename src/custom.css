@@ -8,33 +8,10 @@ div.login-modal-actions {
   flex-direction: column;
   align-items: center; }
 
-.login-page-button {
-  min-width: 150px; }
-
 .google-oauth {
   background-color: grey;
   font-size: 12px;
   padding: 0px; }
-
-.welcome-container {
-  position: absolute;
-  bottom: 10%;
-  left: 10%;
-  max-width: 30%;
-  min-width: 200px;
-  margin: auto; }
-
-.welcome-dialogue {
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 5px;
-  border-color: black;
-  border-style: solid;
-  border: 1px; }
-
-.hero-logo {
-  max-width: 85%;
-  padding-bottom: 20px; }
 
 .home-bg {
   max-width: 100%;
@@ -43,14 +20,6 @@ div.login-modal-actions {
   position: fixed;
   left: 0px;
   top: 0px; }
-
-.login-text-fields {
-  margin: auto;
-  padding-bottom: 20px;
-  max-width: 85%; }
-
-.login-page-button {
-  margin: 10px 0 10px 0; }
 
 .container {
   display: block;
@@ -86,6 +55,49 @@ div.login-modal-actions {
   background: #3D3D3D;
   position: absolute;
   margin: 118px 0px 0px 433px; }
+
+.login-background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("./imgs/wimo-bg-y.png");
+  background-position: center; }
+
+.conctr-footer {
+  position: absolute;
+  bottom: 0;
+  color: white; }
+
+.login-text-fields {
+  margin: auto;
+  padding-bottom: 20px;
+  max-width: 85%; }
+
+.login-page-button {
+  margin: 10px 0 10px 0; }
+
+.login-logo {
+  max-width: 85%;
+  padding-bottom: 20px; }
+
+.login-page-button {
+  min-width: 150px; }
+
+.welcome-container {
+  position: absolute;
+  bottom: 7.5vw;
+  left: 7.5vw;
+  max-width: 30%;
+  min-width: 300px;
+  margin: auto; }
+
+.welcome-dialogue {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  border-color: black;
+  border-style: solid;
+  border: 1px; }
 
 .chip-container {
   display: flex;
