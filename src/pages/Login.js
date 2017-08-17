@@ -55,7 +55,7 @@ class LoginPage extends Component {
           { this.state.loading ? (
             <CircularProgress />
           ) : (
-              <div className='welcome-dialogue'>
+              <div className='login-dialogue'>
                 <img
                   src={ Logo } alt='wimo logo' className='login-logo' />
                 <div>

@@ -4,10 +4,14 @@ import TextField from 'material-ui/TextField'
 
 export default function Text(props) {
 
+  let mutableProps = {...props}
+  let handleKey = mutableProps.onEnterKeyDown
+  delete mutableProps.onEnterKeyDown
+
   let handleKeyDown = (event) => {
     switch (event.key) {
       case 'Enter':
-        props.onEnterKeyDown()
+        handleKey()
         break
       default: break
     }
@@ -16,7 +20,7 @@ export default function Text(props) {
   return (
     <WimoThemeProvider>
       <TextField
-        { ...props }
+        { ...mutableProps } 
         onKeyDown={ handleKeyDown }
       />
     </WimoThemeProvider> 
