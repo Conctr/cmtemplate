@@ -1,26 +1,3 @@
-body {
-  width: 100vw;
-  height: 100vh;
-  text-align: center; }
-
-div.login-modal-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center; }
-
-.google-oauth {
-  background-color: grey;
-  font-size: 12px;
-  padding: 0px; }
-
-.home-bg {
-  max-width: 100%;
-  min-height: 100%;
-  z-index: -1;
-  position: fixed;
-  left: 0px;
-  top: 0px; }
-
 .login-background {
   position: absolute;
   width: 100vw;
@@ -74,16 +51,38 @@ div.login-modal-actions {
 .display-true {
   background-color: red; }
 
+body {
+  width: 100vw;
+  height: 100vh;
+  text-align: center; }
+
+div.login-modal-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+.google-oauth {
+  background-color: grey;
+  font-size: 12px;
+  padding: 0px; }
+
+.home-bg {
+  max-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  position: fixed;
+  left: 0px;
+  top: 0px; }
+
 .battery-container {
   display: block;
   float: right; }
   .battery-container .battery-percent {
     position: absolute;
-    color: darkgreen;
     z-index: 1;
     font-size: 0.8em;
-    margin-left: 35px;
-    margin-top: 23px; }
+    margin-left: 10px;
+    margin-top: 22px; }
   .battery-container .darkgreen {
     color: darkgreen; }
   .battery-container .green {
@@ -95,7 +94,7 @@ div.login-modal-actions {
   .battery-container .darkred {
     color: darkred; }
   .battery-container .battery {
-    margin-right: 25px; }
+    margin-right: 0; }
 
 .container {
   display: block;
@@ -106,7 +105,7 @@ div.login-modal-actions {
 
 .battery {
   display: block;
-  margin-left: 25%;
+  margin-left: 1%;
   margin-right: 25%; }
 
 .innerpre {

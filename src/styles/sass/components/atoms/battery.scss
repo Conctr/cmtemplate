@@ -4,11 +4,10 @@
 
     .battery-percent {
        position: absolute;
-       color: darkgreen;
        z-index: 1;
        font-size: 0.8em;
-       margin-left: 35px;
-       margin-top: 23px; 
+       margin-left: 10px;
+       margin-top: 22px; 
     }
     .darkgreen {
         color: darkgreen;
@@ -26,6 +25,6 @@
         color: darkred;
     }
     .battery {
-        margin-right: 25px;
+        margin-right: 0;
     }
 }
