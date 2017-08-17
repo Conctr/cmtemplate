@@ -164,7 +164,7 @@ determineGraphsWithClass = (allGraphs) => {
   }
 
   handleGraphSelect = (selectedGraphKey) => {
-    this.setState({selectedGraphKey})
+    this.setState({selectedGraphKey: selectedGraphKey})
   }
 
   render() {
@@ -223,7 +223,7 @@ determineGraphsWithClass = (allGraphs) => {
                <div style={{display: 'flex',flexDirection: 'row',width: '100%',justifyContent: 'space-around'}}>
                  {this.state.keysShown.map(keyShown => (
                    <div style={{textAlign: 'center'}} key={keyShown.key} >
-                     <h3>{keyShown.displayTitle}</h3>
+                     <p>{keyShown.displayTitle}</p>
                      <h3><b>{sortedData[keyShown.key].values[0].value} {keyShown.unit}</b></h3>
                    </div>
                  ))}
@@ -252,9 +252,11 @@ determineGraphsWithClass = (allGraphs) => {
                 ))}
               </Menu>
             </div>
+            {console.log('sorted data',sortedData)}
+            {console.log('selectedGraphKey',this.state.selectedGraphKey)}
             <div
               className='graph'
-              style={{height: '40%',width: '60%',float: 'right',marginRight: '20px'}}>
+              style={{height: '80%',width: '60%',float: 'right',marginRight: '20px'}}>
               {this.state.selectedGraphKey ? (
                 <LineGraph
                 graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}
