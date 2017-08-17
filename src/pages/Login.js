@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import Logo from '../imgs/wimo-logo-3.svg'
+import * as oauthApi from '../api/oAuth'
 import TextField from '../components/atoms/TextField'
 import RaisedButton from '../components/atoms/RaisedButton'
 import CircularProgress from '../components/atoms/CircularProgress'
 import LoginModal from '../components/molecules/LoginModal'
-import * as oauthApi from '../api/oAuth'
+import Logo from '../imgs/wimo-logo-3.svg'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -57,7 +57,7 @@ class LoginPage extends Component {
           ) : (
               <div className='welcome-dialogue'>
                 <img
-                  src={ Logo } alt='wimo logo' className='hero-logo' />
+                  src={ Logo } alt='wimo logo' className='login-logo' />
                 <div>
                   <div className='login-text-fields'>
                     <TextField

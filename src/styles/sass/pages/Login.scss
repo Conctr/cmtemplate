@@ -26,3 +26,25 @@
   max-width: 85%;
   padding-bottom: 20px;
 }
+
+.login-page-button {
+  min-width: 150px;
+}
+
+.welcome-container {
+  position: absolute;
+  bottom: 7.5vw;
+  left: 7.5vw;
+  max-width: 30%;
+  min-width: 300px;
+  margin: auto;
+}
+
+.welcome-dialogue {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  border-color: black;
+  border-style: solid;
+  border: 1px;
+}
