@@ -2,20 +2,15 @@ import React, { Component } from 'react';
 import * as deviceWebSocket from '../../api/deviceWebSockets';
 import { getModel as getDeviceModel,update as updateDevice,getSingle as getDevice } from '../../api/device';
 import Slider from 'material-ui/Slider';
-import FaBattery0 from 'react-icons/lib/fa/battery-0';
-import FaBattery1 from 'react-icons/lib/fa/battery-1';
-import FaBattery2 from 'react-icons/lib/fa/battery-2';
-import FaBattery3 from 'react-icons/lib/fa/battery-3';
-import FaBattery4 from 'react-icons/lib/fa/battery-4';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import CircularProgress from '../atoms/CircularProgress';
 import LineGraph from '../molecules/LineGraph';
 import Menu from '../atoms/Menu';
 import Paper from '../atoms/Paper';
 import MenuItem from '../atoms/MenuItem';
 import DeviceInfoTable from '../molecules/DeviceInfoTable';
 import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog';
-import CircularProgress from '../atoms/CircularProgress';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import BatteryIcon from '../atoms/Battery'
 
 function sorter(data,dataKeys){
   /* function to sort data into
@@ -225,19 +220,7 @@ determineGraphsWithClass = (allGraphs) => {
                 <br/>
                 <br/>
                 <h1>{this.deviceData.name ? this.deviceData.name : 'No Name'}</h1>
-                <div style={{width: '90%',display: 'inline-block'}}>
-                  {this.getBatteryPercentage(this.state.data[0].battery) >= 80 ? (
-                    <FaBattery4 style={{display: 'block',float: 'right'}} size={60} color='green'/>
-                  ): this.getBatteryPercentage(this.state.data[0].battery) >= 60 ? (
-                    <FaBattery3 style={{display: 'block',float: 'right'}} size={60} color='green'/>
-                  ): this.getBatteryPercentage(this.state.data[0].battery) >= 40 ? (
-                    <FaBattery2 style={{display: 'block',float: 'right'}} size={60} color='yellow'/>
-                  ): this.getBatteryPercentage(this.state.data[0].battery) >= 20 ? (
-                    <FaBattery1 style={{display: 'block',float: 'right'}} size={60} color='red'/>
-                  ): this.getBatteryPercentage(this.state.data[0].battery) >= 0 ? (
-                    <FaBattery0 style={{display: 'block',float: 'right'}} size={60} color='red'/>
-                  ): 'Inavlid battery data'}
-                </div>
+                <BatteryIcon batteryPercentage={this.getBatteryPercentage(this.state.data[0].battery)} />
                 <Paper
                   style={{width: '80%',margin: 'auto'}}
                   zDepth={1}>
