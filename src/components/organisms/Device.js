@@ -14,7 +14,7 @@ import Menu from '../atoms/Menu';
 import MenuItem from '../atoms/MenuItem';
 import DeviceInfoTable from '../molecules/DeviceInfoTable';
 import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog';
-
+import BatteryIcon from '../atoms/Battery'
 
 function sorter(data,dataKeys){
   /* function to sort data into
@@ -166,29 +166,23 @@ determineGraphsWithClass = (allGraphs) => {
   handleGraphSelect = (selectedGraphKey) => {
     this.setState({selectedGraphKey})
   }
-
+// .paper-data {
+//             text-align: center;
+//             margin-left: auto;
+//           }
   render() {
     const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
     const sortedData = sorter(this.state.data,this.state.keysShown.map(graph => graph.key))
     return (
 
       <div style={{textAlign: 'center'}}>
+
         { !!this.state.data.length ? (
 
-          <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-            <div style={{width: '90%',display: 'inline-block'}}>
-              {this.getBatteryPercentage(this.state.data[0].battery) >= 80 ? (
-                <FaBattery4 style={{display: 'block',float: 'right'}} size={60} color='green'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 60 ? (
-                <FaBattery3 style={{display: 'block',float: 'right'}} size={60} color='green'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 40 ? (
-                <FaBattery2 style={{display: 'block',float: 'right'}} size={60} color='yellow'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 20 ? (
-                <FaBattery1 style={{display: 'block',float: 'right'}} size={60} color='red'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 0 ? (
-                <FaBattery0 style={{display: 'block',float: 'right'}} size={60} color='red'/>
-              ): 'Inavlid battery data'}
-            </div>
+          <div className='paper-data' style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
+          
+            <BatteryIcon batteryPercentage={this.getBatteryPercentage(this.state.data[0].battery)} />
+
             <div style={{width: '100%',display: 'block'}}>
               {!this.state.loaderShown ? (
                 <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>

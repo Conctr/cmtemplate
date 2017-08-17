@@ -52,6 +52,42 @@ div.login-modal-actions {
 .login-page-button {
   margin: 10px 0 10px 0; }
 
+.chip-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; }
+  .chip-container .chip {
+    margin: 4; }
+
+.display-true {
+  background-color: red; }
+
+.battery-container {
+  display: block;
+  float: right; }
+  .battery-container .battery-percent {
+    position: absolute;
+    color: darkgreen;
+    z-index: 1;
+    font-size: 0.8em;
+    margin-left: 15px;
+    margin-top: 23px; }
+  .battery-container .darkgreen {
+    color: darkgreen;
+    margin-right: 5px; }
+  .battery-container .green {
+    color: green;
+    margin-right: 5px; }
+  .battery-container .orange {
+    color: orange;
+    margin-right: 5px; }
+  .battery-container .red {
+    color: red;
+    margin-right: 5px; }
+  .battery-container .darkred {
+    color: darkred;
+    margin-right: 5px; }
+
 .container {
   display: block;
   float: left;
@@ -86,13 +122,3 @@ div.login-modal-actions {
   background: #3D3D3D;
   position: absolute;
   margin: 118px 0px 0px 433px; }
-
-.chip-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap; }
-  .chip-container .chip {
-    margin: 4; }
-
-.display-true {
-  background-color: red; }
