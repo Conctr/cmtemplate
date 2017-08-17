@@ -23,7 +23,7 @@ class DevicePage extends Component {
   }
 
   handleDeviceSelect = (selectedDevice) => {
-    this.setState({selectedDevice})
+    this.setState({selectedDevice: selectedDevice})
   }
 
   render() {
@@ -33,6 +33,7 @@ class DevicePage extends Component {
           <div>
             <Paper
             zDepth={5}>
+            <br/>
             <DevicesSelectModal
               selectedDevice={this.state.selectedDevice}
               devicesData={this.state.devicesData}

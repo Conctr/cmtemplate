@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import * as deviceWebSocket from '../../api/deviceWebSockets';
-import { getModel as getDeviceModel } from '../../api/device';
-import CircularProgress from 'material-ui/CircularProgress';
+import { getModel as getDeviceModel,update as updateDevice,getSingle as getDevice } from '../../api/device';
 import Slider from 'material-ui/Slider';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FaBattery0 from 'react-icons/lib/fa/battery-0';
 import FaBattery1 from 'react-icons/lib/fa/battery-1';
 import FaBattery2 from 'react-icons/lib/fa/battery-2';
@@ -11,9 +9,12 @@ import FaBattery3 from 'react-icons/lib/fa/battery-3';
 import FaBattery4 from 'react-icons/lib/fa/battery-4';
 import LineGraph from '../molecules/LineGraph';
 import Menu from '../atoms/Menu';
+import Paper from '../atoms/Paper';
 import MenuItem from '../atoms/MenuItem';
 import DeviceInfoTable from '../molecules/DeviceInfoTable';
 import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog';
+import CircularProgress from '../atoms/CircularProgress';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 function sorter(data,dataKeys){
@@ -55,30 +56,52 @@ export default class DeviceInfo extends Component {
 
   // Determines which graphs get rendered
   allGraphs = []
-
+  deviceData = {}
   constructor(props){
     super(props);
     this.state = {
-       data: {},
-       hoursBackShown:3,
-       hoursBack: 3,
-       loaderShown: false,
-       keysShown: [{key: "temperature", displayTitle: "temperature", unit: "°c", display: true},
-       {key: "humidity", displayTitle: "humidity", unit: "%", display: true},
-       {key: "pressure", displayTitle: "pressure", unit: "hPa", display: true}],
-       selectedGraphKey: null
+      data: null,
+      hoursBackShown:3,
+      hoursBack: 3,
+      loaderShown: false,
+      keysShown: [{key: "temperature", displayTitle: "temperature", unit: "°c", display: true},
+      {key: "humidity", displayTitle: "humidity", unit: "%", display: true},
+      {key: "pressure", displayTitle: "pressure", unit: "hPa", display: true}],
+      selectedGraphKey: null
     };
     this.defaultChange = null;
   }
 
   componentDidMount(){
     deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack,this.handleUpdateData)
-    getDeviceModel(this.props.deviceId)
-    .then( res => {
-      this.allGraphs = res.map(modelData => {
+    Promise.all([getDeviceModel(this.props.deviceId),getDevice(this.props.deviceId)])
+    .then(([model,deviceData]) => {
+      this.deviceData = deviceData
+      this.allGraphs = model.map(modelData => {
         return {
-          key: modelData.reference,
           displayTitle: modelData.title,
+          key: modelData.reference,
+          unit: modelData.unit
+        }
+      })
+    })
+    .catch(error => {
+      // this.props.handleError(error)
+      console.error(error);
+    })
+  }
+  componentWillReceiveProps({deviceId}) {
+    this.setState({
+      data: null
+    })
+    deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack,this.handleUpdateData)
+    Promise.all([getDeviceModel(this.props.deviceId),getDevice(this.props.deviceId)])
+    .then(([model,deviceData]) => {
+      this.deviceData = deviceData
+      this.allGraphs = model.map(modelData => {
+        return {
+          displayTitle: modelData.title,
+          key: modelData.reference,
           unit: modelData.unit
         }
       })
@@ -141,11 +164,20 @@ determineGraphsWithClass = (allGraphs) => {
   }
 
   handleGraphDelete = (graphKey) => {
-    this.setState({
-      keysShown: this.state.keysShown.filter(graphShown =>{
-        return graphShown.key !== graphKey
+    if(graphKey !== this.state.selectedGraphKey){
+      this.setState({
+        keysShown: this.state.keysShown.filter(graphShown =>{
+          return graphShown.key !== graphKey
+        })
       })
-    })
+    } else {
+      this.setState({
+        keysShown: this.state.keysShown.filter(graphShown =>(
+          graphShown.key !== graphKey
+        )),selectedGraphKey: null
+
+      })
+    }
     this.allGraphs = this.allGraphs.map(graph => {
       graph.display = false
       return graph
@@ -167,105 +199,140 @@ determineGraphsWithClass = (allGraphs) => {
     this.setState({selectedGraphKey: selectedGraphKey})
   }
 
+  // // Save state of settings
+  // handleSettingsEnter = () => {
+  //   this.state.
+  // }
+  // // Save state of settings
+  // handleSettingsSave = () => {
+  //   this.state.
+  // }
+  // // Save state of settings
+  // handleSettingsCancel = () => {
+  //   this.state.
+  // }
+
   render() {
     const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
     const sortedData = sorter(this.state.data,this.state.keysShown.map(graph => graph.key))
     return (
-
       <div style={{textAlign: 'center'}}>
-        { !!this.state.data.length ? (
-
-          <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-            <div style={{width: '90%',display: 'inline-block'}}>
-              {this.getBatteryPercentage(this.state.data[0].battery) >= 80 ? (
-                <FaBattery4 style={{display: 'block',float: 'right'}} size={60} color='green'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 60 ? (
-                <FaBattery3 style={{display: 'block',float: 'right'}} size={60} color='green'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 40 ? (
-                <FaBattery2 style={{display: 'block',float: 'right'}} size={60} color='yellow'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 20 ? (
-                <FaBattery1 style={{display: 'block',float: 'right'}} size={60} color='red'/>
-              ): this.getBatteryPercentage(this.state.data[0].battery) >= 0 ? (
-                <FaBattery0 style={{display: 'block',float: 'right'}} size={60} color='red'/>
-              ): 'Inavlid battery data'}
-            </div>
-            <div style={{width: '100%',display: 'block'}}>
-              {!this.state.loaderShown ? (
-                <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-                <h5 style={{height: '45px',width: '14%',display: 'inline-block'}}>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
-              <MuiThemeProvider>
-                <Slider style={{width: '85%',display: 'inline-block'}}
-                min={1}
-                max={24}
-                step={1}
-                value={this.state.hoursBack}
-                onChange={(event,value) => {
-                  this.defaultChange = value
-                  this.handleSlider(value)
-                }}
-                onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
-              />
-              </MuiThemeProvider>
-              </div>
-              ): (
-                <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
-              )}
-            </div>
-             {sortedGraphs.length > 0 ? (
-               <DeviceSettingsDialog
-                 handleGraphDelete={this.handleGraphDelete}
-                 handleGraphAdd={this.handleGraphAdd}
-                 sortedGraphs={sortedGraphs}/>
-             ) : (
-               <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
-             )}
-             {this.state.keysShown.length > 0 ? (
-               <div style={{display: 'flex',flexDirection: 'row',width: '100%',justifyContent: 'space-around'}}>
-                 {this.state.keysShown.map(keyShown => (
-                   <div style={{textAlign: 'center'}} key={keyShown.key} >
-                     <p>{keyShown.displayTitle}</p>
-                     <h3><b>{sortedData[keyShown.key].values[0].value} {keyShown.unit}</b></h3>
-                   </div>
-                 ))}
-                 {/*<DeviceInfoTable sortedData={sortedData} keysShown={this.state.keysShown}/>*/}
-               </div>
-             ) : (<h1>Please Select Attributes to Display</h1>)}
-             <br/>
-             <br/>
-             <br/>
-          <div className='graph-with-select' style={{height: '800px'}}>
-            <div className='graph-select' style={{display: 'flex',flexDirection: 'column',height: '40%',width: '25%',float: 'left'}}>
-              <Menu>
-                {this.state.keysShown.map(keyShown => (
-                  <div key={`${keyShown.key}Graph`}>
-                    {keyShown.key === this.state.selectedGraphKey ? (
-                      <MenuItem
-                        style={{backgroundColor: 'linear-gradient(0deg, blue, white)'}}
-                        onTouchTap={() => this.handleGraphSelect(keyShown.key)}
-                        primaryText={keyShown.displayTitle}/>
-                    ) : (
-                      <MenuItem
-                        onTouchTap={() => this.handleGraphSelect(keyShown.key)}
-                        primaryText={keyShown.displayTitle}/>
-                    ) }
+        {this.state.data ? (
+          <div>
+            { !!this.state.data.length ? (
+              <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
+                <br/>
+                <br/>
+                <br/>
+                <h1>{this.deviceData.name ? this.deviceData.name : 'No Name'}</h1>
+                <div style={{width: '90%',display: 'inline-block'}}>
+                  {this.getBatteryPercentage(this.state.data[0].battery) >= 80 ? (
+                    <FaBattery4 style={{display: 'block',float: 'right'}} size={60} color='green'/>
+                  ): this.getBatteryPercentage(this.state.data[0].battery) >= 60 ? (
+                    <FaBattery3 style={{display: 'block',float: 'right'}} size={60} color='green'/>
+                  ): this.getBatteryPercentage(this.state.data[0].battery) >= 40 ? (
+                    <FaBattery2 style={{display: 'block',float: 'right'}} size={60} color='yellow'/>
+                  ): this.getBatteryPercentage(this.state.data[0].battery) >= 20 ? (
+                    <FaBattery1 style={{display: 'block',float: 'right'}} size={60} color='red'/>
+                  ): this.getBatteryPercentage(this.state.data[0].battery) >= 0 ? (
+                    <FaBattery0 style={{display: 'block',float: 'right'}} size={60} color='red'/>
+                  ): 'Inavlid battery data'}
+                </div>
+                <Paper
+                  style={{width: '80%',margin: 'auto'}}
+                  zDepth={1}>
+                  <br/>
+                  <h2>Current Status</h2>
+                  <div style={{width: '100%',display: 'block'}}>
+                    {!this.state.loaderShown ? (
+                      <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
+                      <h5 style={{height: '45px',width: '14%',display: 'inline-block'}}>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
+                    <MuiThemeProvider>
+                      <Slider style={{width: '85%',display: 'inline-block'}}
+                      min={1}
+                      max={24}
+                      step={1}
+                      value={this.state.hoursBack}
+                      onChange={(event,value) => {
+                        this.defaultChange = value
+                        this.handleSlider(value)
+                      }}
+                      onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
+                    />
+                    </MuiThemeProvider>
+                    </div>
+                    ): (
+                      <CircularProgress />
+                    )}
                   </div>
-                ))}
-              </Menu>
-            </div>
-            {console.log('sorted data',sortedData)}
-            {console.log('selectedGraphKey',this.state.selectedGraphKey)}
-            <div
-              className='graph'
-              style={{height: '80%',width: '60%',float: 'right',marginRight: '20px'}}>
-              {this.state.selectedGraphKey ? (
-                <LineGraph
-                graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}
-                values={sortedData[this.state.selectedGraphKey].values}/>
-              ) : ('Select Attribute to graph')}
-            </div>
+                 {sortedGraphs.length > 0 ? (
+                   <DeviceSettingsDialog
+                     updateDevice={updateDevice}
+                     handleGraphDelete={this.handleGraphDelete}
+                     handleGraphAdd={this.handleGraphAdd}
+                     sortedGraphs={sortedGraphs}
+                     deviceData={this.deviceData}
+                     />
+                 ) : (
+                   <CircularProgress />
+                 )}
+                 {this.state.keysShown.length > 0 ? (
+                   <div style={{display: 'flex',flexDirection: 'row',width: '100%',justifyContent: 'space-around'}}>
+                     {this.state.keysShown.map(keyShown => (
+                       <div style={{textAlign: 'center'}} key={keyShown.key} >
+                         <p>{keyShown.displayTitle}</p>
+                         <h3><b>{sortedData[keyShown.key].values[0].value} {keyShown.unit}</b></h3>
+                       </div>
+                     ))}
+                     {/*<DeviceInfoTable sortedData={sortedData} keysShown={this.state.keysShown}/>*/}
+                   </div>
+                 ) : (<h1>Please Select Attributes to Display</h1>)}
+                 </Paper>
+                 <br/>
+                 <br/>
+                 <br/>
+              <Paper
+                style={{width: '80%',margin: 'auto'}}
+                zDepth={1}>
+                <br/>
+                <h2>Data analysis</h2>
+                <h5>{/* last data recieved minutes ago xxx*/}</h5>
+                <div className='graph-with-select' style={{height: '800px'}}>
+                  <div className='graph-select' style={{display: 'flex',flexDirection: 'column',height: '40%',width: '25%',float: 'left'}}>
+                    <Menu>
+                      {this.state.keysShown.map(keyShown => (
+                        <div key={`${keyShown.key}Graph`}>
+                          {keyShown.key === this.state.selectedGraphKey ? (
+                            <MenuItem
+                              style={{backgroundColor: 'linear-gradient(0deg, blue, white)'}}
+                              onTouchTap={() => this.handleGraphSelect(keyShown.key)}
+                              primaryText={keyShown.displayTitle}/>
+                          ) : (
+                            <MenuItem
+                              onTouchTap={() => this.handleGraphSelect(keyShown.key)}
+                              primaryText={keyShown.displayTitle}/>
+                          ) }
+                        </div>
+                      ))}
+                    </Menu>
+                  </div>
+                  <div
+                    className='graph'
+                    style={{height: '80%',width: '60%',float: 'right',marginRight: '20px'}}>
+                    {this.state.selectedGraphKey ? (
+                      <LineGraph
+                      graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}
+                      values={sortedData[this.state.selectedGraphKey].values}/>
+                    ) : ('Select Attribute to graph')}
+                  </div>
+                </div>
+              </Paper>
+              </div>
+            ) : <h3>No Data Associated with this device</h3>}
           </div>
-          </div>
-        ) : <MuiThemeProvider><CircularProgress /></MuiThemeProvider>}
+        ) : (
+          <CircularProgress />
+        )}
       </div>
     )
   }

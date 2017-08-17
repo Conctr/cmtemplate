@@ -29,7 +29,6 @@ class HomePage extends Component {
   }
 
   handleDeleteCluster = (clusterId) => {
-    // console.log('haiiii')
     this.setState({clusters: this.state.clusters.filter(cluster => {
       return cluster.id !== clusterId
     })})

@@ -27,7 +27,7 @@ class DevicePage extends Component {
                           this.props.handleModalClose()
                           this.props.selectDevice(device.device_id)
                         }} label="Select"/>}
-                        primaryText={device.device_id}
+                        primaryText={device.name ? device.name : device.device_id}
                         key={device.device_id}
                         // primaryTogglesNestedList={true}
                         nestedListStyle={{backgroundColor: '#d3d3d3'}}

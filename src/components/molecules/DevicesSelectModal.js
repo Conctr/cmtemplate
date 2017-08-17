@@ -27,14 +27,14 @@ export default class SelectDevices extends React.Component{
         onTouchTap={ this.handleClose }
       />
     ]
-
+    let selectedDeviceData = this.props.devicesData.find(device => (device.device_id === this.props.selectedDevice))
     return (
       <MuiThemeProvider>
         <div>
           <div style={{width: '30%',marginLeft: 'auto',marginRight: 'auto'}}>
             <RaisedButton
               fullWidth={ true }
-              label={!this.props.selectedDevice ? 'Choose Device' : `Device:${this.props.selectedDevice}`}
+              label={!this.props.selectedDevice ? 'Choose Device' : `Device:${selectedDeviceData.name ? (selectedDeviceData.name) : (selectedDeviceData.device_id)}`}
               onTouchTap={ this.handleOpen } />
           </div>
           <Dialog

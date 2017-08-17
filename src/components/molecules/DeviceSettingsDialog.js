@@ -3,8 +3,9 @@ import React from 'react';
 import Drawer from 'material-ui/Drawer';
 import ChipContainer from './ChipContainer';
 import RaisedButton from '../atoms/RaisedButton';
+import TextField from '../atoms/TextField';
 
-export default class DrawerSimpleExample extends React.Component {
+export default class DeviceSettingsDialog extends React.Component {
 
   constructor(props) {
     super(props);
@@ -15,7 +16,15 @@ export default class DrawerSimpleExample extends React.Component {
 
   handleClose = () => this.setState({open: false});
 
+  onInputChange = (e, newValue) => {
+    this.setState({
+      [e.target.id]: newValue
+    })
+  }
+
   render() {
+    let deviceData = this.props.deviceData
+    console.log(this.state.deviceName)
     return (
       <div>
         <RaisedButton
@@ -25,11 +34,21 @@ export default class DrawerSimpleExample extends React.Component {
         <Drawer open={this.state.open}
         openSecondary={true}
         width={400}>
+        <TextField
+          id='deviceName'
+          defaultValue={deviceData.name}
+          floatingLabelText="Device Name"
+          onChange={this.onInputChange}
+          onEnterKeyDown={() =>
+            this.props.updateDevice(deviceData.id,{new_name: this.state.deviceName})
+          }
+          />
         <ChipContainer
          handleGraphDelete={this.props.handleGraphDelete}
          handleGraphAdd={this.props.handleGraphAdd}
          sortedGraphs={this.props.sortedGraphs}/>
          <RaisedButton label="Close" onClick={this.handleClose}/>
+
         </Drawer>
       </div>
     );

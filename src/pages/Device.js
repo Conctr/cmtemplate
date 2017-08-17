@@ -156,6 +156,18 @@ determineGraphsWithClass = (allGraphs) => {
       return graph
     })
   }
+
+  handleGraphAdd = (graphKey) => {
+    let elementToAdd = this.allGraphs.find(graph => graph.key === graphKey)
+    this.setState({
+      graphsShown: this.state.graphsShown.concat(elementToAdd)
+    })
+    this.allGraphs = this.allGraphs.map(graph => {
+      graph.display = false
+      return graph
+    })
+  }
+
   handleGraphAdd = (graphKey) => {
     let elementToAdd = this.allGraphs.find(graph => graph.key === graphKey)
     this.setState({

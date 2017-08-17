@@ -11,10 +11,25 @@ export function getAll() {
     throw Error(error.response.data.error)})
 }
 
+//https://api.staging.conctr.com/consumers/admin/{app_id}/devices/{device_id}
+export function getSingle(deviceId) {
+  return api.get(`/consumers/admin/${REACT_APP_APP_ID}/devices/${deviceId}`)
+  .then(res =>res.data.data)
+    .catch(error => {
+      throw Error(error.response.data.error)})
+    }
 export function getModel(deviceId) {
-    return api.get(`/consumers/admin/${REACT_APP_APP_ID}/devices/${deviceId}/model`)
+  return api.get(`/consumers/admin/${REACT_APP_APP_ID}/devices/${deviceId}/model`)
   .then(res =>
     res.data.data.events)
-  .catch(error => {
-    throw Error(error.response.data.error)})
+    .catch(error => {
+      throw Error(error.response.data.error)})
+    }
+
+
+export function update(deviceId,conditions) {
+  return api.patch(`/consumers/admin/${REACT_APP_APP_ID}/devices/${deviceId}`, conditions)
+.then(res => res.data)
+.catch(error => {
+  throw Error(error.response.data.error)})
 }
