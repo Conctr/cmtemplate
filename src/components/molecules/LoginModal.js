@@ -1,8 +1,9 @@
 import React from 'react'
-import MuiThemeProvider from '../../styles/WimoThemeProvider'
+import WimoThemeProvider from '../../styles/WimoThemeProvider'
 import Dialog from 'material-ui/Dialog'
-import FlatButton from '../atoms/FlatButton'
-import RaisedButton from '../atoms/RaisedButton'
+import FlatButton from 'material-ui/RaisedButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import FormsyForm from '../molecules/FormsyForm'
 
 export default class LoginModal extends React.Component{
 
@@ -38,14 +39,14 @@ export default class LoginModal extends React.Component{
     ]
 
     return (
-      <MuiThemeProvider>
+      <WimoThemeProvider>
         <div>
           <RaisedButton
             fullWidth={ true }
-            label='login'
-            onTouchTap={ this.handleOpen } />
+            label='Log in'
+            onTouchTap={ this.handleOpen }
+          />
           <Dialog
-            title='Log in!'
             actions={ actions }
             modal={ true }
             open={ this.state.open }
@@ -54,10 +55,13 @@ export default class LoginModal extends React.Component{
             contentClassName={ 'login-modal-content' } 
             overlayClassName={ 'login-modal-overlay' }
             paperClassName={ 'login-modal-paper' }
-            titleClassName={ 'login-modal-title' } >
+            titleClassName={ 'login-modal-title' }
+          >
+            <h3>Log In</h3>
+            <FormsyForm />
           </Dialog>
         </div>
-      </MuiThemeProvider>
+    </WimoThemeProvider>
     )
   }
 }

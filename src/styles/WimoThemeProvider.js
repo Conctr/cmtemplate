@@ -1,26 +1,12 @@
-import React, { Component } from 'react'
-import { red800 } from 'material-ui/styles/colors'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import React from 'react'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { wimoTheme } from './WimoTheme';
 
-const wimoTheme = getMuiTheme({
-  palette: {
-    textColor: red800
-  },
-  tabs: {
-    backgroundColor: red800
-  }
-})
-
-class WimoThemeProvider extends Component {
+export default function WimoThemeProvider (props){
   
-  render() {
     return (
       <MuiThemeProvider muiTheme={ wimoTheme }>
-        { this.props.children }
+        { props.children }
       </MuiThemeProvider>
     )
-  }
 }
-
-export default WimoThemeProvider

@@ -15,6 +15,9 @@ import {
 } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { wimoTheme } from './styles/WimoTheme'
 const tokenKey = 'userToken'
 const savedToken = localStorage.getItem(tokenKey)
 setApiToken(savedToken)
@@ -78,79 +81,82 @@ class App extends Component {
     }
     return (
       <Router>
-        <main>
-          <NavBar
-            signedIn={ !!this.state.token }
-            logOut={
-              () => this.setToken(null)
-            }
-          />
-          <ToastContainer
-            position="top-right"
-            hideProgressBar={ false }
-            newestOnTop={ false }
-            closeOnClick
-          />
-          <Route
-            render={
-              ({ location }) => <p style={{ textAlign: 'left' }}>
-                { location.pathname }
-              </p>
-            }
-          />
-          <Switch>
-            { !!this.state.token ?
-              (
-                <Route
-                  exact path='/'
-                  render={
-                    () => <HomePage
-                      handleError={ this.handleError }
-                    />
-                  }
-                />
-              ) : (
-                <Route
-                  exact path='/'
-                  render={
-                    () => <LoginPage
-                      setToken={ this.setToken }
-                      onSignIn={ this.handleSignIn }
-                      onRegister={ this.handleRegister }
-                    />
-                  }
-                />
-              )
-            }
+        {/* set app theme*/}
+        <MuiThemeProvider muiTheme={ wimoTheme }>
+          <main>
+            <NavBar
+              signedIn={ !!this.state.token }
+              logOut={
+                () => this.setToken(null)
+              }
+            />
+            <ToastContainer
+              position="top-right"
+              hideProgressBar={ false }
+              newestOnTop={ false }
+              closeOnClick
+            />
             <Route
-              exact path='/devices/:deviceId'
               render={
-                ({ match }) => {
-                  const deviceId = match.params.deviceId
-                  return (
-                    <DevicePage
-                      handleError={ this.handleError }
-                      deviceId={ deviceId }
-                    />
-                  )
+                ({ location }) => <p style={{ textAlign: 'left' }}>
+                  { location.pathname }
+                </p>
+              }
+            />
+            <Switch>
+              { !!this.state.token ?
+                (
+                  <Route
+                    exact path='/'
+                    render={
+                      () => <HomePage
+                        handleError={ this.handleError }
+                      />
+                    }
+                  />
+                ) : (
+                  <Route
+                    exact path='/'
+                    render={
+                      () => <LoginPage
+                        setToken={ this.setToken }
+                        onSignIn={ this.handleSignIn }
+                        onRegister={ this.handleRegister }
+                      />
+                    }
+                  />
+                )
+              }
+              <Route
+                exact path='/devices/:deviceId'
+                render={
+                  ({ match }) => {
+                    const deviceId = match.params.deviceId
+                    return (
+                      <DevicePage
+                        handleError={ this.handleError }
+                        deviceId={ deviceId }
+                      />
+                    )
+                  }
                 }
-              }
-            />
-            <Route
-              path='/test'
-              render={
-                () => (<TestPage/>)
-              }
-            />
-            <Route
-              render={
-                ({ location }) => <p>{
-                  location.pathname
-                } not found</p>
-              }
-            />
-          </Switch>
-        </main>
+              />
+              <Route
+                path='/test'
+                render={
+                  () => (<TestPage/>)
+                }
+              />
+              <Route
+                render={
+                  ({ location }) => <p>{
+                    location.pathname
+                  } not found</p>
+                }
+              />
+            </Switch>
+          </main>
+        </MuiThemeProvider>
       </Router>
     )
   }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import * as oauthApi from '../api/oAuth'
+import RaisedButton from 'material-ui/RaisedButton'
+import CircularProgress from 'material-ui/CircularProgress'
 import TextField from '../components/atoms/TextField'
-import RaisedButton from '../components/atoms/RaisedButton'
-import CircularProgress from '../components/atoms/CircularProgress'
 import LoginModal from '../components/molecules/LoginModal'
-import Logo from '../imgs/wimo-logo-3.svg'
+import logo from '../imgs/wimo-logo.svg'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -57,11 +57,12 @@ class LoginPage extends Component {
           ) : (
               <div className='login-dialogue'>
                 <img
-                  src={ Logo } alt='wimo logo' className='login-logo' />
+                  src={ logo } alt='wimo logo' className='login-logo' />
                 <div>
                   <div className='login-text-fields'>
                     <TextField
-                      id={ 'email' }
+                      id='email'
+                      floatingLabelText='Email'
                       fullWidth={ true }
                       onChange={ this.onInputChange }
                       onEnterKeyDown={
@@ -71,7 +72,8 @@ class LoginPage extends Component {
                       hintText='Email'
                     />
                     <TextField
-                      id={ 'password' }
+                      id='password'
+                      floatingLabelText='Password'
                       fullWidth={ true }
                       onChange={ this.onInputChange }
                       onEnterKeyDown={
@@ -83,25 +85,25 @@ class LoginPage extends Component {
                     />
                   </div>
                   <RaisedButton
-                    className="login-page-button"
-                    label="Log in"
+                    className='login-page-button'
+                    label='Log in'
                     onTouchTap={
                       () => this.submitToAuth(this.props.onSignIn)
                     }
                   />
                   <RaisedButton
-                    className="login-page-button"
-                    label="Log in with Google"
+                    className='login-page-button'
+                    label='Log in with Google'
                     onTouchTap={
                       () => oauthApi.signIn('signin')
                     }
                   />
                   <RaisedButton
-                    className ="login-page-button"
-                    label="Register"
+                    className ='login-page-button'
+                    label='Register'
                     fullWidth={ true }
                   />
-                  <LoginModal className="login-modal" />
+                  <LoginModal className='login-modal' />
                 </div>
               </div>
             )

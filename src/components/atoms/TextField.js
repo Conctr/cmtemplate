@@ -1,8 +1,7 @@
 import React from 'react'
-import WimoThemeProvider from '../../styles/WimoThemeProvider'
-import TextField from 'material-ui/TextField'
+import Field from 'material-ui/TextField'
 
-export default function Text(props) {
+export default function TextField(props) {
 
   let mutableProps = {...props}
   let handleKey = mutableProps.onEnterKeyDown
@@ -18,11 +17,9 @@ export default function Text(props) {
   }
 
   return (
-    <WimoThemeProvider>
-      <TextField
-        { ...mutableProps } 
-        onKeyDown={ handleKeyDown }
-      />
-    </WimoThemeProvider> 
+    <Field
+      { ...mutableProps } 
+      onKeyDown={ handleKeyDown }
+    />
   )
 }
