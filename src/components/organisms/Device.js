@@ -175,7 +175,7 @@ determineGraphsWithClass = (allGraphs) => {
         { !!this.state.data.length ? (
 
           <div className='paper-data' style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-          
+
             <BatteryIcon batteryPercentage={this.getBatteryPercentage(this.state.data[0].battery)} />
 
             <div style={{width: '100%',display: 'block'}}>
