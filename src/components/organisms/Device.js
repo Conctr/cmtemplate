@@ -259,8 +259,15 @@ determineGraphsWithClass = (allGraphs) => {
                 values={sortedData[this.state.selectedGraphKey].values}
                 rangeX={sortedData[this.state.selectedGraphKey].rangeX}
                 rangeY={sortedData[this.state.selectedGraphKey].rangeY}
-                upperlimit={22}
-                lowerlimit={12}/>
+                upperlimit={
+                  this.state.selectedGraphKey === 'temperature' ? 22 : 
+                  this.state.selectedGraphKey === 'humidity' ? 70 : null
+                }
+                lowerlimit={
+                  this.state.selectedGraphKey === 'temperature' ? 12 : 
+                  this.state.selectedGraphKey === 'humidity' ? 50 : null
+                }
+                />
               ) : ('Select Attribute to graph')}
             </div>
           </div>

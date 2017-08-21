@@ -54,7 +54,7 @@ export default class NavBar extends React.Component {
           <VictoryAxis dependentAxis
             label={`${this.props.graphPreference.displayTitle} (${this.props.graphPreference.unit})`}
             style={{
-              axisLabel: { padding: 40 }
+              axisLabel: { padding: 50 }
             }}
 
           />
@@ -76,37 +76,41 @@ export default class NavBar extends React.Component {
                 return `${moment(d.x).format("h[:]mm A")}
                 ${this.props.graphPreference.displayTitle}: ${(d.y).toFixed(2)}${this.props.graphPreference.unit}`
               }}
-          />          
-          <VictoryArea 
-            name="HigherLimit"
-            domainPadding={{ x: [-30, -30] }}
-            style={{
-              data: {
-                  fill: "red", fillOpacity: 0.2
-              }
-            }}
-            data={[
-              {x: moment(this.props.values[this.props.values.length -1].ts).subtract(30,'minutes').toDate(), y:  this.props.upperlimit},
-              {x: moment(this.props.values[0].ts).add(30,'minutes').toDate(), y:  this.props.upperlimit}
-            ]}
-            y0={ (d) => 60}
           />
-          <VictoryArea 
-            name="LowerLimit"
-            domainPadding={{ x: [-30, -30] }}
-            style={{
-              data: {
-                  fill: "blue", fillOpacity: 0.2
-              }
-            }}
-            data={[
-              {x: moment(this.props.values[this.props.values.length -1].ts).subtract(30,'minutes').toDate(), y:  this.props.lowerlimit},
-              {x: moment(this.props.values[0].ts).add(30,'minutes').toDate(), y: this.props.lowerlimit}
-            ]}
-            y0={ (d) => -99}
-          />
-            {/*
-            */}
+          { !!this.props.upperlimit ? (          
+            <VictoryArea 
+              name="HigherLimit"
+              domainPadding={{ x: [-30, -30] }}
+              style={{
+                data: {
+                    fill: "red", fillOpacity: 0.2
+                }
+              }}
+              data={[
+                {x: moment(this.props.values[this.props.values.length -1].ts).subtract(30,'minutes').toDate(), y:  this.props.upperlimit},
+                {x: moment(this.props.values[0].ts).add(30,'minutes').toDate(), y:  this.props.upperlimit}
+              ]}
+              y0={ (d) => 60}
+            />
+          ) : false }
+
+          { !!this.props.lowerlimit ? (          
+            <VictoryArea 
+              name="LowerLimit"
+              domainPadding={{ x: [-30, -30] }}
+              style={{
+                data: {
+                    fill: "blue", fillOpacity: 0.2
+                }
+              }}
+              data={[
+                {x: moment(this.props.values[this.props.values.length -1].ts).subtract(30,'minutes').toDate(), y:  this.props.lowerlimit},
+                {x: moment(this.props.values[0].ts).add(30,'minutes').toDate(), y: this.props.lowerlimit}
+              ]}
+              y0={ (d) => -99}
+            />                 
+          ) : false }
+
 {/* 
 
           <GraphBoundary 
