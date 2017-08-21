@@ -3,9 +3,7 @@ import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/RaisedButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from '../atoms/TextField.js'
-import Divider from 'material-ui/Divider'
 import logo from '../../imgs/wimo-logo.svg'
-import GoogleIcon from 'react-icons/lib/fa/google'
 
 export default class LoginModal extends React.Component{
 

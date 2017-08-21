@@ -16,7 +16,6 @@ import {
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { wimoTheme } from './styles/WimoTheme'
 const tokenKey = 'userToken'
 const savedToken = localStorage.getItem(tokenKey)

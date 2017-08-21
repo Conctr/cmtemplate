@@ -21,17 +21,9 @@
   max-width: 85%;
 }
 
-.login-page-button {
-  margin: 10px 0 10px 0;
-}
-
 .login-logo {
   max-width: 85%;
   padding-bottom: 20px;
-}
-
-.login-page-button {
-  min-width: 150px;
 }
 
 .welcome-container {
@@ -55,6 +47,7 @@
 .login-button {
   width: 85%;
   margin: 7px 0 7px;
+  min-width: 150px;
 }
 
 .register-modal-button {
