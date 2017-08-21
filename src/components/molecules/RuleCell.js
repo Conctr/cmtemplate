@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField'
 
-class ClusterRuleCell extends Component{
+export default class RuleCell extends Component{
 
   constructor(props) {
     super(props);
@@ -13,13 +13,14 @@ class ClusterRuleCell extends Component{
     }
   }
 
-  handleToggleChange = (event,changedBool) => {
+  handleToggleChange = (changedBool) => {
     this.setState({
       enabled: changedBool
     })
   }
 
   componentDidMount(){
+    console.log(('cell data',this.props.cellData))
     let returnVal = ''
     if(this.props.cellData) {
       returnVal = this.props.cellData
@@ -40,21 +41,25 @@ class ClusterRuleCell extends Component{
         <div style={{width: '50px'}}>
           <MuiThemeProvider>
             <Toggle
-            defaultToggled={this.state.enabled}
-            onToggle={(e,inputChecked) =>
-              this.props.onToggle(this.props.identifier,this.props.condition,inputChecked)
-            }
+            toggled={this.state.enabled}
+            onToggle={(e,inputChecked) =>{
+              this.props.onToggle(this.props.identifier,this.props.condition,inputChecked,this.state.value)
+              this.handleToggleChange(inputChecked)
+            }}
             />
           </MuiThemeProvider>
         </div>
         <div>
           <MuiThemeProvider>
             <TextField
-              onChange={(event,newValue) => this.props.changeRule(this.props.identifier,this.props.condition,newValue)}
+              value={this.state.value}
+              onChange={(event,newValue) => {
+                this.setState({value: newValue})
+                this.props.changeRule(this.props.identifier,this.props.condition,newValue)
+              }}
               style={{width: '40px'}}
-              disabled={!this.state.enabled}
               floatingLabelText={this.props.text}
-              disabled={this.state.enabled}
+              disabled={!this.state.enabled}
             />
           </MuiThemeProvider>
         </div>
@@ -62,5 +67,3 @@ class ClusterRuleCell extends Component{
     )
   }
 }
-
-export default ClusterRuleCell
