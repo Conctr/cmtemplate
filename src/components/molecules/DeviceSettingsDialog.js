@@ -4,7 +4,7 @@ import Drawer from 'material-ui/Drawer';
 import ChipContainer from './ChipContainer';
 import RaisedButton from '../atoms/RaisedButton';
 import TextField from '../atoms/TextField';
-
+import RulesUI from './RulesUI'
 export default class DeviceSettingsDialog extends React.Component {
 
   constructor(props) {
@@ -47,6 +47,12 @@ export default class DeviceSettingsDialog extends React.Component {
          handleGraphDelete={this.props.handleGraphDelete}
          handleGraphAdd={this.props.handleGraphAdd}
          sortedGraphs={this.props.sortedGraphs}/>
+          <RulesUI/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
          <RaisedButton label="Close" onClick={this.handleClose}/>
 
         </Drawer>

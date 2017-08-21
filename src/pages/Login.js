@@ -8,6 +8,7 @@ import logo from '../imgs/wimo-logo.svg'
 import GoogleIcon from 'react-icons/lib/fa/google'
 import Divider from 'material-ui/Divider'
 
+
 class LoginPage extends Component {
   constructor(props) {
     super(props);
@@ -27,11 +28,11 @@ class LoginPage extends Component {
   callback({ email, password })
   }
 
-  //handle user input and set password and email state 
+  //handle user input and set password and email state
   onInputChange = (e, newValue) => {
-    this.setState({ 
-      [e.target.id]: newValue 
-    }) 
+    this.setState({
+      [e.target.id]: newValue
+    })
   }
 
   handleAccountChange = () => this.setState({

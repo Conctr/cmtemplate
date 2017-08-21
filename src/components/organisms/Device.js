@@ -220,34 +220,14 @@ determineGraphsWithClass = (allGraphs) => {
                 <br/>
                 <br/>
                 <h1>{this.deviceData.name ? this.deviceData.name : 'No Name'}</h1>
-                <BatteryIcon batteryPercentage={this.getBatteryPercentage(this.state.data[0].battery)} />
+                <div style={{width: '100%',display: 'flex',justifyContent: 'center'}}>
+                  <BatteryIcon batteryPercentage={this.getBatteryPercentage(this.state.data[0].battery)} />
+                </div>
                 <Paper
                   style={{width: '80%',margin: 'auto'}}
                   zDepth={1}>
                   <br/>
                   <h2>Current Status</h2>
-                  <div style={{width: '100%',display: 'block'}}>
-                    {!this.state.loaderShown ? (
-                      <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-                      <h5 style={{height: '45px',width: '14%',display: 'inline-block'}}>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
-                    <MuiThemeProvider>
-                      <Slider style={{width: '85%',display: 'inline-block'}}
-                      min={1}
-                      max={24}
-                      step={1}
-                      value={this.state.hoursBack}
-                      onChange={(event,value) => {
-                        this.defaultChange = value
-                        this.handleSlider(value)
-                      }}
-                      onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
-                    />
-                    </MuiThemeProvider>
-                    </div>
-                    ): (
-                      <CircularProgress />
-                    )}
-                  </div>
                  {sortedGraphs.length > 0 ? (
                    <DeviceSettingsDialog
                      updateDevice={updateDevice}
@@ -307,6 +287,28 @@ determineGraphsWithClass = (allGraphs) => {
                       graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}
                       values={sortedData[this.state.selectedGraphKey].values}/>
                     ) : ('Select Attribute to graph')}
+                  </div>
+                  <div style={{width: '100%',display: 'block'}}>
+                    {!this.state.loaderShown ? (
+                      <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
+                      <h5 style={{height: '45px',width: '14%',display: 'inline-block'}}>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
+                    <MuiThemeProvider>
+                      <Slider style={{width: '85%',display: 'inline-block'}}
+                      min={1}
+                      max={24}
+                      step={1}
+                      value={this.state.hoursBack}
+                      onChange={(event,value) => {
+                        this.defaultChange = value
+                        this.handleSlider(value)
+                      }}
+                      onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
+                    />
+                    </MuiThemeProvider>
+                    </div>
+                    ): (
+                      <CircularProgress />
+                    )}
                   </div>
                 </div>
               </Paper>
