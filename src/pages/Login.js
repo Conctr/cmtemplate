@@ -6,6 +6,7 @@ import TextField from '../components/atoms/TextField'
 import LoginModal from '../components/molecules/LoginModal'
 import logo from '../imgs/wimo-logo.svg'
 
+
 class LoginPage extends Component {
   constructor(props) {
     super(props);
@@ -25,11 +26,11 @@ class LoginPage extends Component {
   callback({ email, password })
   }
 
-  //handle user input and set password and email state 
+  //handle user input and set password and email state
   onInputChange = (e, newValue) => {
-    this.setState({ 
-      [e.target.id]: newValue 
-    }) 
+    this.setState({
+      [e.target.id]: newValue
+    })
   }
 
   handleAccountChange = () => this.setState({
