@@ -11,6 +11,9 @@ export const wimoTheme = getMuiTheme({
   textField: {
     focusColor: red800
   },
+  toolbar: {
+    backgroundColor: red800
+  },
   raisedButton: {
     primaryColor: red800
   }
