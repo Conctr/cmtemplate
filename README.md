@@ -1,4 +1,17 @@
-## Statement of Goals
+# Wimo
+
+## Why use Wimo to build your IoT app?
+
+1. One command to get started - Type yarn start to start development in your default browser.
+2. Rapid feedback - Each time you hit save, changes hot reload.
+3. One command line to check - All feedback is displayed on a single command line.
+4. No more JavaScript fatigue - Wimo uses the most popular and powerful libraries for working with React.
+5. Wimo is a working example app - The included app shows how this all works together.
+6. Automated production build - Type yarn build to do all this.
+7. Conctr C1 is an out-of-the-box IoT device that just needs batteries - turn on your C1, yarn start, change the name and you have a working production ready application ready for your sales team.
+
+
+## What is Wimo used for?
 
 
 **Wimo is a tool for maintaining wine quality when in storage.**
@@ -17,6 +30,16 @@ When in storage, large variations in temperature and humidity can affect wine qu
 Wimo is intended to solve the problem of wine spoilage when in storage, by allowing the owner to determine when changes are needed to storage conditions.
 
 
+## Get Started
+
+1. Clone the project. git clone https://github.com/conctr/wimo.git.
+2. Run the setup script. just type yarn.
+3. Run the example app. yarn start This will run the automated build process, start up a webserver, and open the application in your default browser. When doing development with this kit, this command will continue watching all your files. Every time you make a change the code is rebuilt.
+
+4. Review the example app. Wimo is a working example app that displays environmental data sent from the device. Note how all source code is placed under /src. The final built app is placed under /dist. These are the files you run in production.
+5. Delete the example app files. Once you're comfortable with how the example app works, you can delete those files and begin creating your own app.
+6. Having issues? See "Having Issues?" below.
+
 ## Functional Description
 
 
@@ -27,11 +50,21 @@ The device owner will provide a set of high and low ranges for a number of varia
 
 The system owner will also be able to view an online dashboard which allows them to review the historical environmental conditions to check for variances which may affect wine quality.  
 
+## Initial Machine Setup
+
+- Install Node 6.0.0 or greater - (7.0 or greater is recommended for optimal build performance). Need to run multiple versions of Node? Use nvm.
+- Install Git.
+- Disable safe write in your editor to assure hot reloading works properly.
+- On a Mac? You're all set. If you're on Linux or Windows, complete the steps for your OS below.
+- On Linux: Run this to increase the limit on the number of files Linux will watch. Here's why.
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+- On Windows: Install Python 2.7. Some node modules may rely on node-gyp, which requires Python on Windows.
+Install C++ Compiler. Browser-sync requires a C++ compiler on Windows. Visual Studio Express comes bundled with a free C++ compiler. Or, if you already have Visual Studio installed: Open Visual Studio and go to File -> New -> Project -> Visual C++ -> Install Visual C++ Tools for Windows Desktop. The C++ compiler is used to compile browser-sync (and perhaps other Node modules).
 
 ## User Interface
 
 ~~~
-Insert an image of the dashboard here
+Insert an image of the dashboard here with asciicast
 ~~~
 
 Include wireframes for each page, with detailed descriptions of:
@@ -42,7 +75,7 @@ Include wireframes for each page, with detailed descriptions of:
     Error handling.
     Dimensions and constraints.
 
-![Wimo](wimo-bg.png "sweetberry wine")
+[![asciicast](https://asciinema.org/a/14.png)](https://asciinema.org/a/14)
 
 These mockups have been created using Sketch, a common wireframing tool.
 
@@ -58,6 +91,18 @@ The UI description will look like:
             Row control 0 (e.g., image)
             Text Line 0
             Text Line 2
+
+
+## Having Issues?
+
+- Make sure you ran all steps in Get started including the initial machine setup.
+- Run yarn install - If you forget to do this, you'll see this: babel-node: command not found.
+- Install the latest version of Node. Or install Node 5.12.0 if you're having issues on Windows. Node 6 has issues on some Windows machines.
+- Make sure files with names that begin with a dot (.babelrc, .editorconfig, .eslintrc) are copied to the project directory root. This is easy to overlook if you copy this repository manually.
+- Don't run the project from a symbolic link. It may cause issues with file watches.
+- Delete any .eslintrc that you're storing in your user directory. Also, disable any ESLint plugin / custom rules that you've enabled within your editor. These will conflict with the ESLint rules defined in this project.
+- Make sure you don't have NODE_ENV set to production on your machine. If you do then the development dependencies won't be installed. 
+
 
 ## Technologies Used
 
@@ -173,3 +218,4 @@ All updates should include the following information:
     What was the team just working on?
     What is the team member currently working on?
     What will the development team work on next?
+
