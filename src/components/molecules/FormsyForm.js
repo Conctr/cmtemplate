@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import Formsy from 'formsy-react'
+import TextField from '../atoms/TextField'
 
 class FormsyForm extends Component {
-
-  constructor() {
-    super()
-    this.state = {
-      canSubmit: false
-    }
+  state = {
+    canSubmit: false
   }
 
-  enableButton = () => {
+  enableButton() {
     this.setState({
       canSubmit: true
     })

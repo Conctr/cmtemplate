@@ -81,7 +81,7 @@ class App extends Component {
     }
     return (
       <Router>
-        {/* set app theme*/}
+        {/* apply app theme*/}
         <MuiThemeProvider muiTheme={ wimoTheme }>
           <main>
             <NavBar
@@ -95,13 +95,6 @@ class App extends Component {
               hideProgressBar={ false }
               newestOnTop={ false }
               closeOnClick
-            />
-            <Route
-              render={
-                ({ location }) => <p style={{ textAlign: 'left' }}>
-                  { location.pathname }
-                </p>
-              }
             />
             <Switch>
               { !!this.state.token ?

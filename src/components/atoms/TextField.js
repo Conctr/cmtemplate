@@ -18,7 +18,7 @@ export default function TextField(props) {
 
   return (
     <Field
-      { ...mutableProps } 
+      { ...mutableProps }
       onKeyDown={ handleKeyDown }
     />
   )

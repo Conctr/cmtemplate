@@ -1,9 +1,11 @@
 import React from 'react'
-import WimoThemeProvider from '../../styles/WimoThemeProvider'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/RaisedButton'
 import RaisedButton from 'material-ui/RaisedButton'
-import FormsyForm from '../molecules/FormsyForm'
+import TextField from '../atoms/TextField.js'
+import Divider from 'material-ui/Divider'
+import logo from '../../imgs/wimo-logo.svg'
+import GoogleIcon from 'react-icons/lib/fa/google'
 
 export default class LoginModal extends React.Component{
 
@@ -22,16 +24,6 @@ export default class LoginModal extends React.Component{
   render() {
     const actions = [
       <FlatButton
-        label='Log in with email address'
-        primary={ true }
-        onTouchTap={ this.handleClose }
-      />,
-      <FlatButton
-        label='Log in with Google'
-        primary={ true }
-        onTouchTap={ this.handleClose }
-      />,
-      <FlatButton
         label='Cancel'
         primary={ false }
         onTouchTap={ this.handleClose }
@@ -39,29 +31,58 @@ export default class LoginModal extends React.Component{
     ]
 
     return (
-      <WimoThemeProvider>
-        <div>
-          <RaisedButton
+      <div
+        className='register-modal-button'
+      >
+        <RaisedButton
+          className='login-button'
+          fullWidth={ true }
+          label='Register'
+          onTouchTap={ this.handleOpen }
+        />
+        <Dialog
+          actions={ actions }
+          modal={ true }
+          open={ this.state.open }
+          actionsContainerClassName={ 'login-modal-actions' }
+          bodyClassName={ 'login-modal-body' }
+          contentClassName={ 'login-modal-content' } 
+          overlayClassName={ 'login-modal-overlay' }
+          paperClassName={ 'login-modal-paper' }
+          titleClassName={ 'login-modal-title' }
+        >
+          <img src={ logo } alt='wimo logo' className='login-logo' />
+          <TextField
+            className='login-textfield'
+            id='email'
+            floatingLabelText='Email'
             fullWidth={ true }
-            label='Log in'
-            onTouchTap={ this.handleOpen }
+            onChange={ this.onInputChange }
+            onEnterKeyDown={
+              () => this.submitToAuth(this.props.onSignIn)
+            }
+            value={ this.state.email }
+            hintText='Email'
           />
-          <Dialog
-            actions={ actions }
-            modal={ true }
-            open={ this.state.open }
-            actionsContainerClassName={ 'login-modal-actions' }
-            bodyClassName={ 'login-modal-body' }
-            contentClassName={ 'login-modal-content' } 
-            overlayClassName={ 'login-modal-overlay' }
-            paperClassName={ 'login-modal-paper' }
-            titleClassName={ 'login-modal-title' }
-          >
-            <h3>Log In</h3>
-            <FormsyForm />
-          </Dialog>
-        </div>
-    </WimoThemeProvider>
+          <TextField
+            id='password'
+            floatingLabelText='Password'
+            fullWidth={ true }
+            onChange={ this.onInputChange }
+            onEnterKeyDown={
+              () => this.submitToAuth(this.props.onSignIn)
+            }
+            value={ this.state.email }
+            hintText='Password'
+          />
+          <RaisedButton
+            className='log-in-button'
+            label='Log in with email address'
+            primary={ true }
+            onTouchTap={ this.handleClose }
+          />
+        </Dialog>
+      </div>
     )
   }
 }

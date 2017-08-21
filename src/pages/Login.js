@@ -5,6 +5,8 @@ import CircularProgress from 'material-ui/CircularProgress'
 import TextField from '../components/atoms/TextField'
 import LoginModal from '../components/molecules/LoginModal'
 import logo from '../imgs/wimo-logo.svg'
+import GoogleIcon from 'react-icons/lib/fa/google'
+import Divider from 'material-ui/Divider'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -85,24 +87,26 @@ class LoginPage extends Component {
                     />
                   </div>
                   <RaisedButton
-                    className='login-page-button'
+                    className='login-button'
                     label='Log in'
                     onTouchTap={
                       () => this.submitToAuth(this.props.onSignIn)
                     }
                   />
                   <RaisedButton
-                    className='login-page-button'
+                    className='login-button'
                     label='Log in with Google'
                     onTouchTap={
                       () => oauthApi.signIn('signin')
                     }
+                    icon={<GoogleIcon className='button-icon'/>}
                   />
-                  <RaisedButton
-                    className ='login-page-button'
-                    label='Register'
-                    fullWidth={ true }
-                  />
+                  <div className='login-divider'>
+                    <Divider />
+                  </div>
+                  <div className='login-text'>
+                    Device but no account?
+                  </div>
                   <LoginModal className='login-modal' />
                 </div>
               </div>
