@@ -10,6 +10,7 @@ import MenuItem from '../atoms/MenuItem';
 import DeviceInfoTable from '../molecules/DeviceInfoTable';
 import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog';
 import BatteryIcon from '../atoms/Battery'
+import moment from 'moment'
 
 function sorter(data,dataKeys){
   /* function to sort data into
@@ -31,14 +32,17 @@ function sorter(data,dataKeys){
 
         sortedValues[key].values.push({ts: time,value: data[i][key]})
       }
-    let allX = sortedValues[key].values.map(val => (val.ts))
+    let allX = sortedValues[key].values.map(val => (moment(val.ts)))
     let allY = sortedValues[key].values.map(val => (val.value))
     let minX = Math.min.apply(null, allX)
     let maxX = Math.max.apply(null, allX)
     let minY = Math.min.apply(null, allY)
     let maxY = Math.max.apply(null, allY)
 
-    sortedValues[key]['rangeX'] = {min: minX,max: maxX}
+    sortedValues[key]['rangeX'] = {
+      min: moment(minX).toDate(),
+      max: moment(maxX).toDate()
+    }
     sortedValues[key]['rangeY'] = {min: minY,max: maxY}
 
   })
@@ -168,6 +172,7 @@ determineGraphsWithClass = (allGraphs) => {
   render() {
     const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
     const sortedData = sorter(this.state.data,this.state.keysShown.map(graph => graph.key))
+    // console.log('sorted Data',sortedData)
     return (
 
       <div style={{textAlign: 'center'}}>
@@ -249,7 +254,10 @@ determineGraphsWithClass = (allGraphs) => {
               {this.state.selectedGraphKey ? (
                 <LineGraph
                 graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}
-                values={sortedData[this.state.selectedGraphKey].values}/>
+                values={sortedData[this.state.selectedGraphKey].values}
+                rangeX={sortedData[this.state.selectedGraphKey].rangeX}
+                upperlimit={22}
+                lowerlimit={12}/>
               ) : ('Select Attribute to graph')}
             </div>
           </div>
