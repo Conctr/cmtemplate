@@ -16,7 +16,7 @@ class DevicePage extends Component {
 
   render() {
     return (
-        <div style={{paddingTop: '30px'}}>
+        <div className='devices-list'>
           <MuiThemeProvider>
             <MobileTearSheet>
                 <List>

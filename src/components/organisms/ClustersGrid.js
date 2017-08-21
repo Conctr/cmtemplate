@@ -19,7 +19,7 @@ class DevicePage extends Component {
           <GridList
             cellHeight={180}
             cols={3}
-            style={{width: '100%', height: 450, overflowY: 'auto'}}
+            className='grid-list'
             >
             <Subheader>Clusters</Subheader>
           {this.state.clusters.map(cluster => (
@@ -32,18 +32,18 @@ class DevicePage extends Component {
               subtitle={<span>Devices Count:<b>{Math.floor(Math.random() * (10 - 1))}</b></span>}
               actionIcon={<div style={{marginRight: '10px'}}>
                 <RaisedButton
-                  style={{marginRight: '10px'}}
+                  className='grid-raised-button'
                   label='View'/>
                 <RaisedButton
                   onTouchTap={() => this.props.deleteCluster(cluster.id)}
-                  style={{marginRight: '10px'}}
+                  className='grid-raised-button'
                   label='Delete'/>
               </div>}
             >
               <img
-              style={{backgroundSize: 'cover'}}
+              className='img-grid-raised-button'
               src={
-                cluster.imgPath ? 
+                cluster.imgPath ?
                 `${cluster.imgPath}` :
                 'https://mysticpants.com/_include/img/CONCTR-LOGO-MUSTARD-LINE.png'
               }

@@ -28,12 +28,8 @@ class ClusterRuleCell extends Component{
     }
 
     return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center'
-      }}>
-      <div style={{width: '50px'}}>
+      <div className='cluster-rule-cell'>
+      <div className='cluster-rule-cell-v'>
       <MuiThemeProvider>
         <Toggle
         defaultToggled={this.state.enabled}
@@ -45,7 +41,7 @@ class ClusterRuleCell extends Component{
       <MuiThemeProvider>
         <TextField
           onChange={(event,newValue) => {this.setState({value: newValue})}}
-          style={{width: '40px'}}
+          className='text-field-cluster'
           floatingLabelText={this.props.text}
           disabled={!this.state.enabled}
         />

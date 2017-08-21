@@ -1,0 +1,14 @@
+
+.cluster-rule-cell {
+  display: 'flex';
+  flexDirection: 'row';
+  alignItems: 'center';
+
+    .cluster-rule-cell-v {
+      width: '50px';
+
+        .text-field-cluster {
+          width: '40px';
+        }
+    }
+}

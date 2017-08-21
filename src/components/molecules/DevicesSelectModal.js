@@ -31,7 +31,7 @@ export default class SelectDevices extends React.Component{
     return (
       <MuiThemeProvider>
         <div>
-          <div style={{width: '30%',marginLeft: 'auto',marginRight: 'auto'}}>
+          <div className='devices-select-modal'>
             <RaisedButton
               fullWidth={ true }
               label={!this.props.selectedDevice ? 'Choose Device' : `Device:${this.props.selectedDevice}`}

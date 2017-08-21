@@ -1,0 +1,54 @@
+
+.device-render {
+  textAlign: 'center';
+
+  .paper-data {
+    textAlign: 'center';
+    marginLeft: 'auto';
+    marginRight: 'auto';
+
+    .paper-data-in {
+      width: '100%';
+      display: 'block';
+
+      .paper-data-div {
+        height: '90px';
+        width: '80%';
+        display: 'flex';
+        flexDirection: 'row';
+        alignItems: 'center';
+        marginLeft: 'auto';
+        marginRight: 'auto';
+
+        .paper-data-h5 {
+          height: '45px';
+          width: '14%';
+          display: 'inline-block';
+
+          .paper-data-slider {
+            width: '85%';
+            display: 'inline-block';
+          }
+        }
+
+        .paper-data-key {
+          display: 'flex';
+          flexDirection: 'row';
+          width: '100%';
+          justifyContent: 'space-around';
+
+          .paper-data-key-map {
+            textAlign: 'center'
+          }
+        }
+          .graph {
+            height: '80%';
+            width: '60%';
+            float: 'right';
+            marginRight: '20px';
+
+          }
+      }
+    }
+  }
+}

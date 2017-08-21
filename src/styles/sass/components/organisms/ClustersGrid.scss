@@ -1,0 +1,14 @@
+
+.grid-list {
+  width: '100%';
+  height: 450;
+  overflowY: 'auto';
+
+  .grid-raised-button {
+    marginRight: '10px';
+
+    .img-grid-raised-button {
+      backgroundSize: 'cover';
+    }
+  }
+}

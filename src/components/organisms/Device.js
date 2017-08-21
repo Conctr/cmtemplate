@@ -170,20 +170,20 @@ determineGraphsWithClass = (allGraphs) => {
     const sortedData = sorter(this.state.data,this.state.keysShown.map(graph => graph.key))
     return (
 
-      <div style={{textAlign: 'center'}}>
+      <div className='device-render'>
 
         { !!this.state.data.length ? (
 
-          <div className='paper-data' style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
+          <div className='paper-data'>
 
             <BatteryIcon batteryPercentage={this.getBatteryPercentage(this.state.data[0].battery)} />
 
-            <div style={{width: '100%',display: 'block'}}>
+            <div className='paper-data-in'>
               {!this.state.loaderShown ? (
-                <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-                <h5 style={{height: '45px',width: '14%',display: 'inline-block'}}>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
+                <div className='paper-data-div'>
+                <h5 className='paper-data-h5'>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
               <MuiThemeProvider>
-                <Slider style={{width: '85%',display: 'inline-block'}}
+                <Slider className='paper-data-slider'
                 min={1}
                 max={24}
                 step={1}
@@ -209,9 +209,9 @@ determineGraphsWithClass = (allGraphs) => {
                <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
              )}
              {this.state.keysShown.length > 0 ? (
-               <div style={{display: 'flex',flexDirection: 'row',width: '100%',justifyContent: 'space-around'}}>
+               <div className='paper-data-key'>
                  {this.state.keysShown.map(keyShown => (
-                   <div style={{textAlign: 'center'}} key={keyShown.key} >
+                   <div className='paper-data-key-map' key={keyShown.key} >
                      <p>{keyShown.displayTitle}</p>
                      <h3><b>{sortedData[keyShown.key].values[0].value} {keyShown.unit}</b></h3>
                    </div>
@@ -243,9 +243,7 @@ determineGraphsWithClass = (allGraphs) => {
             </div>
             {console.log('sorted data',sortedData)}
             {console.log('selectedGraphKey',this.state.selectedGraphKey)}
-            <div
-              className='graph'
-              style={{height: '80%',width: '60%',float: 'right',marginRight: '20px'}}>
+            <div className='graph'>
               {this.state.selectedGraphKey ? (
                 <LineGraph
                 graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}

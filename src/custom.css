@@ -185,6 +185,76 @@ body {
 .chip-display-true {
   backgroundColor: 'red'; }
 
+.cluster-rule-cell {
+  display: 'flex';
+  flexDirection: 'row';
+  alignItems: 'center'; }
+  .cluster-rule-cell .cluster-rule-cell-v {
+    width: '50px'; }
+    .cluster-rule-cell .cluster-rule-cell-v .text-field-cluster {
+      width: '40px'; }
+
+.cluster-rule-row {
+  width: '100%'; }
+  .cluster-rule-row .cluster-rule-row-group {
+    display: 'flex';
+    flexDirection: 'row'; }
+
+.devices-list {
+  paddingTop: '30px'; }
+
+.devices-select-modal {
+  width: '30%';
+  marginLeft: 'auto';
+  marginRight: 'auto'; }
+
+
 .navbar-toolbar-title {
   marginLeft: '100px';
   fontSize: '2em'; }
+
+.grid-list {
+  width: '100%';
+  height: 450;
+  overflowY: 'auto'; }
+  .grid-list .grid-raised-button {
+    marginRight: '10px'; }
+    .grid-list .grid-raised-button .img-grid-raised-button {
+      backgroundSize: 'cover'; }
+
+.device-render {
+  textAlign: 'center'; }
+  .device-render .paper-data {
+    textAlign: 'center';
+    marginLeft: 'auto';
+    marginRight: 'auto'; }
+    .device-render .paper-data .paper-data-in {
+      width: '100%';
+      display: 'block'; }
+      .device-render .paper-data .paper-data-in .paper-data-div {
+        height: '90px';
+        width: '80%';
+        display: 'flex';
+        flexDirection: 'row';
+        alignItems: 'center';
+        marginLeft: 'auto';
+        marginRight: 'auto'; }
+        .device-render .paper-data .paper-data-in .paper-data-div .paper-data-h5 {
+          height: '45px';
+          width: '14%';
+          display: 'inline-block'; }
+          .device-render .paper-data .paper-data-in .paper-data-div .paper-data-h5 .paper-data-slider {
+            width: '85%';
+            display: 'inline-block'; }
+        .device-render .paper-data .paper-data-in .paper-data-div .paper-data-key {
+          display: 'flex';
+          flexDirection: 'row';
+          width: '100%';
+          justifyContent: 'space-around'; }
+          .device-render .paper-data .paper-data-in .paper-data-div .paper-data-key .paper-data-key-map {
+            textAlign: 'center'; }
+        .device-render .paper-data .paper-data-in .paper-data-div .graph {
+          height: '80%';
+          width: '60%';
+          float: 'right';
+          marginRight: '20px'; }

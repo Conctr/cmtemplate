@@ -17,10 +17,10 @@ export default class ClusterRuleRow extends Component{
   render() {
     return (
       <MuiThemeProvider>
-        <Toolbar style={{width: '100%'}}>
+        <Toolbar className='cluster-rule-row'>
            <ToolbarTitle text={this.props.title}/>
            <ToolbarSeparator />
-           <ToolbarGroup style={{display: 'flex',flexDirection: 'row'}}>
+           <ToolbarGroup className='cluster-rule-row-group'>
                <ClusterRuleCell
                  removeClusterRule={this.props.removeClusterRule}
                  checkClusterRule={this.props.checkClusterRule}
