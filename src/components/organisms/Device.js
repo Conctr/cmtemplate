@@ -43,8 +43,10 @@ function sorter(data,dataKeys){
       min: moment(minX).toDate(),
       max: moment(maxX).toDate()
     }
-    sortedValues[key]['rangeY'] = {min: minY,max: maxY}
-
+    sortedValues[key]['rangeY'] = {
+      min: minY,
+      max: maxY
+    }
   })
   }
   return sortedValues
@@ -256,6 +258,7 @@ determineGraphsWithClass = (allGraphs) => {
                 graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}
                 values={sortedData[this.state.selectedGraphKey].values}
                 rangeX={sortedData[this.state.selectedGraphKey].rangeX}
+                rangeY={sortedData[this.state.selectedGraphKey].rangeY}
                 upperlimit={22}
                 lowerlimit={12}/>
               ) : ('Select Attribute to graph')}

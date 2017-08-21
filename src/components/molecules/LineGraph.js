@@ -37,8 +37,10 @@ export default class NavBar extends React.Component {
           containerComponent={<VictoryVoronoiContainer/>}
           animate={{ duration: 500 }}
           theme={VictoryTheme.material}
-          style={{ parent: { border: "2px solid black"} }}
+          style={{ parent: { border: "2px solid white"} }}
           padding={{ top: 40, bottom: 40, left: 60, right: 40 }}
+          domain={{x: [this.props.rangeX.min, this.props.rangeX.max], y: [this.props.rangeY.min, this.props.rangeY.max]}}
+          domainPadding={30}
         >
           <VictoryAxis
             orientation="bottom"
@@ -77,9 +79,10 @@ export default class NavBar extends React.Component {
           />          
           <VictoryArea 
             name="HigherLimit"
+            domainPadding={{ x: [-30, -30] }}
             style={{
               data: {
-                  fill: "red", fillOpacity: 0.3
+                  fill: "red", fillOpacity: 0.2
               }
             }}
             data={[
@@ -90,9 +93,10 @@ export default class NavBar extends React.Component {
           />
           <VictoryArea 
             name="LowerLimit"
+            domainPadding={{ x: [-30, -30] }}
             style={{
               data: {
-                  fill: "blue", fillOpacity: 0.3
+                  fill: "blue", fillOpacity: 0.2
               }
             }}
             data={[
