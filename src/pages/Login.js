@@ -3,7 +3,7 @@ import * as oauthApi from '../api/oAuth'
 import RaisedButton from 'material-ui/RaisedButton'
 import CircularProgress from 'material-ui/CircularProgress'
 import TextField from '../components/atoms/TextField'
-import LoginModal from '../components/molecules/LoginModal'
+import RegistrationModal from '../components/molecules/RegistrationModal'
 import logo from '../imgs/wimo-logo.svg'
 import GoogleIcon from 'react-icons/lib/fa/google'
 import Divider from 'material-ui/Divider'
@@ -106,9 +106,9 @@ class LoginPage extends Component {
                     <Divider />
                   </div>
                   <div className='login-text'>
-                    Device but no account?
+                    Device, but no account?
                   </div>
-                  <LoginModal className='login-modal' />
+                  <RegistrationModal className='login-modal' />
                 </div>
               </div>
             )

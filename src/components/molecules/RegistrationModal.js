@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from '../atoms/TextField.js'
 import logo from '../../imgs/wimo-logo.svg'
 
-export default class LoginModal extends React.Component{
+export default class RegistrationModal extends React.Component{
 
   state={
     open: false
@@ -37,46 +37,51 @@ export default class LoginModal extends React.Component{
           fullWidth={ true }
           label='Register'
           onTouchTap={ this.handleOpen }
+          primary={ true }
         />
         <Dialog
           actions={ actions }
           modal={ true }
           open={ this.state.open }
-          actionsContainerClassName={ 'login-modal-actions' }
-          bodyClassName={ 'login-modal-body' }
-          contentClassName={ 'login-modal-content' } 
-          overlayClassName={ 'login-modal-overlay' }
-          paperClassName={ 'login-modal-paper' }
-          titleClassName={ 'login-modal-title' }
+          actionsContainerClassName='login-modal-actions'
+          bodyClassName='login-modal-body'
+          contentClassName='register-modal-content'
+          overlayClassName='login-modal-overlay'
+          paperClassName='login-modal-paper'
+          titleClassName='login-modal-title'
         >
           <img src={ logo } alt='wimo logo' className='login-logo' />
+          <h2>User Registration</h2>
           <TextField
-            className='login-textfield'
-            id='email'
-            floatingLabelText='Email'
+            className='modal-textfield'
+            id='firstName'
+            floatingLabelText='First Name'
             fullWidth={ true }
             onChange={ this.onInputChange }
             onEnterKeyDown={
               () => this.submitToAuth(this.props.onSignIn)
             }
             value={ this.state.email }
-            hintText='Email'
+            hintText='First Name'
           />
           <TextField
-            id='password'
-            floatingLabelText='Password'
+            className='modal-textfield'
+            id='lastName'
+            floatingLabelText='Last Name'
             fullWidth={ true }
             onChange={ this.onInputChange }
             onEnterKeyDown={
               () => this.submitToAuth(this.props.onSignIn)
             }
             value={ this.state.email }
-            hintText='Password'
+            hintText='Last Name'
           />
-          <RaisedButton
+          <br />
+          <br />
+          <FlatButton
             className='log-in-button'
-            label='Log in with email address'
-            primary={ true }
+            label='Next'
+            primary={ false }
             onTouchTap={ this.handleClose }
           />
         </Dialog>
