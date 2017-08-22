@@ -17,15 +17,13 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { wimoTheme } from './styles/WimoTheme'
-import { loadFunctions } from './api/device'
+import { loadFunctions as loadDeviceApiFunctions } from './api/device'
 const tokenKey = 'userToken'
 const savedToken = localStorage.getItem(tokenKey)
 setApiToken(savedToken)
 injectTapEventPlugin()
 
 class App extends Component {
-
-  loadFunctions('unloadToken',setToken(null))
 
   state = {
     token: savedToken,
@@ -76,6 +74,9 @@ class App extends Component {
     if (nextState.error === this.state.error && nextState.error != null){
       this.setState({ error: null })
     }
+  }
+  componentDidMount(){
+    loadDeviceApiFunctions('unloadToken',this.setToken(null))
   }
 
   render() {

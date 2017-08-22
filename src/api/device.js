@@ -2,10 +2,10 @@ import api from './init'
 
 const REACT_APP_APP_ID = '2bf8fdd3b3144deea63aa54402938d68' //process.env.REACT_APP_APP_ID
 
-let callbacks;
+let unloadToken;
 
 export function loadFunctions(key,callback) {
-  callbacks[key] = callback
+  unloadToken = callback
 }
 
 export function getAll() {
@@ -13,7 +13,6 @@ export function getAll() {
   .then(res =>
     res.data)
   .catch(error => {
-    let unloadToken = callbacks['unloadToken']
     unloadToken()
     throw Error(error.response.data.error)})
 }
