@@ -28,6 +28,20 @@ export default class NavBar extends React.Component {
   }
 
   render() {
+    let yAxisEnd,yAxisStart
+    if ( this.props.upperlimit && this.props.rangeY.max < this.props.upperlimit ){
+      yAxisEnd = this.props.upperlimit 
+    } else {
+      yAxisEnd = this.props.rangeY.max
+    } 
+    if ( this.props.lowerlimit && (this.props.rangeY.min < this.props.lowerlimit) ) {
+      yAxisStart = this.props.rangeY.min
+    } else {
+      yAxisStart = this.props.lowerlimit
+    } 
+console.log('range y max',this.props.rangeY.min)
+console.log('Upper limit',this.props.upperlimit)
+console.log('y axis end',yAxisEnd)
     return (
       <div>
         <VictoryChart
@@ -36,7 +50,7 @@ export default class NavBar extends React.Component {
           theme={VictoryTheme.material}
           style={{ parent: { border: "2px solid white"} }}
           padding={{ top: 40, bottom: 40, left: 60, right: 40 }}
-          domain={{x: [this.props.rangeX.min, this.props.rangeX.max], y: [this.props.rangeY.min, this.props.rangeY.max]}}
+          domain={{x: [this.props.rangeX.min, this.props.rangeX.max], y: [yAxisStart, yAxisEnd]}}
           domainPadding={30}
         >
           { !!this.props.upperlimit ? (          
@@ -52,7 +66,7 @@ export default class NavBar extends React.Component {
                 {x: moment(this.props.values[this.props.values.length -1].ts).subtract(30,'minutes').toDate(), y:  this.props.upperlimit},
                 {x: moment(this.props.values[0].ts).add(30,'minutes').toDate(), y:  this.props.upperlimit}
               ]}
-              y0={ (d) => 60}
+              y0={ (d) => 100}
             />
           ) : false }
 
