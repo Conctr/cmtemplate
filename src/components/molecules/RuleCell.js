@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import Toggle from 'material-ui/Toggle';
+import Toggle from 'material-ui/Toggle'
 import TextField from 'material-ui/TextField'
 
 export default class RuleCell extends Component{
@@ -39,29 +38,25 @@ export default class RuleCell extends Component{
         alignItems: 'center'
       }}>
         <div style={{width: '50px'}}>
-          <MuiThemeProvider>
-            <Toggle
+          <Toggle
             toggled={this.state.enabled}
             onToggle={(e,inputChecked) =>{
               this.props.onToggle(this.props.identifier,this.props.condition,inputChecked,this.state.value)
               this.handleToggleChange(inputChecked)
             }}
-            />
-          </MuiThemeProvider>
+          />
         </div>
         <div>
-          <MuiThemeProvider>
-            <TextField
-              value={this.state.value}
-              onChange={(event,newValue) => {
-                this.setState({value: newValue})
-                this.props.changeRule(this.props.identifier,this.props.condition,newValue)
-              }}
-              style={{width: '40px'}}
-              floatingLabelText={this.props.text}
-              disabled={!this.state.enabled}
-            />
-          </MuiThemeProvider>
+          <TextField
+            value={this.state.value}
+            onChange={(event,newValue) => {
+              this.setState({value: newValue})
+              this.props.changeRule(this.props.identifier,this.props.condition,newValue)
+            }}
+            style={{width: '40px'}}
+            floatingLabelText={this.props.text}
+            disabled={!this.state.enabled}
+          />
         </div>
       </div>
     )

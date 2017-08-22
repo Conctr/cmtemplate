@@ -16,5 +16,14 @@ export const wimoTheme = getMuiTheme({
   },
   raisedButton: {
     primaryColor: red800
+  },
+  slider: {
+    selectionColor: red800,
+    rippleColor: red800
+  },
+  toggle: {
+    thumbOnColor: red800,
+    thumbRequiredColor: red800,
+    trackOnColor: 'rgba(200, 45, 45, 0.5)'
   }
 })
