@@ -56,6 +56,21 @@ export default class NavBar extends React.Component {
             />
           ) : false }
 
+          { !!this.props.lowerlimit ? (          
+            <VictoryArea 
+              name="LowerLimit"
+              domainPadding={{ x: [-30, -30] }}
+              style={{
+                data: { fill: "#f9e9e9", fillOpacity: 1.0 }
+              }}
+              data={[
+                {x: moment(this.props.values[this.props.values.length -1].ts).subtract(30,'minutes').toDate(), y:  this.props.lowerlimit},
+                {x: moment(this.props.values[0].ts).add(30,'minutes').toDate(), y: this.props.lowerlimit}
+              ]}
+              y0={ (d) => -99}
+            />                 
+          ) : false }
+
           <VictoryAxis
             orientation="bottom"
             label="Time"
@@ -93,24 +108,15 @@ export default class NavBar extends React.Component {
                 ${this.props.graphPreference.displayTitle}: ${(d.y).toFixed(2)}${this.props.graphPreference.unit}`
               }}
           />
-
-          { !!this.props.lowerlimit ? (          
-            <VictoryArea 
-              name="LowerLimit"
-              domainPadding={{ x: [-30, -30] }}
-              style={{
-                data: {
-                    fill: "blue", fillOpacity: 0.2
-                }
-              }}
-              data={[
-                {x: moment(this.props.values[this.props.values.length -1].ts).subtract(30,'minutes').toDate(), y:  this.props.lowerlimit},
-                {x: moment(this.props.values[0].ts).add(30,'minutes').toDate(), y: this.props.lowerlimit}
-              ]}
-              y0={ (d) => -99}
-            />                 
-          ) : false }
         </VictoryChart>
+
+        { !!this.props.lowerlimit ? 
+          <p> Low {this.props.graphPreference.displayTitle} warning: {this.props.lowerlimit} </p>
+        : false } 
+        { !!this.props.upperlimit ? 
+          <p> High {this.props.graphPreference.displayTitle} warning: {this.props.upperlimit}</p> 
+        : false }
+
       </div>
     );
   }
