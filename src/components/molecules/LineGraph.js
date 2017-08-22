@@ -39,48 +39,13 @@ export default class NavBar extends React.Component {
           domain={{x: [this.props.rangeX.min, this.props.rangeX.max], y: [this.props.rangeY.min, this.props.rangeY.max]}}
           domainPadding={30}
         >
-          <VictoryAxis
-            orientation="bottom"
-            label="Time"
-            scale={{x: "time"}}
-            style={{
-              axisLabel: { padding: 25 }
-            }}
-            offsetY={40}
-          />
-          <VictoryAxis dependentAxis
-            label={`${this.props.graphPreference.displayTitle} (${this.props.graphPreference.unit})`}
-            style={{
-              axisLabel: { padding: 50 }
-            }}
-
-          />
-          <VictoryLine
-            style={{
-              data: { stroke: "#c43a31"},
-              parent: { border: "6px solid blue"}
-            }}
-            data={epochToTime(this.props.values)}
-          />
-          <VictoryScatter
-            style={{
-              data: { stroke: "#c43a31", strokeWidth: 2, fill: "white" }
-            }}
-            size={2}
-            data={epochToTime(this.props.values)}
-            labelComponent={<VictoryTooltip/>}
-            labels={(d) => {
-                return `${moment(d.x).format("h[:]mm A")}
-                ${this.props.graphPreference.displayTitle}: ${(d.y).toFixed(2)}${this.props.graphPreference.unit}`
-              }}
-          />
           { !!this.props.upperlimit ? (          
             <VictoryArea 
               name="HigherLimit"
               domainPadding={{ x: [-30, -30] }}
               style={{
                 data: {
-                    fill: "red", fillOpacity: 0.2
+                    fill: "#f9e9e9", fillOpacity: 1.0
                 }
               }}
               data={[
@@ -90,6 +55,44 @@ export default class NavBar extends React.Component {
               y0={ (d) => 60}
             />
           ) : false }
+
+          <VictoryAxis
+            orientation="bottom"
+            label="Time"
+            scale={{x: "time"}}
+            style={{
+              axisLabel: { padding: 25 },
+              grid: { stroke: "grey", strokeWidth: 1 }
+            }}
+            offsetY={40}
+          />
+          <VictoryAxis dependentAxis
+            label={`${this.props.graphPreference.displayTitle} (${this.props.graphPreference.unit})`}
+            style={{
+              axisLabel: { padding: 50 },
+              grid: { stroke: "grey", strokeWidth: 1 }
+            }}
+
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "black"},
+              parent: { border: "6px solid blue"}
+            }}
+            data={epochToTime(this.props.values)}
+          />
+          <VictoryScatter
+            style={{
+              data: { stroke: "black", strokeWidth: 1, fill: "white" }
+            }}
+            size={2}
+            data={epochToTime(this.props.values)}
+            labelComponent={<VictoryTooltip/>}
+            labels={(d) => {
+                return `${moment(d.x).format("h[:]mm A")}
+                ${this.props.graphPreference.displayTitle}: ${(d.y).toFixed(2)}${this.props.graphPreference.unit}`
+              }}
+          />
 
           { !!this.props.lowerlimit ? (          
             <VictoryArea 
