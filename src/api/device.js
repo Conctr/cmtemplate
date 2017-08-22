@@ -2,12 +2,18 @@ import api from './init'
 
 const REACT_APP_APP_ID = '2bf8fdd3b3144deea63aa54402938d68' //process.env.REACT_APP_APP_ID
 
+let unloadToken;
+
+export function loadFunctions(key,callback) {
+  unloadToken = callback
+}
 
 export function getAll() {
     return api.get(`/consumers/admin/${REACT_APP_APP_ID}/devices`)
   .then(res =>
     res.data)
   .catch(error => {
+    unloadToken()
     throw Error(error.response.data.error)})
 }
 

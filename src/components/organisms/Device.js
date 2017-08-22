@@ -292,7 +292,6 @@ determineGraphsWithClass = (allGraphs) => {
                     {!this.state.loaderShown ? (
                       <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
                       <h5 style={{height: '45px',width: '14%',display: 'inline-block'}}>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
-                    <MuiThemeProvider>
                       <Slider style={{width: '85%',display: 'inline-block'}}
                       min={1}
                       max={24}
@@ -304,7 +303,6 @@ determineGraphsWithClass = (allGraphs) => {
                       }}
                       onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
                     />
-                    </MuiThemeProvider>
                     </div>
                     ): (
                       <CircularProgress />

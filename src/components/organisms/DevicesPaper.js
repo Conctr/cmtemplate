@@ -46,9 +46,7 @@ class DevicePage extends Component {
             </Paper>
           </div>
         ) : (
-          <MuiThemeProvider>
-            <CircularProgress/>
-          </MuiThemeProvider>
+          <CircularProgress/>
         )}
       </div>
     )

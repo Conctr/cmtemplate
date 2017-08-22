@@ -61,31 +61,12 @@ class HomePage extends Component {
                 )}
               </div>
             ) : (
-              <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
+              <CircularProgress />
             )}
           </div>
         ) : (
           <h1>I dunno</h1>
         )}
-            <div style={{position: 'fixed',bottom: '0',width: '100%'}}>
-              <MuiThemeProvider>
-                <Tabs
-                  value={this.state.value}
-                  onChange={this.handleChange}
-                  >
-                  <Tab
-                    value="devices"
-                    label="My Devices"
-                    icon={<DevicesIcon/>}
-                  />
-                  <Tab
-                    value="clusters"
-                    label="My Clusters"
-                    icon={<ClusterIcon/>}
-                  />
-                </Tabs>
-              </MuiThemeProvider>
-            </div>
       </div>
     )
   }

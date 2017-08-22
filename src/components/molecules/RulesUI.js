@@ -17,7 +17,7 @@ const ruleRows = [{
 
 export default class RulesUI extends Component{
   state={
-    rules: {}
+    rules: {"temperature":{"LT":"23","GT":"32"},"humidity":{"GT":"23"},"pressure":{"GT":"21"}}
   }
 
   /*
@@ -46,8 +46,24 @@ export default class RulesUI extends Component{
     }
     this.setState({rules: rules})
   }
-  onToggle = (key,condition,value) => {
-    console.log('status',key,condition,value)
+  onToggle = (key,condition,toggleVal,fieldValue) => {
+    let rules = {...this.state.rules}
+    if(toggleVal){
+      if(fieldValue){
+        if(!rules[key]){
+          rules[key] = {}
+        }
+        rules[key][condition] = fieldValue
+      }
+    } else {
+      if(rules[key][condition]){
+        delete rules[key][condition]
+      }
+      if(Object.keys(rules[key]).length === 0 && rules[key].constructor === Object){
+        delete rules[key]
+      }
+    }
+    this.setState({rules: rules})
   }
 
   render() {
