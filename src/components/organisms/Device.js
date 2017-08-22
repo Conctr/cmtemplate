@@ -14,6 +14,7 @@ import MenuItem from '../atoms/MenuItem';
 import DeviceInfoTable from '../molecules/DeviceInfoTable';
 import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog';
 import BatteryIcon from '../atoms/Battery'
+import moment from 'moment'
 
 function sorter(data,dataKeys){
   /* function to sort data into
@@ -35,15 +36,21 @@ function sorter(data,dataKeys){
 
         sortedValues[key].values.push({ts: time,value: data[i][key]})
       }
-    let allX = sortedValues[key].values.map(val => (val.ts))
+    let allX = sortedValues[key].values.map(val => (moment(val.ts)))
     let allY = sortedValues[key].values.map(val => (val.value))
     let minX = Math.min.apply(null, allX)
     let maxX = Math.max.apply(null, allX)
     let minY = Math.min.apply(null, allY)
     let maxY = Math.max.apply(null, allY)
-
-    sortedValues[key]['rangeX'] = {min: minX,max: maxX}
-    sortedValues[key]['rangeY'] = {min: minY,max: maxY}
+    
+    sortedValues[key]['rangeX'] = {
+      min: moment(minX).toDate(),
+      max: moment(maxX).toDate()
+    }
+    sortedValues[key]['rangeY'] = {
+      min: minY,
+      max: maxY
+    }
 
   })
   }
@@ -318,8 +325,19 @@ determineGraphsWithClass = (allGraphs) => {
                     style={{height: '80%',width: '60%',float: 'right',marginRight: '20px'}}>
                     {this.state.selectedGraphKey ? (
                       <LineGraph
-                      graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}
-                      values={sortedData[this.state.selectedGraphKey].values}/>
+                        graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}
+                        values={sortedData[this.state.selectedGraphKey].values}
+                        rangeX={sortedData[this.state.selectedGraphKey].rangeX}
+                        rangeY={sortedData[this.state.selectedGraphKey].rangeY}
+                        upperlimit={
+                          this.state.selectedGraphKey === 'temperature' ? 22 : 
+                          this.state.selectedGraphKey === 'humidity' ? 70 : null
+                        }
+                        lowerlimit={
+                          this.state.selectedGraphKey === 'temperature' ? 12 : 
+                          this.state.selectedGraphKey === 'humidity' ? 50 : null
+                        }
+                      />
                     ) : ('Select Attribute to graph')}
                   </div>
                   <div style={{width: '100%',display: 'block'}}>

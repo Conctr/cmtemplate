@@ -58,6 +58,8 @@ export default class NavBar extends React.Component {
                 }
                 onRequestChange={this.handleOnRequestChange}
                 open={this.state.openMenu}
+                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
               >
                 <Link to={'/Blog'}>
                   <MenuItem primaryText="Blog" />

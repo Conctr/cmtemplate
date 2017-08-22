@@ -16,7 +16,7 @@ class HomePage extends Component {
   }
   handleChange = (value) => {
     this.setState({
-      value: value,
+      value: value
     });
   };
 
@@ -29,6 +29,7 @@ class HomePage extends Component {
       return cluster.id !== clusterId
     })})
   }
+
   render() {
     return (
       <div>
@@ -38,20 +39,27 @@ class HomePage extends Component {
             <p>Please select devices or clusters to continue</p>
           </div>
         ) : this.state.value === 'devices' ? (
-              <DevicesPaper handleError={this.props.handleError}/>
+          <DevicesPaper handleError={this.props.handleError}/>
         ) : this.state.value === 'clusters' ? (
           <div>
             <h1>Clusters</h1>
             {this.state.rules && JSON.stringify(this.state.rules)}
             {this.state.clusters ? (
               <div>
-                <NewClusterModal deviceIds={this.state.devicesData.data.map(device => (device.device_id))} addCluster={this.handleAddCluster}/>
+                <NewClusterModal
+                  deviceIds={
+                    this.state.devicesData.data.map(device => (
+                      device.device_id
+                    ))
+                  }
+                  addCluster={this.handleAddCluster}
+                />
                 {this.state.clusters.length > 0 ? (
                   <ClustersGrid
                     addCluster={this.handleAddCluster}
                     deleteCluster={this.handleDeleteCluster}
                     clusters={this.state.clusters}
-                    />
+                  />
                 ) : (
                   <h1>No clusters saved</h1>
                 )}
@@ -61,7 +69,7 @@ class HomePage extends Component {
             )}
           </div>
         ) : (
-          <h1>I dunno</h1>
+          false
         )}
       </div>
     )
