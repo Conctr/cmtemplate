@@ -76,7 +76,7 @@ class App extends Component {
     }
   }
   componentDidMount(){
-    loadDeviceApiFunctions('unloadToken',this.setToken(null))
+    loadDeviceApiFunctions('unloadToken',() => this.setToken(null))
   }
 
   render() {
