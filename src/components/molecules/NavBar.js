@@ -8,8 +8,7 @@ import { Link } from 'react-router-dom'
 import {
   Toolbar,
   ToolbarGroup,
-  ToolbarSeparator,
-  ToolbarTitle
+  ToolbarSeparator
 } from 'material-ui/Toolbar'
 import logo from '../../imgs/wimo-logo-y.svg'
 
@@ -59,6 +58,8 @@ export default class NavBar extends React.Component {
                 }
                 onRequestChange={this.handleOnRequestChange}
                 open={this.state.openMenu}
+                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
               >
                 <Link to={'/Blog'}>
                   <MenuItem primaryText="Blog" />
