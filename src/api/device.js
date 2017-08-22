@@ -1,4 +1,5 @@
 import api from './init'
+const request = require('request');
 
 const REACT_APP_APP_ID = '2bf8fdd3b3144deea63aa54402938d68' //process.env.REACT_APP_APP_ID
 
@@ -35,6 +36,25 @@ export function getModel(deviceId) {
 
 export function update(deviceId,conditions) {
   return api.patch(`/consumers/admin/${REACT_APP_APP_ID}/devices/${deviceId}`, conditions)
+.then(res => res.data)
+.catch(error => {
+  throw Error(error.response.data.error)})
+}
+
+export function getAlertSettings(deviceId,conditions) {
+  return new Promise((resolve, reject)=>{
+     request.get(`https://agent.electricimp.com/Vi6qlyFcB9sI/config`,(err,res) => {
+    resolve(JSON.parse(res.body,(key, value) =>
+  typeof value === 'number'
+    ? value.toString() // return value * 2 for numbers
+    : value     // return everything else unchanged
+).alerts);
+  })
+});
+}
+
+export function setAlertSettings(deviceId,conditions) {
+  return request.get(`https://agent.electricimp.com/Vi6qlyFcB9sI/config`, conditions)
 .then(res => res.data)
 .catch(error => {
   throw Error(error.response.data.error)})

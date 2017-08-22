@@ -8,8 +8,7 @@ import { Link } from 'react-router-dom'
 import {
   Toolbar,
   ToolbarGroup,
-  ToolbarSeparator,
-  ToolbarTitle
+  ToolbarSeparator
 } from 'material-ui/Toolbar'
 import logo from '../../imgs/wimo-logo-y.svg'
 

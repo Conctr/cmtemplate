@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from '../../styles/WimoThemeProvider';
 import Paper from '../atoms/Paper';
 import DevicesSelectModal from '../molecules/DevicesSelectModal';
 import Device from './Device';
@@ -28,11 +27,11 @@ class DevicePage extends Component {
 
   render() {
     return (
-      <div style={{width: '80%',margin: 'auto'}}>
+      <div style={{width: '95%',margin: 'auto',marginTop: '2.5%',marginBottom: '2.5%'}}>
         {this.state.devicesData ? (
           <div>
             <Paper
-            zDepth={5}>
+            zDepth={1}>
             <br/>
             <DevicesSelectModal
               selectedDevice={this.state.selectedDevice}
