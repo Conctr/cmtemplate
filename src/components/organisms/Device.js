@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import * as deviceWebSocket from '../../api/deviceWebSockets';
-import { getModel as getDeviceModel,update as updateDevice,getSingle as getDevice } from '../../api/device';
+import { getModel as getDeviceModel,
+  update as updateDevice,
+  getSingle as getDevice,
+  setAlertSettings as setDeviceAlertSettings,
+  getAlertSettings as getDeviceAlertSettings} from '../../api/device';
 import Slider from 'material-ui/Slider';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CircularProgress from '../atoms/CircularProgress';
 import LineGraph from '../molecules/LineGraph';
 import Menu from '../atoms/Menu';
@@ -23,6 +26,7 @@ function sorter(data,dataKeys){
     }
   }
   */
+
   let sortedValues = {}
   if(data != null) {
     dataKeys.forEach(key => {
@@ -39,7 +43,7 @@ function sorter(data,dataKeys){
     let maxX = Math.max.apply(null, allX)
     let minY = Math.min.apply(null, allY)
     let maxY = Math.max.apply(null, allY)
-    
+
     sortedValues[key]['rangeX'] = {
       min: moment(minX).toDate(),
       max: moment(maxX).toDate()
@@ -55,7 +59,7 @@ function sorter(data,dataKeys){
 }
 
 export default class DeviceInfo extends Component {
-
+  alertSettings;
   // Determines which graphs get rendered
   allGraphs = []
   deviceData = {}
@@ -66,19 +70,22 @@ export default class DeviceInfo extends Component {
       hoursBackShown:3,
       hoursBack: 3,
       loaderShown: false,
-      keysShown: [{key: "temperature", displayTitle: "temperature", unit: "°c", display: true},
-      {key: "humidity", displayTitle: "humidity", unit: "%", display: true},
-      {key: "pressure", displayTitle: "pressure", unit: "hPa", display: true}],
+      keysShown: [],
       selectedGraphKey: null
     };
     this.defaultChange = null;
   }
 
+  originalShownKeys;
+
   componentDidMount(){
+    this.getDeviceSettings()
     deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack,this.handleUpdateData)
-    Promise.all([getDeviceModel(this.props.deviceId),getDevice(this.props.deviceId)])
-    .then(([model,deviceData]) => {
+    Promise.all([getDeviceModel(this.props.deviceId),getDevice(this.props.deviceId),getDeviceAlertSettings()])
+    .then(([model,deviceData,deviceAlertSettings]) => {
       this.deviceData = deviceData
+      this.alertSettings = deviceAlertSettings
+      console.log('device alert settings',deviceAlertSettings)
       this.allGraphs = model.map(modelData => {
         return {
           displayTitle: modelData.title,
@@ -96,10 +103,13 @@ export default class DeviceInfo extends Component {
     this.setState({
       data: null
     })
+    this.getDeviceSettings()
     deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack,this.handleUpdateData)
-    Promise.all([getDeviceModel(this.props.deviceId),getDevice(this.props.deviceId)])
-    .then(([model,deviceData]) => {
+    Promise.all([getDeviceModel(this.props.deviceId),getDevice(this.props.deviceId),getDeviceAlertSettings()])
+    .then(([model,deviceData,deviceAlertSettings]) => {
       this.deviceData = deviceData
+      this.alertSettings = deviceAlertSettings
+      console.log('device alert settings',deviceAlertSettings)
       this.allGraphs = model.map(modelData => {
         return {
           displayTitle: modelData.title,
@@ -201,6 +211,38 @@ determineGraphsWithClass = (allGraphs) => {
     this.setState({selectedGraphKey: selectedGraphKey})
   }
 
+  saveGraphSettings = (object) => {
+    localStorage.setItem('graphPreference',JSON.stringify(object))
+    return object
+  }
+
+  getGraphSettings = () => {
+    console.log('localStorage.graphPreference',JSON.parse(localStorage.graphPreference))
+    return JSON.parse(localStorage.graphPreference)
+  }
+
+  getDeviceSettings = () => {
+    // Graph Preference
+    let graphPreference = this.getGraphSettings()
+    if(!graphPreference){
+      graphPreference = this.saveGraphSettings([
+        {"key":"temperature","displayTitle":"temperature","unit":"°c","display": true},
+        {"key":"humidity","displayTitle":"humidity","unit":"%","display": true},
+        {"key":"pressure","displayTitle":"pressure","unit":"hPa","display": true}
+      ])
+    }
+    this.originalShownKeys = graphPreference
+    this.setState({keysShown: graphPreference})
+  }
+
+  saveDeviceSettings = () => {
+
+  }
+
+  resetGraphsShown = () => {
+
+  }
+
   // // Save state of settings
   // handleSettingsEnter = () => {
   //   this.state.
@@ -217,6 +259,7 @@ determineGraphsWithClass = (allGraphs) => {
   render() {
     const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
     const sortedData = sorter(this.state.data,this.state.keysShown.map(graph => graph.key))
+    console.log('graphPreference',JSON.stringify(this.state.keysShown))
     return (
       <div style={{textAlign: 'center'}}>
         {this.state.data ? (
@@ -237,6 +280,9 @@ determineGraphsWithClass = (allGraphs) => {
                   <h2>Current Status</h2>
                  {sortedGraphs.length > 0 ? (
                    <DeviceSettingsDialog
+                     resetGraphsShown={this.resetGraphsShown}
+                     alertSettings={this.alertSettings}
+                     setDeviceAlertSettings={setDeviceAlertSettings}
                      updateDevice={updateDevice}
                      handleGraphDelete={this.handleGraphDelete}
                      handleGraphAdd={this.handleGraphAdd}
@@ -262,7 +308,7 @@ determineGraphsWithClass = (allGraphs) => {
                  <br/>
                  <br/>
               <Paper
-                style={{width: '80%',margin: 'auto'}}
+                style={{width: '90%',marginLeft: 'auto',marginRight: 'auto',marginBottom: '15px'}}
                 zDepth={1}>
                 <br/>
                 <h2>Data analysis</h2>
@@ -296,11 +342,11 @@ determineGraphsWithClass = (allGraphs) => {
                         rangeX={sortedData[this.state.selectedGraphKey].rangeX}
                         rangeY={sortedData[this.state.selectedGraphKey].rangeY}
                         upperlimit={
-                          this.state.selectedGraphKey === 'temperature' ? 22 : 
+                          this.state.selectedGraphKey === 'temperature' ? 22 :
                           this.state.selectedGraphKey === 'humidity' ? 70 : null
                         }
                         lowerlimit={
-                          this.state.selectedGraphKey === 'temperature' ? 12 : 
+                          this.state.selectedGraphKey === 'temperature' ? 12 :
                           this.state.selectedGraphKey === 'humidity' ? 50 : null
                         }
                       />

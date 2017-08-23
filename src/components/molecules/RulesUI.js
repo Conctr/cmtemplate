@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import RuleRow from '../molecules/RuleRow'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { getAlertSettings as getDeviceAlertSettings } from '../../api/device'
+import CircularProgress from 'material-ui/CircularProgress'
 import RaisedButton from '../atoms/RaisedButton'
 import TextField from 'material-ui/TextField'
 
@@ -14,12 +15,17 @@ const ruleRows = [{
   title: "Pressure",
   identifier: 'pressure'
 }]
+let originalAlertSettings;
 
 export default class RulesUI extends Component{
   state={
-    rules: {"temperature":{"LT":"23","GT":"32"},"humidity":{"GT":"23"},"pressure":{"GT":"21"}}
+    rules: {},
+    loading: true,
+    numberTo: '',
+    alertMessage: '',
   }
 
+  alertSendSettings;
   /*
   {
     "_ts":{ "gt": time, "lt": time},
@@ -46,6 +52,12 @@ export default class RulesUI extends Component{
     }
     this.setState({rules: rules})
   }
+
+  onInputChange = (e, newValue) => {
+    this.setState({
+      [e.target.id]: newValue
+    })
+  }
   onToggle = (key,condition,toggleVal,fieldValue) => {
     let rules = {...this.state.rules}
     if(toggleVal){
@@ -66,43 +78,74 @@ export default class RulesUI extends Component{
     this.setState({rules: rules})
   }
 
+  componentDidMount(){
+    getDeviceAlertSettings()
+    .then(alertSettings => {
+      console.log('alertSettings',alertSettings)
+      originalAlertSettings = alertSettings
+      console.log('Bawitaba de bang de bang',originalAlertSettings)
+      this.alertSendSettings = alertSettings.alertSettings
+      delete alertSettings.alertSettings
+      this.setState({
+        rules: alertSettings,
+        loading: false,
+        numberTo: this.alertSendSettings.to,
+        alertMessage: this.alertSendSettings.message,
+      })
+      console.log('Bawitaba de bang de bang',originalAlertSettings)
+    })
+  }
+
+  resetSettings = () => {
+    this.props.resetGraphsShown()
+    console.log('this.originalAlertSettings',this.originalAlertSettings.alertSettings)
+    // this.setState({
+    //   rules: alertSettings,
+    //   loading: false,
+    //   numberTo: this.alertSendSettings.to,
+    //   alertMessage: this.alertSendSettings.message,
+    // })
+  }
+
   render() {
-    console.log('rules',this.state.rules)
-    return (
-      <MuiThemeProvider>
-        <div>
+    console.log('rulesssss',JSON.stringify(this.state.rules))
+    return !this.state.loading ? (
+      <div>
         <h3>Alert Settings</h3>
-          {ruleRows.map(rowPreference => (
-            <div key={rowPreference.identifier}>
-            <RuleRow
-            onToggle={this.onToggle}
-            changeRule={this.changeRule}
-            ruleData={this.state.rules[rowPreference.identifier]}
-            title={rowPreference.title}
-            identifier={rowPreference.identifier}
-            />
-            <br/>
+            <div>
+              {ruleRows.map(rowPreference => (
+                <div key={rowPreference.identifier}>
+                <RuleRow
+                onToggle={this.onToggle}
+                changeRule={this.changeRule}
+                ruleData={this.state.rules[rowPreference.identifier]}
+                title={rowPreference.title}
+                identifier={rowPreference.identifier}
+                />
+                <br/>
+                </div>
+              ))}
             </div>
-          ))}
           <TextField
+            id='numberTo'
             floatingLabelText='Phone Number'
             type='number'
+            value={this.state.numberTo}
             onChange={
               (event,newString) => {
                 this.setState({imgPath: newString})
               }
             }/>
           <TextField
+            id='alertMessage'
             floatingLabelText='Message'
-            type='number'
-            onChange={
-              (event,newString) => {
-                this.setState({imgPath: newString})
-              }
-            }/>
+            value={this.state.alertMessage}
+            onChange={this.onInputChange}/>
           <RaisedButton label='Save Alert Settings'/>
-          </div>
-      </MuiThemeProvider>
+          <RaisedButton onClick={this.resetSettings} label='Cancel'/>
+      </div>
+    ) : (
+      <CircularProgress />
     )
   }
 }

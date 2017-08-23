@@ -1,11 +1,8 @@
-import React, { Component } from 'react'
-import CircularProgress from 'material-ui/CircularProgress'
-import { Tabs, Tab } from 'material-ui/Tabs'
-import ClusterIcon from 'react-icons/lib/ti/flow-children'
-import DevicesIcon from 'react-icons/lib/go/circuit-board'
-import NewClusterModal from '../components/organisms/NewClusterModal'
-import DevicesPaper from '../components/organisms/DevicesPaper'
-import ClustersGrid from '../components/organisms/ClustersGrid'
+import React, { Component } from 'react';
+import CircularProgress from 'material-ui/CircularProgress';
+import NewClusterModal from '../components/organisms/NewClusterModal';
+import DevicesPaper from '../components/organisms/DevicesPaper';
+import ClustersGrid from '../components/organisms/ClustersGrid';
 
 class HomePage extends Component {
   constructor(props){
