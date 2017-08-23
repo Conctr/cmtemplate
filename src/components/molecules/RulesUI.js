@@ -20,8 +20,8 @@ function makeNumberStringInt(object) {
   Object.keys(object).forEach(key => {
     Object.keys(object[key]).forEach(condition => {
       let conditionInt = object[key][condition]
-      if(parseInt(conditionInt) == conditionInt){
-        object[key][condition] = parseInt(conditionInt)
+      if(parseInt(conditionInt, 10) == conditionInt){
+        object[key][condition] = parseInt(conditionInt, 10)
         console.log('conditionInt',conditionInt)
       }
     })
