@@ -11,6 +11,7 @@ import {
   ToolbarSeparator
 } from 'material-ui/Toolbar'
 import logo from '../../imgs/wimo-logo-y.svg'
+import Avatar from 'material-ui/Avatar';
 
 export default class NavBar extends React.Component {
 
@@ -48,6 +49,9 @@ export default class NavBar extends React.Component {
               <ToolbarSeparator />
               <RaisedButton
                 onTouchTap={ this.handleOpenMenu }
+                icon={<Avatar
+                  src="http://i.telegraph.co.uk/multimedia/archive/03388/enfield_3388479b.jpg"
+                  size={30} />}
                 label='Dave Chappelle'
               />
               <IconMenu
