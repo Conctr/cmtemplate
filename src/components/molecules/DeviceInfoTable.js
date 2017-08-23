@@ -1,5 +1,5 @@
 import React from 'react'
-import Table from '../atoms/Table'
+import Table from 'material-ui/Table'
 import {
   TableBody,
   TableHeader,
@@ -34,7 +34,8 @@ export default function CustomTable(props) {
          </TableRowColumn>
          {props.keysShown.map(keyShown => (
            <TableRowColumn key={keyShown.key}>
-             {moment(props.sortedData[keyShown.key].values[0].ts).format('h:mm A')} <br/>
+             {moment(props.sortedData[keyShown.key].values[0].ts).format('h:mm A')}
+             <br/>
              {moment(props.sortedData[keyShown.key].values[0].ts).format('D/M/YYYY')}
            </TableRowColumn>
          ))}

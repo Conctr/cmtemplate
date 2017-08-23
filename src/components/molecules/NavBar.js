@@ -46,6 +46,7 @@ export default class NavBar extends React.Component {
             <ToolbarGroup>
               <ToolbarSeparator />
               <RaisedButton
+                primary={ true }
                 onTouchTap={ this.handleOpenMenu }
                 icon={
                   <Avatar

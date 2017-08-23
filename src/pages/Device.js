@@ -3,7 +3,6 @@ import * as deviceWebSocket from '../api/deviceWebSockets'
 import { getModel as getDeviceModel } from '../api/device'
 import CircularProgress from 'material-ui/CircularProgress'
 import Slider from 'material-ui/Slider'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Chip from 'material-ui/Chip';
 import FaBattery0 from 'react-icons/lib/fa/battery-0'
 import LineGraph from '../components/molecules/LineGraph'
@@ -265,7 +264,6 @@ determineGraphsWithClass = (allGraphs) => {
               {!this.state.loaderShown ? (
                 <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
                 <h5 style={{height: '45px',width: '14%',display: 'inline-block'}}>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
-              <MuiThemeProvider>
                 <Slider style={{width: '85%',display: 'inline-block'}}
                 min={1}
                 max={24}
@@ -277,10 +275,9 @@ determineGraphsWithClass = (allGraphs) => {
                 }}
                 onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
               />
-              </MuiThemeProvider>
               </div>
               ): (
-                <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
+                <CircularProgress />
               )}
             </div>
              {sortedGraphs.length > 0 ? (
@@ -306,7 +303,7 @@ determineGraphsWithClass = (allGraphs) => {
                   })}
                 </div>
              ) : (
-               <MuiThemeProvider><CircularProgress /></MuiThemeProvider>
+               <CircularProgress />
              )}
 
           {this.state.graphsShown.map(graphPreference => (
@@ -319,7 +316,7 @@ determineGraphsWithClass = (allGraphs) => {
                  <LineGraph graphPreference={graphPreference} values={sortedData[graphPreference.key].values}/>
                 </div>
             ))}</div>
-        ) : <MuiThemeProvider><CircularProgress /></MuiThemeProvider>}
+        ) : <CircularProgress />}
       </div>
     )
   }
