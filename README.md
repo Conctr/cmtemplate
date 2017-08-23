@@ -1,5 +1,16 @@
 # Wimo
 
+## Get Started
+
+1. Clone the project. git clone https://github.com/conctr/wimo.git.
+2. Run the setup script. just type `yarn`.
+3. Run the example app. `yarn start` This will run the automated build process, start up a webserver, and open the application in your default browser. When doing development with this kit, this command will continue watching all your files. Every time you make a change the code is rebuilt.
+
+4. Review the example app on localhost:3000. Wimo is a working example app that displays environmental data sent from the device. Note how all source code is placed under /src. The final built app is placed under /dist. These are the files you run in production.
+5. Delete the example app files. Once you're comfortable with how the example app works, you can delete those files and begin creating your own app.
+6. Having issues? See "Having Issues?" below.
+
+
 ## Why use Wimo to build your IoT app?
 
 1. One command to get started - Type yarn start to start development in your default browser.
@@ -29,16 +40,6 @@ When in storage, large variations in temperature and humidity can affect wine qu
 
 Wimo is intended to solve the problem of wine spoilage when in storage, by allowing the owner to determine when changes are needed to storage conditions.
 
-
-## Get Started
-
-1. Clone the project. git clone https://github.com/conctr/wimo.git.
-2. Run the setup script. just type yarn.
-3. Run the example app. yarn start This will run the automated build process, start up a webserver, and open the application in your default browser. When doing development with this kit, this command will continue watching all your files. Every time you make a change the code is rebuilt.
-
-4. Review the example app. Wimo is a working example app that displays environmental data sent from the device. Note how all source code is placed under /src. The final built app is placed under /dist. These are the files you run in production.
-5. Delete the example app files. Once you're comfortable with how the example app works, you can delete those files and begin creating your own app.
-6. Having issues? See "Having Issues?" below.
 
 ## Functional Description
 
