@@ -1,6 +1,6 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import ActionAndroid from 'material-ui/svg-icons/action/android';
+import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import FontIcon from 'material-ui/FontIcon';
 import imgAvatar from '../../imgs/uxceo-128.jpg'
 
@@ -26,7 +26,7 @@ const NewRaisedButton = () => (
        label="Chuck Norris"
        labelPosition="before"
        primary={true}
-       icon={<ActionAndroid />}
+       icon={<AccountCircle />}
        style={styles.button}
      />
   </div>
