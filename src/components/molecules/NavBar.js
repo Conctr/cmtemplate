@@ -22,7 +22,7 @@ export default class NavBar extends React.Component {
     }
   }
 
-  handleChange = (event, index, value) => this.setState({value})
+  handleChange = (event, index, value) => this.setState({ value })
 
   handleOnRequestChange = (value) => {
     this.setState({
@@ -30,7 +30,7 @@ export default class NavBar extends React.Component {
     })
   }
 
-  handleOpenMenu = () => this.setState({openMenu: true});
+  handleOpenMenu = () => this.setState({ openMenu: true });
 
   render() {
     return (
@@ -47,8 +47,8 @@ export default class NavBar extends React.Component {
             <ToolbarGroup>
               <ToolbarSeparator />
               <RaisedButton
-                onTouchTap={this.handleOpenMenu}
-                label='Dave Chapelle'
+                onTouchTap={ this.handleOpenMenu }
+                label='Dave Chappelle'
               />
               <IconMenu
                 iconButtonElement={
@@ -56,19 +56,25 @@ export default class NavBar extends React.Component {
                     <NavigationExpandMoreIcon />
                   </IconButton>
                 }
-                onRequestChange={this.handleOnRequestChange}
-                open={this.state.openMenu}
-                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                onRequestChange={ this.handleOnRequestChange }
+                open={ this.state.openMenu }
+                anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                targetOrigin={{ horizontal: 'right', vertical: 'top' }}
               >
-                <Link to={'/Blog'}>
-                  <MenuItem primaryText="Blog" />
-                </Link>
-                <Link to={'/Contact'}>
-                  <MenuItem primaryText="Contact" />
-                </Link>
+                <a
+                  href='https://conctr.com'
+                  className='naked-href'
+                >
+                  <MenuItem primaryText="About Conctr" />
+                </a>
+                <a
+                  href="mailto:support@conctr.com"
+                  className='naked-href'
+                >
+                  <MenuItem primaryText="Email Conctr Support" />
+                </a>
                 <MenuItem
-                  onTouchTap={this.props.logOut}
+                  onTouchTap={ this.props.logOut }
                   primaryText="Log Out"
                 />
               </IconMenu>

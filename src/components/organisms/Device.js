@@ -88,7 +88,6 @@ export default class DeviceInfo extends Component {
       this.deviceData = deviceData
       this.setState({"newDeviceName":deviceData.name})
       this.alertSettings = deviceAlertSettings
-      console.log('device alert settings',deviceAlertSettings)
       this.allGraphs = model.map(modelData => {
         return {
           displayTitle: modelData.title,
@@ -112,7 +111,6 @@ export default class DeviceInfo extends Component {
     .then(([model,deviceData,deviceAlertSettings]) => {
       this.deviceData = deviceData
       this.alertSettings = deviceAlertSettings
-      console.log('device alert settings',deviceAlertSettings)
       this.allGraphs = model.map(modelData => {
         return {
           displayTitle: modelData.title,
@@ -274,7 +272,7 @@ determineGraphsWithClass = (allGraphs) => {
   render() {
     const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
     const sortedData = sorter(this.state.data,this.state.keysShown.map(graph => graph.key))
-    console.log('graphPreference',JSON.stringify(this.state.keysShown))
+    console.log('this.alertSettings render',this.alertSettings)
     return (
       <div style={{textAlign: 'center'}}>
         <ToastContainer
@@ -370,14 +368,12 @@ determineGraphsWithClass = (allGraphs) => {
                         values={sortedData[this.state.selectedGraphKey].values}
                         rangeX={sortedData[this.state.selectedGraphKey].rangeX}
                         rangeY={sortedData[this.state.selectedGraphKey].rangeY}
-                        upperlimit={
-                          this.state.selectedGraphKey === 'temperature' ? 22 :
-                          this.state.selectedGraphKey === 'humidity' ? 70 : null
-                        }
-                        lowerlimit={
-                          this.state.selectedGraphKey === 'temperature' ? 12 :
-                          this.state.selectedGraphKey === 'humidity' ? 50 : null
-                        }
+                        upperlimit={this.alertSettings && this.alertSettings[this.state.selectedGraphKey] ? (
+                          parseInt(this.alertSettings[this.state.selectedGraphKey]['GT'])
+                        ) : null }
+                        lowerlimit={this.alertSettings && this.alertSettings[this.state.selectedGraphKey] ? (
+                          parseInt(this.alertSettings[this.state.selectedGraphKey]['LT'])
+                        ) : null }
                       />
                     ) : ('Select Attribute to graph')}
                   </div>
