@@ -4,6 +4,7 @@ import IconButton from 'material-ui/IconButton'
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from '../atoms/RaisedButton'
+import NavbarAvatar from '../atoms/NavbarAvatar'
 import { Link } from 'react-router-dom'
 import {
   Toolbar,
@@ -46,9 +47,13 @@ export default class NavBar extends React.Component {
             </ToolbarGroup>
             <ToolbarGroup>
               <ToolbarSeparator />
+              <NavbarAvatar
+                onTouchTap={this.handleOpenMenu}
+                label='Avatar'
+                />
               <RaisedButton
                 onTouchTap={this.handleOpenMenu}
-                label='Dave Chapelle'
+                label='John Smith'
               />
               <IconMenu
                 iconButtonElement={
@@ -62,7 +67,7 @@ export default class NavBar extends React.Component {
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}
               >
                 <Link to={'/Blog'}>
-                  <MenuItem primaryText="Blog" />
+                  <MenuItem primaryText="Docs" />
                 </Link>
                 <Link to={'/Contact'}>
                   <MenuItem primaryText="Contact" />
