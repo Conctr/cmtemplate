@@ -16,9 +16,10 @@ import {
 } from 'material-ui/styles/colors';
 
 const style = {margin: 5};
-  
+
 const NavbarAvatar = () => (
-    <ListItem
+    <div className='avatar'>
+      <ListItem
       disabled={true}
       leftAvatar={
         <Avatar
@@ -28,6 +29,7 @@ const NavbarAvatar = () => (
         />
       }
     />
+    </div>
 );
 
 export default NavbarAvatar;
