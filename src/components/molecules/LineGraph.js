@@ -28,20 +28,23 @@ export default class NavBar extends React.Component {
   }
 
   render() {
-    let yAxisEnd,yAxisStart
-    if ( this.props.upperlimit && this.props.rangeY.max < this.props.upperlimit ){
-      yAxisEnd = this.props.upperlimit 
+    
+    let yAxisHigh,yAxisLow
+    if ( this.props.upperlimit && this.props.rangeY.max > this.props.upperlimit ) {
+      yAxisHigh = this.props.rangeY.max
     } else {
-      yAxisEnd = this.props.rangeY.max
+      yAxisHigh = this.props.upperlimit
     } 
-    if ( this.props.lowerlimit && (this.props.rangeY.min < this.props.lowerlimit) ) {
-      yAxisStart = this.props.rangeY.min
+    if ( this.props.lowerlimit && this.props.rangeY.min < this.props.lowerlimit ) {
+      yAxisLow = this.props.rangeY.min
     } else {
-      yAxisStart = this.props.lowerlimit
+      yAxisLow = this.props.lowerlimit
     } 
-console.log('range y min',this.props.rangeY.min)
-console.log('Upper lower',this.props.lowerlimit)
-console.log('y axis start',yAxisStart)
+    if ( this.props.upperlimit === null ) {
+      yAxisHigh = this.props.rangeY.max } 
+    if (this.props.lowerlimit === null ) {
+      yAxisLow = this.props.rangeY.min  }
+
     return (
       <div>
         <VictoryChart
@@ -50,7 +53,7 @@ console.log('y axis start',yAxisStart)
           theme={VictoryTheme.material}
           style={{ parent: { border: "2px solid white"} }}
           padding={{ top: 40, bottom: 40, left: 60, right: 40 }}
-          domain={{x: [this.props.rangeX.min, this.props.rangeX.max], y: [yAxisStart, yAxisEnd]}}
+          domain={{x: [this.props.rangeX.min, this.props.rangeX.max], y: [yAxisLow, yAxisHigh]}}
           domainPadding={30}
         >
           { !!this.props.upperlimit ? (          
