@@ -6,7 +6,7 @@ import { getModel as getDeviceModel,
   setAlertSettings as setDeviceAlertSettings,
   getAlertSettings as getDeviceAlertSettings} from '../../api/device';
 import Slider from 'material-ui/Slider';
-import CircularProgress from '../atoms/CircularProgress';
+import CircularProgress from 'material-ui/CircularProgress';
 import LineGraph from '../molecules/LineGraph';
 import Menu from '../atoms/Menu';
 import Paper from '../atoms/Paper';

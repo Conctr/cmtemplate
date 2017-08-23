@@ -6,7 +6,7 @@ export default class BatteryPercentage extends React.Component {
     let batterySize = 60
     let batteryPercentage = this.props.batteryPercentage
     let batteryColor=''
-    if      (batteryPercentage >= 80)
+    if (batteryPercentage >= 80)
         { batteryColor='darkgreen' } 
     else if (batteryPercentage >= 60)
         { batteryColor='green' } 
@@ -21,9 +21,14 @@ export default class BatteryPercentage extends React.Component {
     
     return (
       <div className='battery-container'> 
-        <p className={`battery-percent ${batteryColor}`}> {batteryPercentage.toFixed(1)}% </p>
-        <FaBattery0 className={`battery ${batteryColor}`} size={batterySize} />
-        </div>
+        <p className={`battery-percent ${batteryColor}`}>
+          {batteryPercentage.toFixed(1)}%
+        </p>
+        <FaBattery0
+          className={`battery ${batteryColor}`}
+          size={batterySize}
+        />
+      </div>
     )
   }
 }

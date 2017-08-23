@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import ClusterRuleRow from '../molecules/ClusterRuleRow'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Dialog from 'material-ui/Dialog'
-import FlatButton from '../atoms/FlatButton'
+import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from '../atoms/RaisedButton'
 import TextField from 'material-ui/TextField'
 import shortid from 'shortid'
@@ -13,10 +12,10 @@ import {
   TableHeaderColumn,
   TableRow,
   TableRowColumn,
-} from 'material-ui/Table';
+} from 'material-ui/Table'
 
 
-class NewClusterModal extends Component{
+export default class NewClusterModal extends Component{
   state={
     open: false,
     clusterName: null,
@@ -38,6 +37,7 @@ class NewClusterModal extends Component{
     }
     this.clusterRules[identifier][condition] = value
   }
+
   removeClusterRule = (identifier,condition) => {
     if(this.clusterRules[identifier]){
       if(this.clusterRules[identifier][condition]){
@@ -48,13 +48,6 @@ class NewClusterModal extends Component{
       delete this.clusterRules[identifier]
     }
   }
-  /*
-  {
-    "_ts":{ "gt": time, "lt": time},
-    "temperature":{ "gt": temp, "lt": temp},
-    "humidity":{ "gt": humidity, "lt": humidity}
-  }
-  */
 
   render() {
     const actions = [
@@ -74,7 +67,7 @@ class NewClusterModal extends Component{
             rules: this.clusterRules,
           })
           this.handleClose()
-        } }
+        }}
       />
     ]
 
@@ -90,65 +83,61 @@ class NewClusterModal extends Component{
     }]
 
     return (
-      <MuiThemeProvider>
-        <div>
-          <RaisedButton
-            fullWidth={ true }
-            label='Create New Cluster'
-            onTouchTap={ this.handleOpen } />
-          <Dialog
-            title='Create New Cluster'
-            actions={ actions }
-            modal={ true }
-            open={ this.state.open }
-            >
-            <TextField
-              floatingLabelText='Cluster Name'
-              onChange={
-                (event,newString) => {
-                  this.setState({clusterName: newString})}
-              }/>
-            {clusterRuleRows.map(rowPreference => (
-              <div key={rowPreference.identifier}>
+      <div>
+        <RaisedButton
+          fullWidth={ true }
+          label='Create New Cluster'
+          onTouchTap={ this.handleOpen }
+        />
+        <Dialog
+          title='Create New Cluster'
+          actions={ actions }
+          modal={ true }
+          open={ this.state.open }
+        >
+          <TextField
+            floatingLabelText='Cluster Name'
+            onChange={
+              (event,newString) => {
+                this.setState({ clusterName: newString })
+              }
+            }
+          />
+          { clusterRuleRows.map(rowPreference => (
+            <div key={ rowPreference.identifier }>
               <ClusterRuleRow
-              removeClusterRule={this.removeClusterRule}
-              checkClusterRule={this.checkClusterRule}
-              title={rowPreference.title}
-              identifier={rowPreference.identifier}
+                removeClusterRule={ this.removeClusterRule }
+                checkClusterRule={ this.checkClusterRule }
+                title={ rowPreference.title }
+                identifier={ rowPreference.identifier }
               />
               <br/>
-              </div>
-            ))}
-            <Table
-              multiSelectable={true}
-              >
-              <TableHeader>
-                <TableRow>
-                  <TableHeaderColumn>Device ID</TableHeaderColumn>
+            </div>
+          ))}
+          <Table multiSelectable={ true }>
+            <TableHeader>
+              <TableRow>
+                <TableHeaderColumn>Device ID</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody deselectOnClickaway={ false }>
+              { this.props.deviceIds.map(deviceId => (
+                <TableRow key={ deviceId }>
+                  <TableRowColumn>{ deviceId }</TableRowColumn>
                 </TableRow>
-              </TableHeader>
-              <TableBody
-                deselectOnClickaway={false}
-                >
-                {this.props.deviceIds.map(deviceId => (
-                  <TableRow key={deviceId}>
-                    <TableRowColumn>{deviceId}</TableRowColumn>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <TextField
-              floatingLabelText='Img path'
-              onChange={
-                (event,newString) => {
-                  this.setState({imgPath: newString})
-                }
-                }/>
-          </Dialog>
-        </div>
-      </MuiThemeProvider>
+              ))}
+            </TableBody>
+          </Table>
+          <TextField
+            floatingLabelText='Img path'
+            onChange={
+              (event,newString) => {
+                this.setState({imgPath: newString})
+              }
+            }
+          />
+        </Dialog>
+      </div>
     )
   }
 }
-
-export default NewClusterModal
