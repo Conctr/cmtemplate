@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import * as deviceWebSocket from '../../api/deviceWebSockets';
+import React, { Component } from 'react'
+import * as deviceWebSocket from '../../api/deviceWebSockets'
 import { getModel as getDeviceModel,
   update as updateDevice,
   getSingle as getDevice,
   setAlertSettings as setDeviceAlertSettings,
-  getAlertSettings as getDeviceAlertSettings} from '../../api/device';
-import Slider from 'material-ui/Slider';
-import CircularProgress from 'material-ui/CircularProgress';
-import LineGraph from '../molecules/LineGraph';
-import Menu from '../atoms/Menu';
-import Paper from '../atoms/Paper';
-import MenuItem from '../atoms/MenuItem';
-import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog';
+  getAlertSettings as getDeviceAlertSettings} from '../../api/device'
+import Slider from 'material-ui/Slider'
+import CircularProgress from 'material-ui/CircularProgress'
+import LineGraph from '../molecules/LineGraph'
+import Menu from 'material-ui/Menu'
+import MenuItem from 'material-ui/MenuItem'
+import Paper from '../atoms/Paper'
+import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog'
 import BatteryIcon from '../atoms/Battery'
 import moment from 'moment'
 import { toast , ToastContainer} from 'react-toastify'
