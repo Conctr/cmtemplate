@@ -7,10 +7,8 @@ export default function Checkbox(props) {
   let children = mutableProps.children
   delete mutableProps.children
   return (
-    <WimoThemeProvider>
       <Chip {...props}>
         {children}
       </Chip>
-    </WimoThemeProvider>
   )
 }
