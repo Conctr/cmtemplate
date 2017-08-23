@@ -39,9 +39,9 @@ export default class NavBar extends React.Component {
     } else {
       yAxisStart = this.props.lowerlimit
     } 
-console.log('range y max',this.props.rangeY.min)
-console.log('Upper limit',this.props.upperlimit)
-console.log('y axis end',yAxisEnd)
+console.log('range y min',this.props.rangeY.min)
+console.log('Upper lower',this.props.lowerlimit)
+console.log('y axis start',yAxisStart)
     return (
       <div>
         <VictoryChart
