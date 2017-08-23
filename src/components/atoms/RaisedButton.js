@@ -23,7 +23,7 @@ const styles = {
 const NewRaisedButton = () => (
   <div>
     <RaisedButton
-       label="Chuck Norris"
+       label="Sally Jones"
        labelPosition="before"
        primary={true}
        icon={<AccountCircle />}
