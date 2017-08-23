@@ -1,8 +1,8 @@
 import React from 'react'
 import Divider from 'material-ui/Divider'
+import RaisedButton from 'material-ui/RaisedButton'
 import GoogleIcon from 'react-icons/lib/fa/google'
 import TextField from '../atoms/TextField'
-import RaisedButton from  '../atoms/RaisedButton'
 import RegistrationModal from './RegistrationModal'
 import logo from '../../imgs/wimo-logo.svg'
 

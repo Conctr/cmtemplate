@@ -4,17 +4,17 @@ import { getModel as getDeviceModel,
   update as updateDevice,
   getSingle as getDevice,
   setAlertSettings as setDeviceAlertSettings,
-  getAlertSettings as getDeviceAlertSettings} from '../../api/device'
-import Slider from 'material-ui/Slider'
+  getAlertSettings as getDeviceAlertSettings } from '../../api/device'
 import CircularProgress from 'material-ui/CircularProgress'
-import LineGraph from '../molecules/LineGraph'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
-import Paper from '../atoms/Paper'
-import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog'
+import Slider from 'material-ui/Slider'
+import Paper from 'material-ui/Paper'
 import BatteryIcon from '../atoms/Battery'
+import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog'
+import LineGraph from '../molecules/LineGraph'
 import moment from 'moment'
-import { toast , ToastContainer} from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 
 function sorter(data,dataKeys){
   /* function to sort data into

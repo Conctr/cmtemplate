@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import RuleRow from '../molecules/RuleRow'
 import { getAlertSettings as getDeviceAlertSettings } from '../../api/device'
 import CircularProgress from 'material-ui/CircularProgress'
-import RaisedButton from '../atoms/RaisedButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
 const ruleRows = [{

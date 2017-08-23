@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ClusterRuleRow from '../molecules/ClusterRuleRow'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import RaisedButton from '../atoms/RaisedButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import shortid from 'shortid'
 import {

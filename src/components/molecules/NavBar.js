@@ -1,21 +1,20 @@
 import React from 'react'
+import Avatar from 'material-ui/Avatar'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
 import MenuItem from 'material-ui/MenuItem'
-import RaisedButton from '../atoms/RaisedButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
 import {
   Toolbar,
   ToolbarGroup,
-  ToolbarSeparator
-} from 'material-ui/Toolbar'
+  ToolbarSeparator } from 'material-ui/Toolbar'
 import logo from '../../imgs/wimo-logo-y.svg'
-import Avatar from 'material-ui/Avatar';
 
 export default class NavBar extends React.Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       value: 3,
       openMenu: false
@@ -37,7 +36,7 @@ export default class NavBar extends React.Component {
       <div>
         {this.props.signedIn ? (
           <Toolbar>
-            <ToolbarGroup firstChild={true}>
+            <ToolbarGroup firstChild={ true }>
               <img
                 className='navbar-logo'
                 src={ logo }
@@ -48,14 +47,17 @@ export default class NavBar extends React.Component {
               <ToolbarSeparator />
               <RaisedButton
                 onTouchTap={ this.handleOpenMenu }
-                icon={<Avatar
-                  src="http://i.telegraph.co.uk/multimedia/archive/03388/enfield_3388479b.jpg"
-                  size={30} />}
+                icon={
+                  <Avatar
+                    src="http://i.telegraph.co.uk/multimedia/archive/03388/enfield_3388479b.jpg"
+                    size={ 30 }
+                  />
+                }
                 label='Dave Chappelle'
               />
               <IconMenu
                 iconButtonElement={
-                  <IconButton touch={true}>
+                  <IconButton touch={ true }>
                     <NavigationExpandMoreIcon />
                   </IconButton>
                 }

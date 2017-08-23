@@ -1,7 +1,7 @@
 import React from 'react'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import RaisedButton from '../atoms/RaisedButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import DevicesList from './DevicesList'
 
 export default class SelectDevices extends React.Component {

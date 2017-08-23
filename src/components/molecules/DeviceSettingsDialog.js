@@ -2,7 +2,7 @@ import SettingsIcon from 'react-icons/lib/fa/cog';
 import React from 'react';
 import Drawer from 'material-ui/Drawer';
 import ChipContainer from './ChipContainer';
-import RaisedButton from '../atoms/RaisedButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import TextField from '../atoms/TextField';
 import RulesUI from './RulesUI'
 export default class DeviceSettingsDialog extends React.Component {
