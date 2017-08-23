@@ -6,7 +6,7 @@ import RaisedButton from  '../atoms/RaisedButton'
 import RegistrationModal from './RegistrationModal'
 import logo from '../../imgs/wimo-logo.svg'
 
-export default function LoginDialog {
+export default function LoginDialog(props) {
 
   return (
     <div className='login-dialogue'>
@@ -18,7 +18,7 @@ export default function LoginDialog {
             id='email'
             floatingLabelText='Email'
             fullWidth={ true }
-            onChange={ this.onInputChange }
+            onChange={ this.props.handleInputChange }
             onEnterKeyDown={
               () => this.submitToAuth(this.props.onSignIn)
             }

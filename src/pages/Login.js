@@ -57,10 +57,6 @@ export default class LoginPage extends Component {
           { this.state.loading ? (
             <CircularProgress />
             ) : (
-              <LoginDialog
-                handleInputChange={ this.onInputChange }
-                handleAuth={ this.submitToAuth(this.props.onSignIn) }
-              />
               <div className='login-dialogue'>
                 <img
                   src={ logo } alt='wimo logo' className='login-logo' />
