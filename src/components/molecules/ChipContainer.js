@@ -9,8 +9,8 @@ export default function CustomTable(props) {
       {graph.display ? (
         <Chip
         className='display-true'
-        onRequestDelete={() => props.handleGraphDelete(graph.key)}
-        style={{backgroundColor: 'red'}}>
+        style={{backgroundColor: '#ff9999',color: 'white'}}
+        onRequestDelete={() => props.handleGraphDelete(graph.key)}>
           {graph.displayTitle}
         </Chip>
       ) : (
