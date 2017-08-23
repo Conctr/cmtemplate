@@ -99,7 +99,7 @@ export default class LoginPage extends Component {
                     onTouchTap={
                       () => oauthApi.signIn('signin')
                     }
-                    icon={<GoogleIcon className='button-icon'/>}
+                    icon={ <GoogleIcon className='button-icon'/> }
                   />
                   <div className='login-divider'>
                     <Divider />
@@ -107,7 +107,15 @@ export default class LoginPage extends Component {
                   <div className='login-text'>
                     Device, but no account?
                   </div>
-                  <RegistrationModal className='login-modal' />
+                  <RaisedButton
+                    className='login-button'
+                    label='Register with Google'
+                    onTouchTap={
+                      () => oauthApi.signIn('register')
+                    }
+                    primary={ true }
+                    icon={ <GoogleIcon className='button-icon'/> }
+                  />
                 </div>
               </div>
             )

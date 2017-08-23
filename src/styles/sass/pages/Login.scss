@@ -1,8 +1,9 @@
 .login-background {
   position: absolute;
+  max-width: 100vw;
   width: 100vw;
   height: 100vh;
-  background-image: url('./imgs/wimo-bg.png');
+  background-image: url('./imgs/bottles.png');
   background-position: center;
 }
 
@@ -73,4 +74,8 @@
 
 .register-modal-content {
   max-width: 500px;
+}
+
+.button-icon {
+  margin-bottom: 2px;
 }

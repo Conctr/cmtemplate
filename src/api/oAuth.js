@@ -1,14 +1,14 @@
 import * as authApi from './auth'
 var ourApi = 'AIzaSyDw5Ha6D5FMUT8cZ7uKpSFa2cfg-DllREM'
-var yourWebClientId = '825347282342-4u6d1ntaiphdsn1uvmq2p81k9q99dpk8.apps.googleusercontent.com';
-var GoogleAuth;
-var changeLoading;
-var signInOrRegister;
+var yourWebClientId = '825347282342-4u6d1ntaiphdsn1uvmq2p81k9q99dpk8.apps.googleusercontent.com'
+var GoogleAuth
+var changeLoading
+var signInOrRegister
 var setConctrToken
 
 export function start(setLoadingState,setToken) {
   setConctrToken = setToken
-  changeLoading = setLoadingState;
+  changeLoading = setLoadingState
   window.gapi.load('client:auth2',initClient)
 }
 
@@ -38,9 +38,9 @@ function initClient(){
       'scope': 'profile',
       'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
   }).then(function () {
-      GoogleAuth = window.gapi.auth2.getAuthInstance();
+      GoogleAuth = window.gapi.auth2.getAuthInstance()
       changeLoading(false)
-      GoogleAuth.isSignedIn.listen(updateSigninStatus);
+      GoogleAuth.isSignedIn.listen(updateSigninStatus)
   })
 }
 
