@@ -25,7 +25,13 @@ function updateSigninStatus(isSignedIn) {
         throw Error(error)
       })
     } else if (signInOrRegister === 'register'){
-
+      authApi.authRegister(email,'google',access_token)
+      .then(data => {
+        setConctrToken(data.jwt)
+      })
+      .catch(error => {
+        throw Error(error)
+      })
     }
   }
 }
