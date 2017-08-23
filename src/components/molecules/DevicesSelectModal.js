@@ -1,11 +1,10 @@
 import React from 'react'
-import MuiThemeProvider from '../../styles/WimoThemeProvider'
 import Dialog from 'material-ui/Dialog'
-import FlatButton from '../atoms/FlatButton'
+import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from '../atoms/RaisedButton'
 import DevicesList from './DevicesList'
 
-export default class SelectDevices extends React.Component{
+export default class SelectDevices extends React.Component {
 
   state={
     open: false
@@ -27,28 +26,35 @@ export default class SelectDevices extends React.Component{
         onTouchTap={ this.handleClose }
       />
     ]
-    let selectedDeviceData = this.props.devicesData.find(device => (device.device_id === this.props.selectedDevice))
+
+    let selectedDeviceData = this.props.devicesData.find(
+      device => (
+        device.device_id === this.props.selectedDevice
+      )
+    )
+
     return (
-      <MuiThemeProvider>
-        <div>
-          <div style={{width: '30%',marginLeft: 'auto',marginRight: 'auto'}}>
-            <RaisedButton
-              fullWidth={ true }
-              label={!this.props.selectedDevice ? 'Choose Device' : `Device:${selectedDeviceData.name ? (selectedDeviceData.name) : (selectedDeviceData.device_id)}`}
-              onTouchTap={ this.handleOpen } />
-          </div>
-          <Dialog
-            title='Choose Device'
-            actions={ actions }
-            modal={ true }
-            open={ this.state.open }>
-            <DevicesList
+      <div>
+        <div style={{width: '30%',marginLeft: 'auto',marginRight: 'auto'}}>
+          <RaisedButton
+            fullWidth={ true }
+            label={!this.props.selectedDevice ? 'Choose Device' : `Device:${selectedDeviceData.name ? (selectedDeviceData.name) : (selectedDeviceData.device_id)}`}
+            onTouchTap={ this.handleOpen }
+          />
+        </div>
+        <Dialog
+          title='Choose Device'
+          actions={ actions }
+          modal={ true }
+          open={ this.state.open }
+        >
+          <DevicesList
             devicesData={this.props.devicesData}
             selectDevice={this.props.selectDevice}
-            handleModalClose={this.handleClose}/>
-          </Dialog>
-        </div>
-      </MuiThemeProvider>
+            handleModalClose={this.handleClose}
+          />
+        </Dialog>
+      </div>
     )
   }
 }

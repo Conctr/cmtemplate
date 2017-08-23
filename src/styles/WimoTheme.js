@@ -2,6 +2,9 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { red800 } from 'material-ui/styles/colors'
 
 export const wimoTheme = getMuiTheme({
+  flatButton: {
+    primaryTextColor: red800
+  },
   palette: {
     textColor: red800
   },
@@ -16,5 +19,14 @@ export const wimoTheme = getMuiTheme({
   },
   raisedButton: {
     primaryColor: red800
+  },
+  slider: {
+    selectionColor: red800,
+    rippleColor: red800
+  },
+  toggle: {
+    thumbOnColor: red800,
+    thumbRequiredColor: red800,
+    trackOnColor: 'rgba(200, 45, 45, 0.5)'
   }
 })
