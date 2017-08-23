@@ -11,7 +11,6 @@ import LineGraph from '../molecules/LineGraph';
 import Menu from '../atoms/Menu';
 import Paper from '../atoms/Paper';
 import MenuItem from '../atoms/MenuItem';
-import DeviceInfoTable from '../molecules/DeviceInfoTable';
 import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog';
 import BatteryIcon from '../atoms/Battery'
 import moment from 'moment'

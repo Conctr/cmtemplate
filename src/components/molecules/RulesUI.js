@@ -18,7 +18,7 @@ const ruleRows = [{
 let originalAlertSettings;
 function makeNumberStringInt(object) {
   Object.keys(object).forEach(key => {
-    Object.keys(object[key]).map(condition => {
+    Object.keys(object[key]).forEach(condition => {
       let conditionInt = object[key][condition]
       if(parseInt(conditionInt) == conditionInt){
         object[key][condition] = parseInt(conditionInt)
