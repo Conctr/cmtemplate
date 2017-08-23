@@ -34,7 +34,7 @@ function sorter(data,dataKeys){
   return sortedValues
 }
 
-class DevicePage extends Component {
+export default class DevicePage extends Component {
 
   // Determines which graphs get rendered
   allGraphs = []
@@ -321,5 +321,3 @@ determineGraphsWithClass = (allGraphs) => {
     )
   }
 }
-
-export default DevicePage
