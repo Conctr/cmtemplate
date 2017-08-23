@@ -30,15 +30,15 @@ export default class NavBar extends React.Component {
   render() {
     let yAxisEnd,yAxisStart
     if ( this.props.upperlimit && this.props.rangeY.max < this.props.upperlimit ){
-      yAxisEnd = this.props.upperlimit 
+      yAxisEnd = this.props.upperlimit
     } else {
       yAxisEnd = this.props.rangeY.max
-    } 
-    if ( this.props.lowerlimit && (this.props.rangeY.min < this.props.lowerlimit) ) {
-      yAxisStart = this.props.rangeY.min
-    } else {
+    }
+    if ( this.props.lowerlimit && this.props.rangeY.min > this.props.lowerlimit ) {
       yAxisStart = this.props.lowerlimit
-    } 
+    } else {
+      yAxisStart = this.props.rangeY.min
+    }
 console.log('range y min',this.props.rangeY.min)
 console.log('Upper lower',this.props.lowerlimit)
 console.log('y axis start',yAxisStart)
@@ -53,8 +53,8 @@ console.log('y axis start',yAxisStart)
           domain={{x: [this.props.rangeX.min, this.props.rangeX.max], y: [yAxisStart, yAxisEnd]}}
           domainPadding={30}
         >
-          { !!this.props.upperlimit ? (          
-            <VictoryArea 
+          { !!this.props.upperlimit ? (
+            <VictoryArea
               name="HigherLimit"
               domainPadding={{ x: [-30, -30] }}
               style={{
@@ -70,8 +70,8 @@ console.log('y axis start',yAxisStart)
             />
           ) : false }
 
-          { !!this.props.lowerlimit ? (          
-            <VictoryArea 
+          { !!this.props.lowerlimit ? (
+            <VictoryArea
               name="LowerLimit"
               domainPadding={{ x: [-30, -30] }}
               style={{
@@ -82,7 +82,7 @@ console.log('y axis start',yAxisStart)
                 {x: moment(this.props.values[0].ts).add(30,'minutes').toDate(), y: this.props.lowerlimit}
               ]}
               y0={ (d) => -99}
-            />                 
+            />
           ) : false }
 
           <VictoryAxis
@@ -124,11 +124,11 @@ console.log('y axis start',yAxisStart)
           />
         </VictoryChart>
 
-        { !!this.props.lowerlimit ? 
+        { !!this.props.lowerlimit ?
           <p> Low {this.props.graphPreference.displayTitle} warning: {this.props.lowerlimit} </p>
-        : false } 
-        { !!this.props.upperlimit ? 
-          <p> High {this.props.graphPreference.displayTitle} warning: {this.props.upperlimit}</p> 
+        : false }
+        { !!this.props.upperlimit ?
+          <p> High {this.props.graphPreference.displayTitle} warning: {this.props.upperlimit}</p>
         : false }
 
       </div>

@@ -224,11 +224,13 @@ determineGraphsWithClass = (allGraphs) => {
   getDeviceSettings = () => {
     // Graph Preference
     let graphPreference = this.getGraphSettings()
+    if(!graphPreference){
       graphPreference = this.saveGraphSettings([
         {"key":"temperature","displayTitle":"temperature","unit":"°c","display": true},
         {"key":"humidity","displayTitle":"humidity","unit":"%","display": true},
         {"key":"pressure","displayTitle":"pressure","unit":"hPa","display": true}
       ])
+    }
     this.originalShownKeys = graphPreference
     this.setState({keysShown: graphPreference})
   }
