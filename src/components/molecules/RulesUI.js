@@ -80,11 +80,13 @@ export default class RulesUI extends Component{
         rules[key][condition] = fieldValue
       }
     } else {
-      if(rules[key][condition]){
-        delete rules[key][condition]
-      }
-      if(Object.keys(rules[key]).length === 0 && rules[key].constructor === Object){
-        delete rules[key]
+      if(rules[key]){
+        if(rules[key][condition]){
+          delete rules[key][condition]
+        }
+        if(Object.keys(rules[key]).length === 0 && rules[key].constructor === Object){
+          delete rules[key]
+        }
       }
     }
     this.setState({rules: rules})
