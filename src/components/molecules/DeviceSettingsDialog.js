@@ -47,7 +47,8 @@ export default class DeviceSettingsDialog extends React.Component {
          handleGraphDelete={this.props.handleGraphDelete}
          handleGraphAdd={this.props.handleGraphAdd}
          sortedGraphs={this.props.sortedGraphs}/>
-          <RulesUI />
+          <RulesUI
+            resetGraphsShown={this.props.resetGraphsShown}/>
           <br/>
           <br/>
           <br/>

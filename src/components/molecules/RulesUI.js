@@ -15,6 +15,7 @@ const ruleRows = [{
   title: "Pressure",
   identifier: 'pressure'
 }]
+let originalAlertSettings;
 
 export default class RulesUI extends Component{
   state={
@@ -25,7 +26,6 @@ export default class RulesUI extends Component{
   }
 
   alertSendSettings;
-  originalSettings;
   /*
   {
     "_ts":{ "gt": time, "lt": time},
@@ -82,8 +82,8 @@ export default class RulesUI extends Component{
     getDeviceAlertSettings()
     .then(alertSettings => {
       console.log('alertSettings',alertSettings)
-      console.log('alertSettings.alertSettings',alertSettings.alertSettings)
-      this.originalSettings = alertSettings
+      originalAlertSettings = alertSettings
+      console.log('Bawitaba de bang de bang',originalAlertSettings)
       this.alertSendSettings = alertSettings.alertSettings
       delete alertSettings.alertSettings
       this.setState({
@@ -92,10 +92,23 @@ export default class RulesUI extends Component{
         numberTo: this.alertSendSettings.to,
         alertMessage: this.alertSendSettings.message,
       })
+      console.log('Bawitaba de bang de bang',originalAlertSettings)
     })
   }
 
+  resetSettings = () => {
+    this.props.resetGraphsShown()
+    console.log('this.originalAlertSettings',this.originalAlertSettings.alertSettings)
+    // this.setState({
+    //   rules: alertSettings,
+    //   loading: false,
+    //   numberTo: this.alertSendSettings.to,
+    //   alertMessage: this.alertSendSettings.message,
+    // })
+  }
+
   render() {
+    console.log('rulesssss',JSON.stringify(this.state.rules))
     return !this.state.loading ? (
       <div>
         <h3>Alert Settings</h3>
@@ -114,6 +127,7 @@ export default class RulesUI extends Component{
               ))}
             </div>
           <TextField
+            id='numberTo'
             floatingLabelText='Phone Number'
             type='number'
             value={this.state.numberTo}
@@ -123,14 +137,12 @@ export default class RulesUI extends Component{
               }
             }/>
           <TextField
+            id='alertMessage'
             floatingLabelText='Message'
             value={this.state.alertMessage}
-            onChange={
-              (event,newString) => {
-                this.setState({imgPath: newString})
-              }
-            }/>
+            onChange={this.onInputChange}/>
           <RaisedButton label='Save Alert Settings'/>
+          <RaisedButton onClick={this.resetSettings} label='Cancel'/>
       </div>
     ) : (
       <CircularProgress />

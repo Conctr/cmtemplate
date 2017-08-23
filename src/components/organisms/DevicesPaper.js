@@ -38,7 +38,9 @@ class DevicePage extends Component {
               devicesData={this.state.devicesData}
               selectDevice={this.handleDeviceSelect}/>
             {this.state.selectedDevice ? (
-              <Device deviceId={this.state.selectedDevice} handleError={this.props.handleError}/>
+              <Device
+                deviceId={this.state.selectedDevice}
+                handleError={this.props.handleError}/>
             ) : (
               <h1>Please select a device</h1>
             ) }
