@@ -53,9 +53,28 @@ export function getAlertSettings(deviceId,conditions) {
 });
 }
 
-export function setAlertSettings(deviceId,conditions) {
-  return request.get(`https://agent.electricimp.com/Vi6qlyFcB9sI/config`, conditions)
-.then(res => res.data)
-.catch(error => {
-  throw Error(error.response.data.error)})
+export function setAlertSettings(deviceId,conditions,cb) {
+
+
+// Set the headers
+var headers = {
+  "Content-Type": "application/json"
+}
+
+// Configure the request
+var options = {
+    url: 'https://agent.electricimp.com/Vi6qlyFcB9sI/alerts',
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(conditions)
+}
+
+// Start the request
+    request(options, function (error, response, body) {
+       if (!error && response.statusCode == 200) {
+           cb(error);
+         }else{
+           cb(null,body)
+         }
+  })
 }

@@ -15,6 +15,7 @@ import DeviceInfoTable from '../molecules/DeviceInfoTable';
 import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog';
 import BatteryIcon from '../atoms/Battery'
 import moment from 'moment'
+import { toast , ToastContainer} from 'react-toastify'
 
 function sorter(data,dataKeys){
   /* function to sort data into
@@ -68,6 +69,7 @@ export default class DeviceInfo extends Component {
     this.state = {
       data: null,
       hoursBackShown:3,
+      newDeviceName:this.deviceData.name,
       hoursBack: 3,
       loaderShown: false,
       keysShown: [],
@@ -84,6 +86,7 @@ export default class DeviceInfo extends Component {
     Promise.all([getDeviceModel(this.props.deviceId),getDevice(this.props.deviceId),getDeviceAlertSettings()])
     .then(([model,deviceData,deviceAlertSettings]) => {
       this.deviceData = deviceData
+      this.setState({"newDeviceName":deviceData.name})
       this.alertSettings = deviceAlertSettings
       console.log('device alert settings',deviceAlertSettings)
       this.allGraphs = model.map(modelData => {
@@ -217,26 +220,38 @@ determineGraphsWithClass = (allGraphs) => {
   }
 
   getGraphSettings = () => {
-    console.log('localStorage.graphPreference',JSON.parse(localStorage.graphPreference))
-    return JSON.parse(localStorage.graphPreference)
+    return localStorage.graphPreference
   }
 
   getDeviceSettings = () => {
     // Graph Preference
     let graphPreference = this.getGraphSettings()
-    if(!graphPreference){
       graphPreference = this.saveGraphSettings([
         {"key":"temperature","displayTitle":"temperature","unit":"°c","display": true},
         {"key":"humidity","displayTitle":"humidity","unit":"%","display": true},
         {"key":"pressure","displayTitle":"pressure","unit":"hPa","display": true}
       ])
-    }
     this.originalShownKeys = graphPreference
     this.setState({keysShown: graphPreference})
   }
 
-  saveDeviceSettings = () => {
+  saveDeviceSettings = (rules) => {
+    // console.log('asdf',JSON.stringify(rules))
+    setDeviceAlertSettings(this.props.deviceId,rules,this.handleAlerts)
+    updateDevice(this.deviceData.id,{new_name: this.state.newDeviceName})
+    //todo save device name
+  }
 
+  handleAlerts = (err,res) => {
+    if(err) {
+      toast.error('Failed to update settings, please try later')
+    }else {
+      toast.success('Successfully saved settings')
+    }
+  }
+
+  updateDeviceName = (newDeviceName)=>{
+    this.setState ({"newDeviceName" : newDeviceName})
   }
 
   resetGraphsShown = () => {
@@ -262,6 +277,15 @@ determineGraphsWithClass = (allGraphs) => {
     console.log('graphPreference',JSON.stringify(this.state.keysShown))
     return (
       <div style={{textAlign: 'center'}}>
+        <ToastContainer
+          position="top-right"
+          type="default"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnHover
+        />
         {this.state.data ? (
           <div>
             { !!this.state.data.length ? (
@@ -269,7 +293,10 @@ determineGraphsWithClass = (allGraphs) => {
                 <br/>
                 <br/>
                 <br/>
-                <h1>{this.deviceData.name ? this.deviceData.name : 'No Name'}</h1>
+                 {//<h1>{this.deviceData.name ? this.deviceData.name : 'No Name'}</h1>
+             }
+                <h1>{this.state.newDeviceName ? this.state.newDeviceName : 'No Name'}</h1>
+
                 <div style={{width: '100%',display: 'flex',justifyContent: 'center'}}>
                   <BatteryIcon batteryPercentage={this.getBatteryPercentage(this.state.data[0].battery)} />
                 </div>
@@ -280,9 +307,11 @@ determineGraphsWithClass = (allGraphs) => {
                   <h2>Current Status</h2>
                  {sortedGraphs.length > 0 ? (
                    <DeviceSettingsDialog
+
                      resetGraphsShown={this.resetGraphsShown}
+                     newDeviceName ={this.updateDeviceName}
                      alertSettings={this.alertSettings}
-                     setDeviceAlertSettings={setDeviceAlertSettings}
+                     saveSettings={this.saveDeviceSettings}
                      updateDevice={updateDevice}
                      handleGraphDelete={this.handleGraphDelete}
                      handleGraphAdd={this.handleGraphAdd}

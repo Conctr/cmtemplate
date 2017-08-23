@@ -16,6 +16,18 @@ const ruleRows = [{
   identifier: 'pressure'
 }]
 let originalAlertSettings;
+function makeNumberStringInt(object) {
+  Object.keys(object).forEach(key => {
+    Object.keys(object[key]).map(condition => {
+      let conditionInt = object[key][condition]
+      if(parseInt(conditionInt) == conditionInt){
+        object[key][condition] = parseInt(conditionInt)
+        console.log('conditionInt',conditionInt)
+      }
+    })
+  })
+  return object
+}
 
 export default class RulesUI extends Component{
   state={
@@ -92,7 +104,6 @@ export default class RulesUI extends Component{
         numberTo: this.alertSendSettings.to,
         alertMessage: this.alertSendSettings.message,
       })
-      console.log('Bawitaba de bang de bang',originalAlertSettings)
     })
   }
 
@@ -141,7 +152,18 @@ export default class RulesUI extends Component{
             floatingLabelText='Message'
             value={this.state.alertMessage}
             onChange={this.onInputChange}/>
-          <RaisedButton label='Save Alert Settings'/>
+          <br/>
+          <RaisedButton onClick={() =>{
+            this.props.handleClose()
+            this.props.saveSettings({
+              ...makeNumberStringInt(this.state.rules),
+              alertSettings: {
+                from: 'Wimo',
+                to: this.state.numberTo,
+                message: this.state.alertMessage,
+              }
+            })
+            }} label='Save'/>
           <RaisedButton onClick={this.resetSettings} label='Cancel'/>
       </div>
     ) : (

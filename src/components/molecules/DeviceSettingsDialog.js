@@ -17,6 +17,7 @@ export default class DeviceSettingsDialog extends React.Component {
   handleClose = () => this.setState({open: false});
 
   onInputChange = (e, newValue) => {
+    this.props.newDeviceName(newValue)
     this.setState({
       [e.target.id]: newValue
     })
@@ -40,7 +41,8 @@ export default class DeviceSettingsDialog extends React.Component {
           floatingLabelText="Device Name"
           onChange={this.onInputChange}
           onEnterKeyDown={() =>
-            this.props.updateDevice(deviceData.id,{new_name: this.state.deviceName})
+            {// this.props.updateDevice(deviceData.id,{new_name: this.state.deviceName})
+          }
           }
           />
         <ChipContainer
@@ -48,6 +50,8 @@ export default class DeviceSettingsDialog extends React.Component {
          handleGraphAdd={this.props.handleGraphAdd}
          sortedGraphs={this.props.sortedGraphs}/>
           <RulesUI
+            handleClose={this.handleClose}
+            saveSettings={this.props.saveSettings}
             resetGraphsShown={this.props.resetGraphsShown}/>
           <br/>
           <br/>
