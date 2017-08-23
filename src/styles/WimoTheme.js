@@ -2,6 +2,9 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { red800 } from 'material-ui/styles/colors'
 
 export const wimoTheme = getMuiTheme({
+  flatButton: {
+    primaryTextColor: red800
+  },
   palette: {
     textColor: red800
   },

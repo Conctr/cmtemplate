@@ -8,8 +8,7 @@ import logo from '../imgs/wimo-logo.svg'
 import GoogleIcon from 'react-icons/lib/fa/google'
 import Divider from 'material-ui/Divider'
 
-
-class LoginPage extends Component {
+export default class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,7 +46,7 @@ class LoginPage extends Component {
 
   componentDidMount() {
     // init google auth
-    oauthApi.start(this.changeLoading,this.props.setToken)
+    oauthApi.start(this.changeLoading, this.props.setToken)
   }
 
   render() {
@@ -57,7 +56,11 @@ class LoginPage extends Component {
         <div className='welcome-container'>
           { this.state.loading ? (
             <CircularProgress />
-          ) : (
+            ) : (
+              <LoginDialog
+                handleInputChange={ this.onInputChange }
+                handleAuth={ this.submitToAuth(this.props.onSignIn) }
+              />
               <div className='login-dialogue'>
                 <img
                   src={ logo } alt='wimo logo' className='login-logo' />
@@ -118,5 +121,3 @@ class LoginPage extends Component {
     )
   }
 }
-
-export default LoginPage
