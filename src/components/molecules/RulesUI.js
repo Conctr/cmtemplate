@@ -16,14 +16,13 @@ const ruleRows = [{
   identifier: 'pressure'
 }]
 let originalAlertSettings;
+
 function makeNumberStringInt(object) {
   Object.keys(object).forEach(key => {
     Object.keys(object[key]).forEach(condition => {
       let conditionInt = object[key][condition]
-      if(parseInt(conditionInt, 10) == conditionInt){
-        object[key][condition] = parseInt(conditionInt, 10)
         console.log('conditionInt',conditionInt)
-      }
+        object[key][condition] = parseFloat(conditionInt)
     })
   })
   return object
@@ -110,7 +109,6 @@ export default class RulesUI extends Component{
 
   resetSettings = () => {
     this.props.resetGraphsShown()
-    console.log('this.originalAlertSettings',this.originalAlertSettings.alertSettings)
     // this.setState({
     //   rules: alertSettings,
     //   loading: false,
@@ -118,8 +116,20 @@ export default class RulesUI extends Component{
     //   alertMessage: this.alertSendSettings.message,
     // })
   }
+  componentWillReceiveProps(nextProps){
+    let keys = nextProps.keysShown.map(shown => shown.key)
+    let mutableRules = {...this.state.rules}
+    let object = {}
+    keys.forEach(key => {
+      if(mutableRules[key]){
+        object[key] = mutableRules[key]
+      }
+    })
+    this.setState({rules: object})
+  }
 
   render() {
+    console.log('rules',this.state.rules)
     return !this.state.loading ? (
       <div>
         <h3>Alert Settings</h3>
