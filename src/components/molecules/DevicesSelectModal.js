@@ -46,7 +46,7 @@ export default class SelectDevices extends React.Component {
           />
         </div>
         <Dialog
-          title='Choose Device'
+          title='Registered Devices'
           actions={ actions }
           modal={ true }
           open={ this.state.open }

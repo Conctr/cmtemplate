@@ -1,9 +1,11 @@
-import SettingsIcon from 'react-icons/lib/fa/cog';
-import React from 'react';
-import Drawer from 'material-ui/Drawer';
-import ChipContainer from './ChipContainer';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from '../atoms/TextField';
+import SettingsIcon from 'react-icons/lib/fa/cog'
+import React from 'react'
+import Drawer from 'material-ui/Drawer'
+import ChipContainer from './ChipContainer'
+import RaisedButton from 'material-ui/RaisedButton'
+import IconButton from 'material-ui/IconButton'
+import Settings from 'material-ui/svg-icons/action/settings'
+import TextField from '../atoms/TextField'
 import RulesUI from './RulesUI'
 export default class DeviceSettingsDialog extends React.Component {
 
@@ -25,7 +27,6 @@ export default class DeviceSettingsDialog extends React.Component {
 
   render() {
     let deviceData = this.props.deviceData
-    console.log(this.state.deviceName)
     return (
       <div>
         <RaisedButton
@@ -50,10 +51,11 @@ export default class DeviceSettingsDialog extends React.Component {
          handleGraphAdd={this.props.handleGraphAdd}
          sortedGraphs={this.props.sortedGraphs}/>
           <RulesUI
+            keysShown={this.props.keysShown}
             handleClose={this.handleClose}
             saveSettings={this.props.saveSettings}
-            resetGraphsShown={this.props.resetGraphsShown}/>
-
+            resetGraphsShown={this.props.resetGraphsShown}
+            sortedGraphs={this.props.sortedGraphs}/>
         </Drawer>
       </div>
     );

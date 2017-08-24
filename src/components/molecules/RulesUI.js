@@ -16,14 +16,13 @@ const ruleRows = [{
   identifier: 'pressure'
 }]
 let originalAlertSettings;
+
 function makeNumberStringInt(object) {
   Object.keys(object).forEach(key => {
     Object.keys(object[key]).forEach(condition => {
       let conditionInt = object[key][condition]
-      if(parseInt(conditionInt, 10) == conditionInt){
-        object[key][condition] = parseInt(conditionInt, 10)
         console.log('conditionInt',conditionInt)
-      }
+        object[key][condition] = parseFloat(conditionInt)
     })
   })
   return object
@@ -96,9 +95,7 @@ export default class RulesUI extends Component{
   componentDidMount(){
     getDeviceAlertSettings()
     .then(alertSettings => {
-      console.log('alertSettings',alertSettings)
       originalAlertSettings = alertSettings
-      console.log('Bawitaba de bang de bang',originalAlertSettings)
       this.alertSendSettings = alertSettings.alertSettings
       delete alertSettings.alertSettings
       this.setState({
@@ -112,7 +109,6 @@ export default class RulesUI extends Component{
 
   resetSettings = () => {
     this.props.resetGraphsShown()
-    console.log('this.originalAlertSettings',this.originalAlertSettings.alertSettings)
     // this.setState({
     //   rules: alertSettings,
     //   loading: false,
@@ -120,21 +116,32 @@ export default class RulesUI extends Component{
     //   alertMessage: this.alertSendSettings.message,
     // })
   }
+  componentWillReceiveProps(nextProps){
+    let keys = nextProps.keysShown.map(shown => shown.key)
+    let mutableRules = {...this.state.rules}
+    let object = {}
+    keys.forEach(key => {
+      if(mutableRules[key]){
+        object[key] = mutableRules[key]
+      }
+    })
+    this.setState({rules: object})
+  }
 
   render() {
-    console.log('rulesssss',JSON.stringify(this.state.rules))
+    console.log('rules',this.state.rules)
     return !this.state.loading ? (
       <div>
         <h3>Alert Settings</h3>
             <div>
-              {ruleRows.map(rowPreference => (
-                <div key={rowPreference.identifier}>
+              {this.props.keysShown.map(rowPreference => (
+                <div key={rowPreference.key}>
                 <RuleRow
                 onToggle={this.onToggle}
                 changeRule={this.changeRule}
-                ruleData={this.state.rules[rowPreference.identifier]}
-                title={rowPreference.title}
-                identifier={rowPreference.identifier}
+                ruleData={this.state.rules[rowPreference.key]}
+                title={rowPreference.displayTitle}
+                identifier={rowPreference.key}
                 />
                 <br/>
                 </div>
