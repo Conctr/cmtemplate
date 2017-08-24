@@ -336,7 +336,7 @@ determineGraphsWithClass = (allGraphs) => {
                       {this.state.keysShown.map(keyShown => (
                         <div style={{textAlign: 'center'}} key={keyShown.key} >
                           <p>{keyShown.displayTitle}</p>
-                          <h3><b>{sortedData[keyShown.key].values[0].value} {keyShown.unit}</b></h3>
+                          <h3><b>{sortedData[keyShown.key].values[0].value.toFixed(1)} {keyShown.unit}</b></h3>
                         </div>
                       ))}
                       {/*<DeviceInfoTable sortedData={sortedData} keysShown={this.state.keysShown}/>*/}
