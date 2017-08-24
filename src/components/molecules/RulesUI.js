@@ -66,6 +66,7 @@ export default class RulesUI extends Component{
   }
 
   onInputChange = (e, newValue) => {
+    console.log('e',e.target.id)
     this.setState({
       [e.target.id]: newValue
     })
@@ -144,14 +145,10 @@ export default class RulesUI extends Component{
             floatingLabelText='Phone Number'
             type='number'
             value={this.state.numberTo}
-            onChange={
-              (event,newString) => {
-                this.setState({imgPath: newString})
-              }
-            }/>
+            onChange={this.onInputChange}/>
           <TextField
             id='alertMessage'
-            floatingLabelText='Message'
+            floatingLabelText='Alert Message'
             value={this.state.alertMessage}
             onChange={this.onInputChange}/>
           <br/>
@@ -166,7 +163,7 @@ export default class RulesUI extends Component{
               }
             })
             }} label='Save'/>
-          <RaisedButton onClick={this.resetSettings} label='Cancel'/>
+          <RaisedButton onClick={this.props.handleClose} label='Cancel'/>
       </div>
     ) : (
       <CircularProgress />

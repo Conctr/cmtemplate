@@ -15,6 +15,7 @@ import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog'
 import LineGraph from '../molecules/LineGraph'
 import moment from 'moment'
 import { toast, ToastContainer } from 'react-toastify'
+require('moment-duration-format')
 
 function sorter(data,dataKeys){
   /* function to sort data into
@@ -322,15 +323,25 @@ determineGraphsWithClass = (allGraphs) => {
                    <CircularProgress />
                  )}
                  {this.state.keysShown.length > 0 ? (
-                   <div style={{display: 'flex',flexDirection: 'row',width: '100%',justifyContent: 'space-around'}}>
-                     {this.state.keysShown.map(keyShown => (
-                       <div style={{textAlign: 'center'}} key={keyShown.key} >
-                         <p>{keyShown.displayTitle}</p>
-                         <h3><b>{sortedData[keyShown.key].values[0].value} {keyShown.unit}</b></h3>
-                       </div>
-                     ))}
-                     {/*<DeviceInfoTable sortedData={sortedData} keysShown={this.state.keysShown}/>*/}
-                   </div>
+                  <div>
+                    <h5>Data updated {moment.duration(
+                        moment()
+                        .diff(
+                          moment(
+                            sortedData[Object.keys(sortedData)[0]].values[0].ts
+                          )
+                        )
+                      ).format('k [hours ]m [minutes] s [seconds ago]')}</h5>
+                    <div style={{display: 'flex',flexDirection: 'row',width: '100%',justifyContent: 'space-around'}}>
+                      {this.state.keysShown.map(keyShown => (
+                        <div style={{textAlign: 'center'}} key={keyShown.key} >
+                          <p>{keyShown.displayTitle}</p>
+                          <h3><b>{sortedData[keyShown.key].values[0].value} {keyShown.unit}</b></h3>
+                        </div>
+                      ))}
+                      {/*<DeviceInfoTable sortedData={sortedData} keysShown={this.state.keysShown}/>*/}
+                    </div>
+                  </div>
                  ) : (<h1>Please Select Attributes to Display</h1>)}
                  </Paper>
                  <br/>
@@ -341,7 +352,26 @@ determineGraphsWithClass = (allGraphs) => {
                 zDepth={1}>
                 <br/>
                 <h2>Data analysis</h2>
-                <h5>{/* last data recieved minutes ago xxx*/}</h5>
+                  <div style={{width: '100%',display: 'block'}}>
+                    {!this.state.loaderShown ? (
+                      <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
+                      <h5 style={{height: '45px',width: '14%',display: 'inline-block'}}>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
+                      <Slider style={{width: '85%',display: 'inline-block'}}
+                      min={1}
+                      max={24}
+                      step={1}
+                      value={this.state.hoursBack}
+                      onChange={(event,value) => {
+                        this.defaultChange = value
+                        this.handleSlider(value)
+                      }}
+                      onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
+                    />
+                    </div>
+                    ): (
+                      <CircularProgress />
+                    )}
+                  </div>
                 <div className='graph-with-select' style={{height: '800px'}}>
                   <div className='graph-select' style={{display: 'flex',flexDirection: 'column',height: '40%',width: '25%',float: 'left'}}>
                     <Menu>
@@ -363,7 +393,7 @@ determineGraphsWithClass = (allGraphs) => {
                   </div>
                   <div
                     className='graph'
-                    style={{height: '80%',width: '60%',float: 'right',marginRight: '20px'}}>
+                    style={{height: '60%',width: '40%',float: 'right',marginRight: '20px'}}>
                     {this.state.selectedGraphKey ? (
                       <LineGraph
                         graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}
@@ -378,26 +408,6 @@ determineGraphsWithClass = (allGraphs) => {
                         ) : null }
                       />
                     ) : ('Select Attribute to graph')}
-                  </div>
-                  <div style={{width: '100%',display: 'block'}}>
-                    {!this.state.loaderShown ? (
-                      <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-                      <h5 style={{height: '45px',width: '14%',display: 'inline-block'}}>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
-                      <Slider style={{width: '85%',display: 'inline-block'}}
-                      min={1}
-                      max={24}
-                      step={1}
-                      value={this.state.hoursBack}
-                      onChange={(event,value) => {
-                        this.defaultChange = value
-                        this.handleSlider(value)
-                      }}
-                      onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
-                    />
-                    </div>
-                    ): (
-                      <CircularProgress />
-                    )}
                   </div>
                 </div>
               </Paper>

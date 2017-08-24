@@ -5,10 +5,12 @@ var GoogleAuth
 var changeLoading
 var signInOrRegister
 var setConctrToken
+var handleErrors
 
-export function start(setLoadingState,setToken) {
+export function start(setLoadingState,setToken,handleError) {
   setConctrToken = setToken
   changeLoading = setLoadingState
+  handleErrors = handleError
   window.gapi.load('client:auth2',initClient)
 }
 
@@ -30,7 +32,7 @@ function updateSigninStatus(isSignedIn) {
         setConctrToken(data.jwt)
       })
       .catch(error => {
-        throw Error(error)
+        handleErrors(error)
       })
     }
   }

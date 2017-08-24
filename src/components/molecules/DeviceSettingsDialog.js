@@ -53,12 +53,6 @@ export default class DeviceSettingsDialog extends React.Component {
             handleClose={this.handleClose}
             saveSettings={this.props.saveSettings}
             resetGraphsShown={this.props.resetGraphsShown}/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-         <RaisedButton label="Close" onClick={this.handleClose}/>
 
         </Drawer>
       </div>

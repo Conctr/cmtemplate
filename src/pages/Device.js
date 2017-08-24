@@ -178,83 +178,83 @@ determineGraphsWithClass = (allGraphs) => {
         { !!this.state.data.length ? (
 
           <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-            
+
             {this.getBatteryPercentage(this.state.data[0].battery) >= 80 ? (
-              <div style={ { display: 'block', float: 'right' } }> 
-                <p style={ 
-                    { 
-                      position: 'absolute', color: 'darkgreen', 
-                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
-                    } 
+              <div style={ { display: 'block', float: 'right' } }>
+                <p style={
+                    {
+                      position: 'absolute', color: 'darkgreen',
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px'
+                    }
                 } > 100% </p>
-                <FaBattery0 
-                    style={ {  color: 'darkgreen', marginRight: '14px' } } 
-                    size={60} 
+                <FaBattery0
+                    style={ {  color: 'darkgreen', marginRight: '14px' } }
+                    size={60}
                   />
               </div>
             ) : this.getBatteryPercentage(this.state.data[0].battery) >= 60 ? (
-              <div style={ { display: 'block', float: 'right' } }> 
-                <p style={ 
-                    { 
-                      position: 'absolute', color: 'darkgreen', 
-                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
-                    } 
+              <div style={ { display: 'block', float: 'right' } }>
+                <p style={
+                    {
+                      position: 'absolute', color: 'darkgreen',
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px'
+                    }
                 } > 80% </p>
-                <FaBattery0 
-                    style={ {  color: 'darkgreen', marginRight: '14px' } } 
-                    size={60} 
+                <FaBattery0
+                    style={ {  color: 'darkgreen', marginRight: '14px' } }
+                    size={60}
                   />
               </div>
             ) : this.getBatteryPercentage(this.state.data[0].battery) >= 40 ? (
-              <div style={ { display: 'block', float: 'right' } }> 
-                <p style={ 
-                    { 
-                      position: 'absolute', color: 'green', 
-                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
-                    } 
+              <div style={ { display: 'block', float: 'right' } }>
+                <p style={
+                    {
+                      position: 'absolute', color: 'green',
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px'
+                    }
                 } > 60% </p>
-                <FaBattery0 
-                    style={ {  color: 'green', marginRight: '14px' } } 
-                    size={60} 
+                <FaBattery0
+                    style={ {  color: 'green', marginRight: '14px' } }
+                    size={60}
                   />
               </div>
             ) : this.getBatteryPercentage(this.state.data[0].battery) >= 20 ? (
-              <div style={ { display: 'block', float: 'right' } }> 
-                <p style={ 
-                    { 
-                      position: 'absolute', color: 'orange', 
-                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
-                    } 
+              <div style={ { display: 'block', float: 'right' } }>
+                <p style={
+                    {
+                      position: 'absolute', color: 'orange',
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px'
+                    }
                 } > 40% </p>
-                <FaBattery0 
-                    style={ {  color: 'orange', marginRight: '14px' } } 
-                    size={60} 
+                <FaBattery0
+                    style={ {  color: 'orange', marginRight: '14px' } }
+                    size={60}
                   />
               </div>
             ) : this.getBatteryPercentage(this.state.data[0].battery) >= 10 ? (
-              <div style={ { display: 'block', float: 'right' } }> 
-                <p style={ 
-                    { 
-                      position: 'absolute', color: 'red', 
-                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
-                    } 
+              <div style={ { display: 'block', float: 'right' } }>
+                <p style={
+                    {
+                      position: 'absolute', color: 'red',
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px'
+                    }
                 } > 20% </p>
-                <FaBattery0 
-                    style={ {  color: 'red', marginRight: '14px' } } 
-                    size={60} 
+                <FaBattery0
+                    style={ {  color: 'red', marginRight: '14px' } }
+                    size={60}
                   />
               </div>
             ) : this.getBatteryPercentage(this.state.data[0].battery) >= 0 ? (
-              <div style={ { display: 'block', float: 'right' } }> 
-                <p style={ 
-                    { 
-                      position: 'absolute', color: 'darkred', 
-                      zIndex: 1, marginLeft: '14px', marginTop: '22px' 
-                    } 
+              <div style={ { display: 'block', float: 'right' } }>
+                <p style={
+                    {
+                      position: 'absolute', color: 'darkred',
+                      zIndex: 1, marginLeft: '14px', marginTop: '22px'
+                    }
                 } > 10% </p>
-                <FaBattery0 
-                    style={ {  color: 'darkred', marginRight: '14px' } } 
-                    size={60} 
+                <FaBattery0
+                    style={ {  color: 'darkred', marginRight: '14px' } }
+                    size={60}
                   />
               </div>
             ) : 'Inavlid battery data'}
@@ -284,7 +284,7 @@ determineGraphsWithClass = (allGraphs) => {
              {sortedGraphs.length > 0 ? (
                 <div className='chip-container'>
                   {sortedGraphs.map(graph =>{
-                    return <MuiThemeProvider key={graph.key}>
+                    return <div key={graph.key}>
                     {graph.display ? (
                       <Chip
                       className='display-true'
@@ -299,7 +299,7 @@ determineGraphsWithClass = (allGraphs) => {
                         {graph.displayTitle}
                       </Chip>
                     )}
-                    </MuiThemeProvider>
+                    </div>
                   })}
                 </div>
              ) : (

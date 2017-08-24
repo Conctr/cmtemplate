@@ -32,7 +32,7 @@ class App extends Component {
   }
 
   handleError = (error) => {
-    this.setState({ error })
+    toast.error(error)
   }
 
   handleSignIn = ({ email, password }) => {
@@ -41,7 +41,7 @@ class App extends Component {
         this.setToken(json.jwt)
       })
       .catch(error => {
-        this.setState({ error: error.message })
+        this.handleError(error.message)
       })
   }
 
@@ -51,7 +51,7 @@ class App extends Component {
         this.setToken(json.jwt)
       })
       .catch(error => {
-        this.setState({ error: error.message })
+        this.handleError(error)
       })
   }
 
@@ -70,35 +70,28 @@ class App extends Component {
     this.setState({ token: token })
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (nextState.error === this.state.error && nextState.error != null){
-      this.setState({ error: null })
-    }
-  }
   componentDidMount(){
+    authAPI.init(this.handleError)
     loadDeviceApiFunctions('unloadToken',() => this.setToken(null))
   }
 
   render() {
-    if (!!this.state.error){
-      toast.error(this.state.error)
-    }
     return (
       <Router>
         {/* apply app theme*/}
         <MuiThemeProvider muiTheme={ wimoTheme }>
           <main>
-            <NavBar
-              signedIn={ !!this.state.token }
-              logOut={
-                () => this.setToken(null)
-              }
-            />
             <ToastContainer
               position="top-right"
               hideProgressBar={ false }
               newestOnTop={ false }
               closeOnClick
+            />
+            <NavBar
+              signedIn={ !!this.state.token }
+              logOut={
+                () => this.setToken(null)
+              }
             />
             <Switch>
               { !!this.state.token ?
@@ -116,6 +109,7 @@ class App extends Component {
                     exact path='/'
                     render={
                       () => <LoginPage
+                        handleErrors={this.handleError}
                         setToken={ this.setToken }
                         onSignIn={ this.handleSignIn }
                         onRegister={ this.handleRegister }

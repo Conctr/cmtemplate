@@ -45,7 +45,7 @@ export default class LoginPage extends Component {
 
   componentDidMount() {
     // init google auth
-    oauthApi.start(this.changeLoading, this.props.setToken)
+    oauthApi.start(this.changeLoading, this.props.setToken,this.props.handleErrors)
   }
 
   render() {

@@ -10,7 +10,6 @@ import {
   VictoryArea
 } from 'victory'
 import moment from 'moment'
-require('moment-duration-format')
 
 function epochToTime(values,milisecondConverter){
   // change
@@ -45,6 +44,12 @@ export default class NavBar extends React.Component {
     }
     return (
       <div>
+        { !!this.props.lowerlimit ?
+          <p> Low {this.props.graphPreference.displayTitle} warning: {this.props.lowerlimit} </p>
+        : false }
+        { !!this.props.upperlimit ?
+          <p> High {this.props.graphPreference.displayTitle} warning: {this.props.upperlimit}</p>
+        : false }
         <VictoryChart
           containerComponent={<VictoryVoronoiContainer/>}
           animate={{ duration: 500 }}
@@ -124,14 +129,6 @@ export default class NavBar extends React.Component {
               }}
           />
         </VictoryChart>
-
-        { !!this.props.lowerlimit ?
-          <p> Low {this.props.graphPreference.displayTitle} warning: {this.props.lowerlimit} </p>
-        : false }
-        { !!this.props.upperlimit ?
-          <p> High {this.props.graphPreference.displayTitle} warning: {this.props.upperlimit}</p>
-        : false }
-
       </div>
     );
   }
