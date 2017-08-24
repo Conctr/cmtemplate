@@ -11,7 +11,6 @@ import {
   ToolbarSeparator } from 'material-ui/Toolbar'
 import logo from '../../imgs/wimo-logo-y.svg'
 import {getUserDetails} from '../../api/oAuth'
-let firstName, lastName, avatarUser
 
 
 export default class NavBar extends React.Component {
@@ -35,21 +34,22 @@ export default class NavBar extends React.Component {
   handleOpenMenu = () => this.setState({ openMenu: true });
 
   render() {
-
-
+    let firstName, lastName, avatarUser
       getUserDetails()["firstname"] 
       ? firstName = getUserDetails()["firstname"]
-      : firstName = null 
+      : firstName = 'Set' 
 
 
       getUserDetails()["lastname"] 
       ? lastName = getUserDetails()["lastname"]
-      : lastName = null 
+      : lastName = 'Profile' 
 
-
-      getUserDetails()["avatar"] 
-      ? avatarUser = getUserDetails()["avatar"]
-      : avatarUser = 'https://mysticpants.com/_include/img/CONCTR-LOGO-MUSTARD-LINE.png'
+      console.log( 'avatar from navbar ',getUserDetails().avatar )
+      if(getUserDetails()["avatar"]){
+        avatarUser = getUserDetails()["avatar"]
+      } else {
+        avatarUser = 'https://mysticpants.com/_include/img/CONCTR-LOGO-MUSTARD-LINE.png'
+      }
 
   
 
@@ -74,11 +74,11 @@ export default class NavBar extends React.Component {
                 icon={
                   <Avatar
                     // src="http://i.telegraph.co.uk/multimedia/archive/03388/enfield_3388479b.jpg"
-                    src={getUserDetails()["avatar"]}
+                    src={avatarUser}
                     size={ 30 }
                   />
                 }
-                label={ getUserDetails()["firstname"] + ' ' + getUserDetails()["lastname"] }
+                label={ firstName + ' ' + lastName }
               />
               <IconMenu
                 iconButtonElement={
