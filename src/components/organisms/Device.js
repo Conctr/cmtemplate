@@ -81,7 +81,6 @@ export default class DeviceInfo extends Component {
   originalShownKeys;
 
   componentDidMount(){
-    this.getDeviceSettings()
     deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack,this.handleUpdateData)
     Promise.all([getDeviceModel(this.props.deviceId),getDevice(this.props.deviceId),getDeviceAlertSettings()])
     .then(([model,deviceData,deviceAlertSettings]) => {
@@ -95,6 +94,7 @@ export default class DeviceInfo extends Component {
           unit: modelData.unit
         }
       })
+      this.getDeviceSettings()
     })
     .catch(error => {
       // this.props.handleError(error)
@@ -105,7 +105,6 @@ export default class DeviceInfo extends Component {
     this.setState({
       data: null
     })
-    this.getDeviceSettings()
     deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack,this.handleUpdateData)
     Promise.all([getDeviceModel(this.props.deviceId),getDevice(this.props.deviceId),getDeviceAlertSettings()])
     .then(([model,deviceData,deviceAlertSettings]) => {
@@ -118,6 +117,7 @@ export default class DeviceInfo extends Component {
           unit: modelData.unit
         }
       })
+      this.getDeviceSettings()
     })
     .catch(error => {
       // this.props.handleError(error)
@@ -138,6 +138,7 @@ determineGraphsWithClass = (allGraphs) => {
 }
 
   updateData = (newData)=>{
+
     this.setState({
       data: newData,
       loaderShown:false
@@ -223,17 +224,13 @@ determineGraphsWithClass = (allGraphs) => {
 
   getDeviceSettings = () => {
     // Graph Preference
-    let graphPreference = this.getGraphSettings()
-    if(!graphPreference){
-      graphPreference = this.saveGraphSettings([
-        {"key":"temperature","displayTitle":"temperature","unit":"°c","display": true},
-        {"key":"humidity","displayTitle":"humidity","unit":"%","display": true}
-      ])
-    } else {
-      graphPreference = JSON.parse(graphPreference)
-    }
-    this.originalShownKeys = graphPreference
-    this.setState({keysShown: graphPreference})
+    let alertSettingConditions = {...this.alertSettings}
+    delete alertSettingConditions.alertSettings
+    let array = []
+    Object.keys(alertSettingConditions).forEach(settingCondition => {
+      array.push(this.allGraphs.find(graph => graph.key === settingCondition))
+    })
+    this.setState({keysShown: array})
   }
 
   saveDeviceSettings = (rules) => {
@@ -274,8 +271,11 @@ determineGraphsWithClass = (allGraphs) => {
 
   render() {
     const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
-    const sortedData = sorter(this.state.data,this.state.keysShown.map(graph => graph.key))
-    console.log('this.alertSettings render',this.alertSettings)
+    const sortedData = sorter(this.state.data,this.allGraphs.map(graph => graph.key))
+    console.log('keysShown',this.state.keysShown)
+    console.log('sortedGraphs',sortedGraphs)
+    console.log('this.allGraphs',this.allGraphs)
+    console.log('sortedData',sortedData)
     return (
       <div style={{textAlign: 'center'}}>
         <ToastContainer
@@ -308,7 +308,6 @@ determineGraphsWithClass = (allGraphs) => {
                   <h2>Current Status</h2>
                  {sortedGraphs.length > 0 ? (
                    <DeviceSettingsDialog
-
                      resetGraphsShown={this.resetGraphsShown}
                      newDeviceName ={this.updateDeviceName}
                      alertSettings={this.alertSettings}
@@ -318,6 +317,7 @@ determineGraphsWithClass = (allGraphs) => {
                      handleGraphAdd={this.handleGraphAdd}
                      sortedGraphs={sortedGraphs}
                      deviceData={this.deviceData}
+                     keysShown={this.state.keysShown}
                      />
                  ) : (
                    <CircularProgress />
@@ -375,7 +375,7 @@ determineGraphsWithClass = (allGraphs) => {
                 <div className='graph-with-select' style={{height: '800px'}}>
                   <div className='graph-select' style={{display: 'flex',flexDirection: 'column',height: '40%',width: '25%',float: 'left'}}>
                     <Menu>
-                      {this.state.keysShown.map(keyShown => (
+                      {sortedGraphs.map(keyShown => (
                         <div key={`${keyShown.key}Graph`}>
                           {keyShown.key === this.state.selectedGraphKey ? (
                             <MenuItem
@@ -396,7 +396,7 @@ determineGraphsWithClass = (allGraphs) => {
                     style={{height: '60%',width: '40%',float: 'right',marginRight: '20px'}}>
                     {this.state.selectedGraphKey ? (
                       <LineGraph
-                        graphPreference={this.state.keysShown.find(object => (object.key === this.state.selectedGraphKey))}
+                        graphPreference={sortedGraphs.find(object => (object.key === this.state.selectedGraphKey))}
                         values={sortedData[this.state.selectedGraphKey].values}
                         rangeX={sortedData[this.state.selectedGraphKey].rangeX}
                         rangeY={sortedData[this.state.selectedGraphKey].rangeY}

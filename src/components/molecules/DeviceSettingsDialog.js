@@ -25,7 +25,6 @@ export default class DeviceSettingsDialog extends React.Component {
 
   render() {
     let deviceData = this.props.deviceData
-    console.log(this.state.deviceName)
     return (
       <div>
         <RaisedButton
@@ -50,10 +49,11 @@ export default class DeviceSettingsDialog extends React.Component {
          handleGraphAdd={this.props.handleGraphAdd}
          sortedGraphs={this.props.sortedGraphs}/>
           <RulesUI
+            keysShown={this.props.keysShown}
             handleClose={this.handleClose}
             saveSettings={this.props.saveSettings}
-            resetGraphsShown={this.props.resetGraphsShown}/>
-
+            resetGraphsShown={this.props.resetGraphsShown}
+            sortedGraphs={this.props.sortedGraphs}/>
         </Drawer>
       </div>
     );
