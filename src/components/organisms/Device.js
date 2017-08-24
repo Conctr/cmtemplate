@@ -81,8 +81,17 @@ export default class DeviceInfo extends Component {
   originalShownKeys;
 
   componentDidMount(){
-    deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack,this.handleUpdateData)
-    Promise.all([getDeviceModel(this.props.deviceId),getDevice(this.props.deviceId),getDeviceAlertSettings()])
+    deviceWebSocket.getDevicesData(
+      this.props.deviceId,
+      this.updateData,
+      this.state.hoursBack,
+      this.handleUpdateData
+    )
+    Promise.all([
+      getDeviceModel(this.props.deviceId),
+      getDevice(this.props.deviceId),
+      getDeviceAlertSettings()
+    ])
     .then(([model,deviceData,deviceAlertSettings]) => {
       this.deviceData = deviceData
       this.setState({"newDeviceName":deviceData.name})
@@ -101,12 +110,22 @@ export default class DeviceInfo extends Component {
       console.error(error);
     })
   }
+
   componentWillReceiveProps({deviceId}) {
     this.setState({
       data: null
     })
-    deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, this.state.hoursBack,this.handleUpdateData)
-    Promise.all([getDeviceModel(this.props.deviceId),getDevice(this.props.deviceId),getDeviceAlertSettings()])
+    deviceWebSocket.getDevicesData(
+      this.props.deviceId,
+      this.updateData,
+      this.state.hoursBack,
+      this.handleUpdateData
+    )
+    Promise.all([
+      getDeviceModel(this.props.deviceId),
+      getDevice(this.props.deviceId),
+      getDeviceAlertSettings()
+    ])
     .then(([model,deviceData,deviceAlertSettings]) => {
       this.deviceData = deviceData
       this.alertSettings = deviceAlertSettings
@@ -125,20 +144,19 @@ export default class DeviceInfo extends Component {
     })
   }
 
-determineGraphsWithClass = (allGraphs) => {
-  this.state.keysShown.forEach(graphShown => {
-    allGraphs.forEach(graph => {
-      if(graphShown.key === graph.key) {
-        graph.display = true
-        // Optimasation issue, loop will keep running even when matched
-      }
+  determineGraphsWithClass = (allGraphs) => {
+    this.state.keysShown.forEach(graphShown => {
+      allGraphs.forEach(graph => {
+        if(graphShown.key === graph.key) {
+          graph.display = true
+          // Optimasation issue, loop will keep running even when matched
+        }
+      })
     })
-  })
-  return allGraphs
-}
+    return allGraphs
+  }
 
   updateData = (newData)=>{
-
     this.setState({
       data: newData,
       loaderShown:false
@@ -146,15 +164,17 @@ determineGraphsWithClass = (allGraphs) => {
   }
 
   handleUpdateData = (newData)=>{
-
     this.setState({
       data: this.state.data.concat(newData)
     })
   }
 
   handleSliderStop = (value)=>{
-    deviceWebSocket.getDevicesData(this.props.deviceId, this.updateData, value,this.handleUpdateData)
-
+    deviceWebSocket.getDevicesData(
+      this.props.deviceId,
+      this.updateData,
+      value,this.handleUpdateData
+    )
     this.setState({
       hoursBack: value,
       loaderShown: true,
@@ -299,22 +319,19 @@ determineGraphsWithClass = (allGraphs) => {
                   marginLeft: 'auto',
                   marginRight: 'auto'
                 }}>
-                <br/>
-                <br/>
-                <br/>
                 <h1>{this.state.newDeviceName ? this.state.newDeviceName : 'No Name'}</h1>
                 <div style={{
                   width: '100%',
                   display: 'flex',
                   justifyContent: 'center'
                 }}>
+                </div>
+                <div className='current-status-header'>
                   <BatteryIcon
                     batteryPercentage={
                       this.getBatteryPercentage(this.state.data[0].battery)
                     }
                   />
-                </div>
-                <div>
                   <h2>Current Status</h2>
                   {sortedGraphs.length > 0 ? (
                     <DeviceSettingsDialog
@@ -364,46 +381,74 @@ determineGraphsWithClass = (allGraphs) => {
                   </div>
                  ) : (<h1>Please Select Attributes to Display</h1>)}
                  </div>
-                 <br/>
-                 <br/>
-                 <br/>
               <Paper
-                style={{width: '90%',marginLeft: 'auto',marginRight: 'auto',marginBottom: '15px'}}
+                style={{
+                  width: '90%',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  marginBottom: '15px'
+                }}
                 zDepth={1}>
                 <br/>
                 <h2>Data analysis</h2>
                   <div style={{width: '100%',display: 'block'}}>
                     {!this.state.loaderShown ? (
-                      <div style={{height: '90px',width: '80%',display: 'flex',flexDirection: 'row',alignItems: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
-                      <h5 style={{height: '45px',width: '14%',display: 'inline-block'}}>{`Data range: ${this.state.hoursBackShown} hours`}</h5>
-                      <Slider style={{width: '85%',display: 'inline-block'}}
-                      min={1}
-                      max={24}
-                      step={1}
-                      value={this.state.hoursBack}
-                      onChange={(event,value) => {
-                        this.defaultChange = value
-                        this.handleSlider(value)
-                      }}
-                      onDragStop={() => {
-                        this.defaultChange > 0 && this.handleSliderStop(
-                          this.defaultChange
-                        )
-                      }}
-                    />
-                    </div>
-                    ): (
+                      <div style={{
+                        height: '90px',
+                        width: '80%',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginLeft: 'auto',
+                        marginRight: 'auto'
+                      }}>
+                        <h5 style={{
+                          height: '45px',
+                          width: '14%',
+                          display: 'inline-block'
+                        }}>
+                          {`Data range: ${this.state.hoursBackShown} hours`}
+                        </h5>
+                        <Slider
+                          style={{width: '85%',display: 'inline-block'}}
+                          min={1}
+                          max={24}
+                          step={1}
+                          value={this.state.hoursBack}
+                          onChange={(event,value) => {
+                            this.defaultChange = value
+                            this.handleSlider(value)
+                          }}
+                          onDragStop={() => {
+                            this.defaultChange > 0 && this.handleSliderStop(
+                              this.defaultChange
+                            )
+                          }}
+                        />
+                      </div>
+                    ) : (
                       <CircularProgress />
                     )}
                   </div>
                 <div className='graph-with-select' style={{height: '800px'}}>
-                  <div className='graph-select' style={{display: 'flex',flexDirection: 'column',height: '40%',width: '25%',float: 'left'}}>
+                  <div
+                    className='graph-select'
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '40%',
+                      width: '25%',
+                      float: 'left'
+                    }}
+                  >
                     <Menu>
                       {sortedGraphs.map(keyShown => (
                         <div key={`${keyShown.key}Graph`}>
                           {keyShown.key === this.state.selectedGraphKey ? (
                             <MenuItem
-                              style={{backgroundColor: 'linear-gradient(0deg, blue, white)'}}
+                              style={{
+                                backgroundColor: 'linear-gradient(0deg, blue, white)'
+                              }}
                               onTouchTap={() => this.handleGraphSelect(keyShown.key)}
                               primaryText={keyShown.displayTitle}/>
                           ) : (
@@ -417,14 +462,24 @@ determineGraphsWithClass = (allGraphs) => {
                   </div>
                   <div
                     className='graph'
-                    style={{height: '60%',width: '40%',float: 'right',marginRight: '20px'}}>
+                    style={{
+                      height: '60%',
+                      width: '40%',
+                      float: 'right',
+                      marginRight: '20px'
+                    }}>
                     {this.state.selectedGraphKey ? (
                       <LineGraph
-                        graphPreference={sortedGraphs.find(object => (object.key === this.state.selectedGraphKey))}
+                        graphPreference={
+                          sortedGraphs.find(object => (
+                            object.key === this.state.selectedGraphKey)
+                          )
+                        }
                         values={sortedData[this.state.selectedGraphKey].values}
                         rangeX={sortedData[this.state.selectedGraphKey].rangeX}
                         rangeY={sortedData[this.state.selectedGraphKey].rangeY}
-                        upperlimit={this.alertSettings && this.alertSettings[this.state.selectedGraphKey] ? (
+                        upperlimit={
+                          this.alertSettings && this.alertSettings[this.state.selectedGraphKey] ? (
                           parseFloat(this.alertSettings[this.state.selectedGraphKey]['GT'])
                         ) : null }
                         lowerlimit={this.alertSettings && this.alertSettings[this.state.selectedGraphKey] ? (
