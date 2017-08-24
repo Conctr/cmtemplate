@@ -35,14 +35,14 @@ export default class NavBar extends React.Component {
 
   render() {
     let firstName, lastName, avatarUser
-      getUserDetails()["firstname"] 
+      getUserDetails()["firstname"]
       ? firstName = getUserDetails()["firstname"]
-      : firstName = 'Set' 
+      : firstName = 'Set'
 
 
-      getUserDetails()["lastname"] 
+      getUserDetails()["lastname"]
       ? lastName = getUserDetails()["lastname"]
-      : lastName = 'Profile' 
+      : lastName = 'Profile'
 
       console.log( 'avatar from navbar ',getUserDetails().avatar )
       if(getUserDetails()["avatar"]){
@@ -50,10 +50,6 @@ export default class NavBar extends React.Component {
       } else {
         avatarUser = 'https://mysticpants.com/_include/img/CONCTR-LOGO-MUSTARD-LINE.png'
       }
-
-  
-
-
 
     return (
       <div>

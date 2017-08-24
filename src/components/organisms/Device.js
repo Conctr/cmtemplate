@@ -326,91 +326,96 @@ export default class DeviceInfo extends Component {
                   justifyContent: 'center'
                 }}>
                 </div>
-                <div className='current-status-header'>
-                  <BatteryIcon
-                    batteryPercentage={
-                      this.getBatteryPercentage(this.state.data[0].battery)
-                    }
-                  />
-                  <h2>Current Status</h2>
-                  {sortedGraphs.length > 0 ? (
-                    <DeviceSettingsDialog
-                      resetGraphsShown={this.resetGraphsShown}
-                      newDeviceName ={this.updateDeviceName}
-                      alertSettings={this.alertSettings}
-                      saveSettings={this.saveDeviceSettings}
-                      updateDevice={updateDevice}
-                      handleGraphDelete={this.handleGraphDelete}
-                      handleGraphAdd={this.handleGraphAdd}
-                      sortedGraphs={sortedGraphs}
-                      deviceData={this.deviceData}
-                      keysShown={this.state.keysShown}
-                    />
-                  ) : (
-                   <CircularProgress />
-                  )}
-                 {this.state.keysShown.length > 0 ? (
-                  <div>
-                    <h5>Data updated {moment.duration(
-                        moment()
-                        .diff(
-                          moment(
-                            sortedData[Object.keys(sortedData)[0]].values[0].ts
+
+                {/* Current Status Section */}
+
+                <div className='status-container'>
+                  <div className='section-header'>
+                    <div className='status-title-block'>
+                      <h2 className='status-title'>Current Status</h2>
+                      <p className='status-data-age'>Data last updated {
+                        moment.duration(
+                          moment().diff(
+                            moment(
+                              sortedData[
+                                Object.keys(sortedData)[0]
+                              ].values[0].ts
+                            )
                           )
-                        )
-                      ).format('k [hours ]m [minutes] s [seconds ago]')}</h5>
-                    <div style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      width: '100%',
-                      justifyContent: 'space-around'
-                    }}>
+                        ).format('k[hr] m[min] s[sec ago]')
+                      }</p>
+                    </div>
+                    {sortedGraphs.length > 0 ? (
+                      <DeviceSettingsDialog
+                        resetGraphsShown={this.resetGraphsShown}
+                        newDeviceName ={this.updateDeviceName}
+                        alertSettings={this.alertSettings}
+                        saveSettings={this.saveDeviceSettings}
+                        updateDevice={updateDevice}
+                        handleGraphDelete={this.handleGraphDelete}
+                        handleGraphAdd={this.handleGraphAdd}
+                        sortedGraphs={sortedGraphs}
+                        deviceData={this.deviceData}
+                        keysShown={this.state.keysShown}
+                      />
+                    ) : (
+                      <CircularProgress />
+                    )}
+                  </div>
+                  {this.state.keysShown.length > 0 ? (
+                    <div>
+                      <div className='status-data-array'>
                       {this.state.keysShown.map(keyShown => (
-                        <div
-                          style={{
-                            textAlign: 'center'
-                          }}
+                        <div className='status-data-element'
                           key={keyShown.key}
                         >
-                          <p>{keyShown.displayTitle}</p>
-                          <h3><b>{sortedData[keyShown.key].values[0].value.toFixed(1)} {keyShown.unit}</b></h3>
+                          <p className='status-data-type'>
+                            {keyShown.displayTitle}
+                          </p>
+                          <h3 className='status-data-value'>
+                            {sortedData[keyShown.key].values[0].value.toFixed(1)} {keyShown.unit}
+                          </h3>
                         </div>
                       ))}
-                      {/*<DeviceInfoTable sortedData={sortedData} keysShown={this.state.keysShown}/>*/}
                     </div>
                   </div>
-                 ) : (<h1>Please Select Attributes to Display</h1>)}
-                 </div>
-              <Paper
-                style={{
-                  width: '90%',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                  marginBottom: '15px'
-                }}
-                zDepth={1}>
-                <br/>
-                <h2>Data analysis</h2>
-                  <div style={{width: '100%',display: 'block'}}>
+                  ) : (
+                    <div className='selection-prompt-container'>
+                      <h1 className='selection-prompt'>
+                        Select sensors from the settings menu to view live data
+                      </h1>
+                    </div>
+                  )}
+                </div>
+
+              {/* Data Analysis Section */}
+
+                <div className='analysis-container'>
+                  <div className='section-header'>
+                    <h2 className='analysis-title'>Data Analysis</h2>
+                  </div>
+
+
+
+
+                  <div className='analysis-slider'>
                     {!this.state.loaderShown ? (
                       <div style={{
-                        height: '90px',
-                        width: '80%',
                         display: 'flex',
-                        flexDirection: 'row',
                         alignItems: 'center',
                         marginLeft: 'auto',
                         marginRight: 'auto'
                       }}>
-                        <h5 style={{
-                          height: '45px',
-                          width: '14%',
-                          display: 'inline-block'
-                        }}>
-                          {`Data range: ${this.state.hoursBackShown} hours`}
-                        </h5>
+                        <div className='slider-range'>
+                          <h5 className='range-title'>
+                            data range
+                          </h5>
+                          <h5 className='range-value'>
+                            {`${this.state.hoursBackShown} hours`}
+                          </h5>
+                        </div>
                         <Slider
-                          style={{width: '85%',display: 'inline-block'}}
+                          style={{width: '65%'}}
                           min={1}
                           max={24}
                           step={1}
@@ -430,17 +435,13 @@ export default class DeviceInfo extends Component {
                       <CircularProgress />
                     )}
                   </div>
-                <div className='graph-with-select' style={{height: '800px'}}>
-                  <div
-                    className='graph-select'
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      height: '40%',
-                      width: '25%',
-                      float: 'left'
-                    }}
-                  >
+
+
+
+                <div className='graph-block'>
+
+
+                  <div className='graph-menu'>
                     <Menu>
                       {sortedGraphs.map(keyShown => (
                         <div key={`${keyShown.key}Graph`}>
@@ -455,19 +456,14 @@ export default class DeviceInfo extends Component {
                             <MenuItem
                               onTouchTap={() => this.handleGraphSelect(keyShown.key)}
                               primaryText={keyShown.displayTitle}/>
-                          ) }
+                          )}
                         </div>
                       ))}
                     </Menu>
                   </div>
-                  <div
-                    className='graph'
-                    style={{
-                      height: '60%',
-                      width: '40%',
-                      float: 'right',
-                      marginRight: '20px'
-                    }}>
+
+
+                  <div className='graph'>
                     {this.state.selectedGraphKey ? (
                       <LineGraph
                         graphPreference={
@@ -486,10 +482,14 @@ export default class DeviceInfo extends Component {
                           parseFloat(this.alertSettings[this.state.selectedGraphKey]['LT'])
                         ) : null }
                       />
-                    ) : ('Select Attribute to graph')}
+                    ) : (
+                      false
+                    )}
                   </div>
+
+
                 </div>
-              </Paper>
+              </div>
               </div>
             ) : <h3>No Data Associated with this device</h3>}
           </div>

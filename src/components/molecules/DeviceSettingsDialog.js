@@ -28,14 +28,21 @@ export default class DeviceSettingsDialog extends React.Component {
   render() {
     let deviceData = this.props.deviceData
     return (
-      <div>
-        <IconButton>
-
+      <div className='device-settings'>
+        <IconButton
+          className='device-settings-modal-button'
+          iconStyle={{
+            width:48,
+            height:48
+          }}
+          style={{
+            width: 96,
+            height: 96,
+          }}>
+          <Settings
+            onClick={this.handleToggle}
+          />
         </IconButton>
-        <RaisedButton
-          label={<SettingsIcon/>}
-          onClick={this.handleToggle}
-        />
         <Drawer open={this.state.open}
         openSecondary={true}
         width={400}>

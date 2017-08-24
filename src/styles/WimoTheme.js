@@ -5,6 +5,9 @@ export const wimoTheme = getMuiTheme({
   chip: {
     backgroundColor: red50
   },
+  circularProgress:{
+     color: red800
+  },
   flatButton: {
     primaryTextColor: red800
   },
