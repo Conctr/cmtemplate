@@ -10,7 +10,7 @@ export default class DevicePage extends Component {
     super(props);
     this.state = {
       devicesData: null,
-      selectedDevice: null
+      selectedDevice: '30000c2a690cc6be'
     }
   }
 

@@ -96,9 +96,7 @@ export default class RulesUI extends Component{
   componentDidMount(){
     getDeviceAlertSettings()
     .then(alertSettings => {
-      console.log('alertSettings',alertSettings)
       originalAlertSettings = alertSettings
-      console.log('Bawitaba de bang de bang',originalAlertSettings)
       this.alertSendSettings = alertSettings.alertSettings
       delete alertSettings.alertSettings
       this.setState({
@@ -122,19 +120,18 @@ export default class RulesUI extends Component{
   }
 
   render() {
-    console.log('rulesssss',JSON.stringify(this.state.rules))
     return !this.state.loading ? (
       <div>
         <h3>Alert Settings</h3>
             <div>
-              {ruleRows.map(rowPreference => (
-                <div key={rowPreference.identifier}>
+              {this.props.keysShown.map(rowPreference => (
+                <div key={rowPreference.key}>
                 <RuleRow
                 onToggle={this.onToggle}
                 changeRule={this.changeRule}
-                ruleData={this.state.rules[rowPreference.identifier]}
-                title={rowPreference.title}
-                identifier={rowPreference.identifier}
+                ruleData={this.state.rules[rowPreference.key]}
+                title={rowPreference.displayTitle}
+                identifier={rowPreference.key}
                 />
                 <br/>
                 </div>
