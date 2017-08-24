@@ -51,7 +51,7 @@ class DevicePage extends Component {
                             Last Online(time)
                           </h5>,
                           <p key='value_time_hours'>
-                            {moment(device.last_online).format("h:m A")}
+                            {moment(device.last_online).format("h:mm A")}
                           </p>,
                           <p key='value_time_further'>
                             {moment(device.last_online).format("MMMM Do YYYY")}
