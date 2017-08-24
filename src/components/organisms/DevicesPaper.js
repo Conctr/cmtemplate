@@ -27,30 +27,33 @@ export default class DevicePage extends Component {
 
   render() {
     return (
-      <div style={{
-        width: '95%',
-        margin: 'auto',
-        marginTop: '2.5%',
-        marginBottom: '2.5%'
-      }}>
+      <div className='device-select-container'>
         { this.state.devicesData ? (
-          <div>
-            <Paper
-            zDepth={ 1 }>
-            <br/>
-            <DevicesSelectModal
-              selectedDevice={ this.state.selectedDevice }
-              devicesData={ this.state.devicesData }
-              selectDevice={ this.handleDeviceSelect }
-            />
-            { this.state.selectedDevice ? (
-              <Device
-                deviceId={ this.state.selectedDevice }
-                handleError={ this.props.handleError }
-              />
-            ) : (
-              <h1>Please select a device</h1>
-            )}
+          <div >
+            <Paper zDepth={ 1 }>
+              <div className='device-select-content'>
+                { !this.state.selectedDevice ? (
+                  <h1 className='device-select-prompt'>
+                    Please select a device
+                  </h1>
+                ) : (
+                  false
+                )}
+                <br/>
+                <DevicesSelectModal
+                  selectedDevice={ this.state.selectedDevice }
+                  devicesData={ this.state.devicesData }
+                  selectDevice={ this.handleDeviceSelect }
+                />
+                { this.state.selectedDevice ? (
+                  <Device
+                    deviceId={ this.state.selectedDevice }
+                    handleError={ this.props.handleError }
+                  />
+                ) : (
+                  false
+                )}
+              </div>
             </Paper>
           </div>
         ) : (
