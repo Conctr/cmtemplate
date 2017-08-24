@@ -15,10 +15,9 @@ class DevicePage extends Component {
 
   render() {
     return (
-      <div style={{paddingTop: '30px'}}>
+      <div>
         <MobileTearSheet>
           <List>
-            <Subheader>Devices</Subheader>
               {this.state.devicesData.map(device => (
                 <ListItem
                   leftAvatar={

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import * as oauthApi from '../api/oAuth'
-import RaisedButton from 'material-ui/RaisedButton'
 import CircularProgress from 'material-ui/CircularProgress'
-import TextField from '../components/atoms/TextField'
-import logo from '../imgs/wimo-logo.svg'
-import GoogleIcon from 'react-icons/lib/fa/google'
 import Divider from 'material-ui/Divider'
+import RaisedButton from 'material-ui/RaisedButton'
+import TextField from '../components/atoms/TextField'
+import GoogleIcon from 'react-icons/lib/fa/google'
+import wimoLogo from '../imgs/wimo-logo.svg'
+import conctrLogo from '../imgs/conctr-logo.png'
 
 export default class LoginPage extends Component {
   constructor(props) {
@@ -51,14 +52,25 @@ export default class LoginPage extends Component {
   render() {
     return (
       <div className='login-background'>
-        <div className='conctr-footer'>Powered by Conctr</div>
+        <div className='conctr-footer-box'>
+          <div className='conctr-footer-text'>powered by</div>
+          <a href='https://conctr.com/'>
+            <img
+              src={ conctrLogo }
+              alt='conctr logo'
+              className='conctr-footer-logo'
+            />
+          </a>
+        </div>
         <div className='welcome-container'>
           { this.state.loading ? (
             <CircularProgress />
             ) : (
               <div className='login-dialogue'>
                 <img
-                  src={ logo } alt='wimo logo' className='login-logo' />
+                  src={ wimoLogo }
+                  alt='wimo logo'
+                  className='wimo-login-logo' />
                 <div>
                   <div className='login-text-fields'>
                     <TextField

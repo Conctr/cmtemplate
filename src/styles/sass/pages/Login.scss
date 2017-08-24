@@ -7,13 +7,24 @@
   background-position: center;
 }
 
-.conctr-footer {
+.conctr-footer-box {
   position: absolute;
+  display: flex;
   bottom: 0;
   left: 0;
   right: 0;
-  margin: 0 auto; 
+  margin: 0 auto 5px;
+  flex-direction: column;
+}
+
+.conctr-footer-logo {
+  margin: auto;
+  max-width: 100px;
+}
+
+.conctr-footer-text {
   color: white;
+  margin-bottom: 10px;
 }
 
 .login-text-fields {
@@ -22,7 +33,7 @@
   max-width: 85%;
 }
 
-.login-logo {
+.wimo-login-logo {
   max-width: 85%;
   padding-bottom: 20px;
 }
