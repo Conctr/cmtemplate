@@ -6,10 +6,10 @@ export default class RuleRow extends Component{
 
   render() {
     return (
-      <Toolbar style={{width: '100%'}}>
+      <Toolbar style={{backgroundColor: 'white',width: '100%'}}>
         <ToolbarTitle text={this.props.title}/>
         <ToolbarSeparator />
-        <ToolbarGroup style={{display: 'flex',flexDirection: 'row'}}>
+        <ToolbarGroup style={{backgroundColor: 'white',display: 'flex',flexDirection: 'row'}}>
           <RuleCell
             changeRule={this.props.changeRule}
             onToggle={this.props.onToggle}
