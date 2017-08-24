@@ -1,5 +1,6 @@
 import React from 'react'
 import Chip from '../atoms/Chip'
+import {red50} from 'material-ui/styles/colors';
 
 
 export default function CustomTable(props) {
@@ -9,7 +10,8 @@ export default function CustomTable(props) {
       {graph.display ? (
         <Chip
         className='display-true'
-        style={{backgroundColor: '#ff9999',color: 'white'}}
+        labelColor={red50}
+        style={{backgroundColor: '#ff9999'}}
         onRequestDelete={() => props.handleGraphDelete(graph.key)}>
           {graph.displayTitle}
         </Chip>
