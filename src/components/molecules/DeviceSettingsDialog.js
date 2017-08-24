@@ -29,6 +29,9 @@ export default class DeviceSettingsDialog extends React.Component {
     let deviceData = this.props.deviceData
     return (
       <div>
+        <IconButton>
+
+        </IconButton>
         <RaisedButton
           label={<SettingsIcon/>}
           onClick={this.handleToggle}

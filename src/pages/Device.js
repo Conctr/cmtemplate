@@ -6,8 +6,6 @@ import Slider from 'material-ui/Slider'
 import Chip from 'material-ui/Chip';
 import FaBattery0 from 'react-icons/lib/fa/battery-0'
 import LineGraph from '../components/molecules/LineGraph'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-
 
 function sorter(data,dataKeys){
   let sortedValues = {}

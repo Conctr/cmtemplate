@@ -66,7 +66,7 @@ export default class LoginPage extends Component {
           { this.state.loading ? (
             <CircularProgress />
             ) : (
-              <div className='login-dialogue'>
+              <div className='login-dialog'>
                 <img
                   src={ wimoLogo }
                   alt='wimo logo'

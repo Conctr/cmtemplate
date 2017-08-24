@@ -40,14 +40,16 @@
 
 .welcome-container {
   position: absolute;
-  bottom: 7.5vw;
+  bottom: 120px;
   left: 7.5vw;
-  max-width: 30%;
+  height: 500px;
+  width: 390px;
+  max-width: 90%;
   min-width: 300px;
   margin: auto;
 }
 
-.login-dialogue {
+.login-dialog {
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 5px;
@@ -89,4 +91,14 @@
 
 .button-icon {
   margin-bottom: 2px;
+}
+
+@media only screen and (max-width: 768px) {
+
+  .welcome-container {
+    position: relative;
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
