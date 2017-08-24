@@ -336,7 +336,7 @@ determineGraphsWithClass = (allGraphs) => {
                       {this.state.keysShown.map(keyShown => (
                         <div style={{textAlign: 'center'}} key={keyShown.key} >
                           <p>{keyShown.displayTitle}</p>
-                          <h3><b>{sortedData[keyShown.key].values[0].value} {keyShown.unit}</b></h3>
+                          <h3><b>{sortedData[keyShown.key].values[0].value.toFixed(1)} {keyShown.unit}</b></h3>
                         </div>
                       ))}
                       {/*<DeviceInfoTable sortedData={sortedData} keysShown={this.state.keysShown}/>*/}
@@ -401,10 +401,10 @@ determineGraphsWithClass = (allGraphs) => {
                         rangeX={sortedData[this.state.selectedGraphKey].rangeX}
                         rangeY={sortedData[this.state.selectedGraphKey].rangeY}
                         upperlimit={this.alertSettings && this.alertSettings[this.state.selectedGraphKey] ? (
-                          parseInt(this.alertSettings[this.state.selectedGraphKey]['GT'], 10)
+                          parseFloat(this.alertSettings[this.state.selectedGraphKey]['GT'])
                         ) : null }
                         lowerlimit={this.alertSettings && this.alertSettings[this.state.selectedGraphKey] ? (
-                          parseInt(this.alertSettings[this.state.selectedGraphKey]['LT'], 10)
+                          parseFloat(this.alertSettings[this.state.selectedGraphKey]['LT'])
                         ) : null }
                       />
                     ) : ('Select Attribute to graph')}
