@@ -401,10 +401,10 @@ determineGraphsWithClass = (allGraphs) => {
                         rangeX={sortedData[this.state.selectedGraphKey].rangeX}
                         rangeY={sortedData[this.state.selectedGraphKey].rangeY}
                         upperlimit={this.alertSettings && this.alertSettings[this.state.selectedGraphKey] ? (
-                          parseInt(this.alertSettings[this.state.selectedGraphKey]['GT'], 10)
+                          parseFloat(this.alertSettings[this.state.selectedGraphKey]['GT'])
                         ) : null }
                         lowerlimit={this.alertSettings && this.alertSettings[this.state.selectedGraphKey] ? (
-                          parseInt(this.alertSettings[this.state.selectedGraphKey]['LT'], 10)
+                          parseFloat(this.alertSettings[this.state.selectedGraphKey]['LT'])
                         ) : null }
                       />
                     ) : ('Select Attribute to graph')}
