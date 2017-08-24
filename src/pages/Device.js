@@ -6,6 +6,7 @@ import Slider from 'material-ui/Slider'
 import Chip from 'material-ui/Chip';
 import FaBattery0 from 'react-icons/lib/fa/battery-0'
 import LineGraph from '../components/molecules/LineGraph'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 
 function sorter(data,dataKeys){
@@ -283,8 +284,7 @@ determineGraphsWithClass = (allGraphs) => {
              {sortedGraphs.length > 0 ? (
                 <div className='chip-container'>
                   {sortedGraphs.map(graph =>{
-                    return <MuiThemeProvider
-                    key={graph.key}>
+                    return <MuiThemeProvider key={graph.key}>
                     {graph.display ? (
                       <Chip
                       className='display-true'

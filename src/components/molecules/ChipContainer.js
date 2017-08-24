@@ -1,5 +1,7 @@
 import React from 'react'
 import Chip from 'material-ui/Chip'
+import {red50,grey50} from 'material-ui/styles/colors';
+
 
 
 export default function CustomTable(props) {
@@ -9,15 +11,21 @@ export default function CustomTable(props) {
       { graph.display ? (
         <Chip
           className='display-true'
-          style={{ backgroundColor: '#ff9999',color: 'white' }}
-          onRequestDelete={ () => props.handleGraphDelete(graph.key) }
+          /* labelColor={red50} */
+          /* style={{backgroundColor: '#ff9999'}} */
+          onRequestDelete={() => props.handleGraphDelete(graph.key)}
         >
-          { graph.displayTitle }
+          {graph.displayTitle}
         </Chip>
       ) : (
         <Chip
-        className='display-false'
-        onTouchTap={ () => props.handleGraphAdd(graph.key) }>
+          className='display-false'
+          onTouchTap={ () => props.handleGraphAdd(graph.key) }
+          style={{
+            backgroundColor: '#fff',
+            border: '0.5px solid #fbeeee'
+          }}
+        >
           { graph.displayTitle }
         </Chip>
       )}
