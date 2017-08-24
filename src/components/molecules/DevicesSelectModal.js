@@ -3,7 +3,7 @@ import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import DevicesList from './DevicesList'
-import ListIcon from 'react-icons/lib/fa/align-justify'
+import ButtonIcon from 'react-icons/lib/fa/caret-down'
 
 export default class SelectDevices extends React.Component {
 
@@ -39,8 +39,9 @@ export default class SelectDevices extends React.Component {
         <div style={{width: '30%',marginLeft: 'auto',marginRight: 'auto'}}>
           <RaisedButton
             fullWidth={ true }
-            icon={<ListIcon />}
-            label={!this.props.selectedDevice ? 'Choose Device' : `Device:${selectedDeviceData.name ? (selectedDeviceData.name) : (selectedDeviceData.device_id)}`}
+            labelPosition="before"
+            icon={<ButtonIcon />}
+            label={!this.props.selectedDevice ? 'Click to Choose Device' : `Device:${selectedDeviceData.name ? (selectedDeviceData.name) : (selectedDeviceData.device_id)}`}
             onTouchTap={ this.handleOpen }
           />
         </div>
