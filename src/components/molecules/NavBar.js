@@ -10,6 +10,7 @@ import {
   ToolbarGroup,
   ToolbarSeparator } from 'material-ui/Toolbar'
 import logo from '../../imgs/wimo-logo-y.svg'
+import {getUserDetails} from '../../api/oAuth'
 
 export default class NavBar extends React.Component {
 
@@ -45,6 +46,11 @@ export default class NavBar extends React.Component {
             </ToolbarGroup>
             <ToolbarGroup>
               <ToolbarSeparator />
+              <RaisedButton 
+              label='Test'
+              onClick={() => {
+                console.log(getUserDetails())
+              }}/>
               <RaisedButton
                 primary={ true }
                 onTouchTap={ this.handleOpenMenu }
@@ -54,7 +60,7 @@ export default class NavBar extends React.Component {
                     size={ 30 }
                   />
                 }
-                label='Dave Chappelle'
+                label={ getUserDetails()["firstname"] + ' ' + getUserDetails()["lastname"] }
               />
               <IconMenu
                 iconButtonElement={

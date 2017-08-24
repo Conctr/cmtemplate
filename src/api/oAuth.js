@@ -6,6 +6,8 @@ var changeLoading
 var signInOrRegister
 var setConctrToken
 var handleErrors
+let userDetails = {}
+
 
 export function start(setLoadingState,setToken,handleError) {
   setConctrToken = setToken
@@ -14,10 +16,17 @@ export function start(setLoadingState,setToken,handleError) {
   window.gapi.load('client:auth2',initClient)
 }
 
+export function getUserDetails() {
+  return userDetails
+}
+
 function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     let access_token = GoogleAuth.currentUser.get().Zi.access_token
     let email = GoogleAuth.currentUser.get().w3.U3
+    console.log(GoogleAuth.currentUser.get())
+    userDetails.firstname =  GoogleAuth.currentUser.get().w3.ofa
+    userDetails.lastname = GoogleAuth.currentUser.get().w3.wea
     if (signInOrRegister === 'signin'){
       authApi.authSignIn(email,'google',access_token)
       .then(data => {
