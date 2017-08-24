@@ -11,6 +11,8 @@ import {
   ToolbarSeparator } from 'material-ui/Toolbar'
 import logo from '../../imgs/wimo-logo-y.svg'
 import {getUserDetails} from '../../api/oAuth'
+let firstName, lastName, avatarUser
+
 
 export default class NavBar extends React.Component {
 
@@ -33,6 +35,26 @@ export default class NavBar extends React.Component {
   handleOpenMenu = () => this.setState({ openMenu: true });
 
   render() {
+
+
+      getUserDetails()["firstname"] 
+      ? firstName = getUserDetails()["firstname"]
+      : firstName = null 
+
+
+      getUserDetails()["lastname"] 
+      ? lastName = getUserDetails()["lastname"]
+      : lastName = null 
+
+
+      getUserDetails()["avatar"] 
+      ? avatarUser = getUserDetails()["avatar"]
+      : avatarUser = 'https://mysticpants.com/_include/img/CONCTR-LOGO-MUSTARD-LINE.png'
+
+  
+
+
+
     return (
       <div>
         {this.props.signedIn ? (
@@ -46,17 +68,13 @@ export default class NavBar extends React.Component {
             </ToolbarGroup>
             <ToolbarGroup>
               <ToolbarSeparator />
-              <RaisedButton 
-              label='Test'
-              onClick={() => {
-                console.log(getUserDetails())
-              }}/>
               <RaisedButton
                 primary={ true }
                 onTouchTap={ this.handleOpenMenu }
                 icon={
                   <Avatar
-                    src="http://i.telegraph.co.uk/multimedia/archive/03388/enfield_3388479b.jpg"
+                    // src="http://i.telegraph.co.uk/multimedia/archive/03388/enfield_3388479b.jpg"
+                    src={getUserDetails()["avatar"]}
                     size={ 30 }
                   />
                 }

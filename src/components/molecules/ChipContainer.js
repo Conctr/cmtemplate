@@ -1,8 +1,5 @@
 import React from 'react'
 import Chip from 'material-ui/Chip'
-import {red50,grey50} from 'material-ui/styles/colors';
-
-
 
 export default function CustomTable(props) {
   return (<div className='chip-container'>
