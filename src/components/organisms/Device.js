@@ -271,7 +271,9 @@ determineGraphsWithClass = (allGraphs) => {
 
   render() {
     const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
-    const sortedData = sorter(this.state.data,this.allGraphs.map(graph => graph.key))
+    const sortedData = sorter(
+      this.state.data,this.allGraphs.map(graph => graph.key)
+    )
     console.log('keysShown',this.state.keysShown)
     console.log('sortedGraphs',sortedGraphs)
     console.log('this.allGraphs',this.allGraphs)
@@ -290,38 +292,46 @@ determineGraphsWithClass = (allGraphs) => {
         {this.state.data ? (
           <div>
             { !!this.state.data.length ? (
-              <div style={{textAlign: 'center',marginLeft: 'auto',marginRight: 'auto'}}>
+              <div
+                className='the-first'
+                style={{
+                  textAlign: 'center',
+                  marginLeft: 'auto',
+                  marginRight: 'auto'
+                }}>
                 <br/>
                 <br/>
                 <br/>
-                 {//<h1>{this.deviceData.name ? this.deviceData.name : 'No Name'}</h1>
-             }
                 <h1>{this.state.newDeviceName ? this.state.newDeviceName : 'No Name'}</h1>
-
-                <div style={{width: '100%',display: 'flex',justifyContent: 'center'}}>
-                  <BatteryIcon batteryPercentage={this.getBatteryPercentage(this.state.data[0].battery)} />
+                <div style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center'
+                }}>
+                  <BatteryIcon
+                    batteryPercentage={
+                      this.getBatteryPercentage(this.state.data[0].battery)
+                    }
+                  />
                 </div>
-                <Paper
-                  style={{width: '80%',margin: 'auto'}}
-                  zDepth={1}>
-                  <br/>
+                <div>
                   <h2>Current Status</h2>
-                 {sortedGraphs.length > 0 ? (
-                   <DeviceSettingsDialog
-                     resetGraphsShown={this.resetGraphsShown}
-                     newDeviceName ={this.updateDeviceName}
-                     alertSettings={this.alertSettings}
-                     saveSettings={this.saveDeviceSettings}
-                     updateDevice={updateDevice}
-                     handleGraphDelete={this.handleGraphDelete}
-                     handleGraphAdd={this.handleGraphAdd}
-                     sortedGraphs={sortedGraphs}
-                     deviceData={this.deviceData}
-                     keysShown={this.state.keysShown}
-                     />
-                 ) : (
+                  {sortedGraphs.length > 0 ? (
+                    <DeviceSettingsDialog
+                      resetGraphsShown={this.resetGraphsShown}
+                      newDeviceName ={this.updateDeviceName}
+                      alertSettings={this.alertSettings}
+                      saveSettings={this.saveDeviceSettings}
+                      updateDevice={updateDevice}
+                      handleGraphDelete={this.handleGraphDelete}
+                      handleGraphAdd={this.handleGraphAdd}
+                      sortedGraphs={sortedGraphs}
+                      deviceData={this.deviceData}
+                      keysShown={this.state.keysShown}
+                    />
+                  ) : (
                    <CircularProgress />
-                 )}
+                  )}
                  {this.state.keysShown.length > 0 ? (
                   <div>
                     <h5>Data updated {moment.duration(
@@ -332,9 +342,19 @@ determineGraphsWithClass = (allGraphs) => {
                           )
                         )
                       ).format('k [hours ]m [minutes] s [seconds ago]')}</h5>
-                    <div style={{display: 'flex',flexDirection: 'row',width: '100%',justifyContent: 'space-around'}}>
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      width: '100%',
+                      justifyContent: 'space-around'
+                    }}>
                       {this.state.keysShown.map(keyShown => (
-                        <div style={{textAlign: 'center'}} key={keyShown.key} >
+                        <div
+                          style={{
+                            textAlign: 'center'
+                          }}
+                          key={keyShown.key}
+                        >
                           <p>{keyShown.displayTitle}</p>
                           <h3><b>{sortedData[keyShown.key].values[0].value.toFixed(1)} {keyShown.unit}</b></h3>
                         </div>
@@ -343,7 +363,7 @@ determineGraphsWithClass = (allGraphs) => {
                     </div>
                   </div>
                  ) : (<h1>Please Select Attributes to Display</h1>)}
-                 </Paper>
+                 </div>
                  <br/>
                  <br/>
                  <br/>
@@ -365,7 +385,11 @@ determineGraphsWithClass = (allGraphs) => {
                         this.defaultChange = value
                         this.handleSlider(value)
                       }}
-                      onDragStop={() => {  this.defaultChange > 0 && this.handleSliderStop(this.defaultChange)}}
+                      onDragStop={() => {
+                        this.defaultChange > 0 && this.handleSliderStop(
+                          this.defaultChange
+                        )
+                      }}
                     />
                     </div>
                     ): (
