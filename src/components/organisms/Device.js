@@ -59,6 +59,11 @@ function sorter(data,dataKeys){
   return sortedValues
 }
 
+function getOnlyConditions(alertSettings) {
+  let mutableAlertSettings = {...alertSettings}
+  delete mutableAlertSettings.alertSettings
+  return mutableAlertSettings
+}
 export default class DeviceInfo extends Component {
   alertSettings;
   // Determines which graphs get rendered
@@ -276,6 +281,21 @@ export default class DeviceInfo extends Component {
 
   }
 
+  checkIfOutOfRange = (key,value) => {
+    let upperLimit,lowerLimit;
+    console.log('key',key)
+    console.log('value',value)
+    if( this.alertSettings[key] ){
+      upperLimit = this.alertSettings[key]['GT']
+      lowerLimit = this.alertSettings[key]['LT']
+    }
+    if(value>upperLimit || value < lowerLimit){
+      return 'warning'
+    }else {
+      return ''
+    }
+  }
+
   // // Save state of settings
   // handleSettingsEnter = () => {
   //   this.state.
@@ -294,10 +314,8 @@ export default class DeviceInfo extends Component {
     const sortedData = sorter(
       this.state.data,this.allGraphs.map(graph => graph.key)
     )
-    console.log('keysShown',this.state.keysShown)
-    console.log('sortedGraphs',sortedGraphs)
-    console.log('this.allGraphs',this.allGraphs)
-    console.log('sortedData',sortedData)
+    let alertConditions = getOnlyConditions(this.alertSettings)
+    console.log('alertConditions',alertConditions)
     return (
       <div style={{textAlign: 'center'}}>
         <ToastContainer
@@ -327,7 +345,7 @@ export default class DeviceInfo extends Component {
                 }}>
                 </div>
 
-                {/* Current Status Section */}
+                {/* Current Status */}
 
                 <div className='status-container'>
                   <div className='section-header'>
@@ -372,7 +390,9 @@ export default class DeviceInfo extends Component {
                           <p className='status-data-type'>
                             {keyShown.displayTitle}
                           </p>
-                          <h3 className='status-data-value'>
+                          <h3 className={
+                            `status-data-value ${this.checkIfOutOfRange(keyShown.key,sortedData[keyShown.key].values[0].value.toFixed(1))}`
+                          }>
                             {sortedData[keyShown.key].values[0].value.toFixed(1)} {keyShown.unit}
                           </h3>
                         </div>
@@ -388,16 +408,12 @@ export default class DeviceInfo extends Component {
                   )}
                 </div>
 
-              {/* Data Analysis Section */}
+              {/* Data Analysis */}
 
                 <div className='analysis-container'>
                   <div className='section-header'>
                     <h2 className='analysis-title'>Data Analysis</h2>
                   </div>
-
-
-
-
                   <div className='analysis-slider'>
                     {!this.state.loaderShown ? (
                       <div style={{
@@ -435,12 +451,7 @@ export default class DeviceInfo extends Component {
                       <CircularProgress />
                     )}
                   </div>
-
-
-
                 <div className='graph-block'>
-
-
                   <div className='graph-menu'>
                     <Menu>
                       {sortedGraphs.map(keyShown => (
@@ -461,8 +472,6 @@ export default class DeviceInfo extends Component {
                       ))}
                     </Menu>
                   </div>
-
-
                   <div className='graph'>
                     {this.state.selectedGraphKey ? (
                       <LineGraph
