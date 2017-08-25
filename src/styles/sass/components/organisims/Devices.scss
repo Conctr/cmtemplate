@@ -1,6 +1,6 @@
 .section-header {
-  min-height: 10vh;
-  padding: 15px;
+  min-height: 8vh;
+  padding: 10px;
   position: relative;
   display: flex;
   align-items: center;
@@ -38,8 +38,8 @@
 .status-data-element {
   flex-grow: 1;
   text-align: center;
-  max-width: 200px;
-  width: 200px;
+  max-width: 190px;
+  width: 190px;
   margin: 0 1% 0 1%;
 }
 
@@ -51,7 +51,12 @@
 
 .status-data-value {
   color: black;
-  font-size: 2em;
+  font-size: 1.5em;
+  padding: 5px 0 5px;
+}
+
+.warning {
+  animation: warning-pulse 3s infinite;
 }
 
 .analysis-title {
@@ -92,7 +97,7 @@
 }
 
 .range-value {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-top: .5rem;
 }
 
@@ -105,4 +110,16 @@
 }
 .graph-block {
   display: flex;
+}
+
+@keyframes warning-pulse {
+  0% {
+    background-color: rgba(250, 220, 220, 0);
+  }
+  50% {
+    background-color: rgba(200, 40, 40, 0.5);
+  }
+  100% {
+    background-color: rgba(250, 220, 220, 0);
+  }
 }
