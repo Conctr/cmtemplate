@@ -55,7 +55,7 @@ export default class NavBar extends React.Component {
           animate={{ duration: 500 }}
           theme={VictoryTheme.material}
           style={{ parent: { border: "2px solid white"} }}
-          padding={{ top: 40, bottom: 40, left: 60, right: 40 }}
+          padding={{ top: 0, bottom: 40, left: 60, right: 0 }}
           domain={{x: [this.props.rangeX.min, this.props.rangeX.max], y: [yAxisMin, yAxisMax]}}
           domainPadding={30}
         >
