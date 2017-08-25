@@ -32,6 +32,7 @@ export default class NavBar extends React.Component {
     console.log('this.props.rangeY.max',this.props.rangeY.max)
     console.log('this.props.lowerlimit',this.props.lowerlimit)
     console.log('this.props.rangeY.min',this.props.rangeY.min)
+    console.log('this.props.values',this.props.values)
     if ( this.props.upperlimit && this.props.rangeY.max < this.props.upperlimit ){
       yAxisMin = this.props.upperlimit
     } else {

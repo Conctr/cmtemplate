@@ -5,16 +5,6 @@ import CircularProgress from 'material-ui/CircularProgress'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
-const ruleRows = [{
-  title: "Temperature",
-  identifier: 'temperature'
-},{
-  title: "Humidity",
-  identifier: 'humidity'
-},{
-  title: "Pressure",
-  identifier: 'pressure'
-}]
 let originalAlertSettings;
 
 function makeNumberStringInt(object) {
@@ -107,15 +97,6 @@ export default class RulesUI extends Component{
     })
   }
 
-  resetSettings = () => {
-    this.props.resetGraphsShown()
-    // this.setState({
-    //   rules: alertSettings,
-    //   loading: false,
-    //   numberTo: this.alertSendSettings.to,
-    //   alertMessage: this.alertSendSettings.message,
-    // })
-  }
   componentWillReceiveProps(nextProps){
     let keys = nextProps.keysShown.map(shown => shown.key)
     let mutableRules = {...this.state.rules}
@@ -129,7 +110,7 @@ export default class RulesUI extends Component{
   }
 
   render() {
-    console.log('rules',this.state.rules)
+    console.log('naksdfjbvksdgbdkhgb',this.props.keysShown)
     return !this.state.loading ? (
       <div>
         <h3>Alert Settings</h3>
@@ -142,6 +123,7 @@ export default class RulesUI extends Component{
                 ruleData={this.state.rules[rowPreference.key]}
                 title={rowPreference.displayTitle}
                 identifier={rowPreference.key}
+                unit={rowPreference.unit}
                 />
                 <br/>
                 </div>

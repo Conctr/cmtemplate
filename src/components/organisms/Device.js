@@ -164,8 +164,11 @@ export default class DeviceInfo extends Component {
   }
 
   handleUpdateData = (newData)=>{
+    console.log('this.state.data',this.state.data)
+    let mutableData = this.state.data.slice()
+    mutableData.unshift(newData)
     this.setState({
-      data: this.state.data.concat(newData)
+      data: mutableData
     })
   }
 
