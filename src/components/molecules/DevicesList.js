@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import moment from 'moment'
 import MobileTearSheet from '../molecules/MobileTearSheet';
 import RaisedButton from 'material-ui/RaisedButton';
-import Subheader from 'material-ui/Subheader';
 import { List, ListItem } from 'material-ui/List';
 
 class DevicePage extends Component {

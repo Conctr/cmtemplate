@@ -5,8 +5,6 @@ import CircularProgress from 'material-ui/CircularProgress'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
-let originalAlertSettings;
-
 function makeNumberStringInt(object) {
   Object.keys(object).forEach(key => {
     Object.keys(object[key]).forEach(condition => {
@@ -85,7 +83,6 @@ export default class RulesUI extends Component{
   componentDidMount(){
     getDeviceAlertSettings()
     .then(alertSettings => {
-      originalAlertSettings = alertSettings
       this.alertSendSettings = alertSettings.alertSettings
       delete alertSettings.alertSettings
       this.setState({
