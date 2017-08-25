@@ -1,6 +1,6 @@
 import * as authApi from './auth'
-var ourApi = 'AIzaSyDw5Ha6D5FMUT8cZ7uKpSFa2cfg-DllREM'
-var yourWebClientId = '825347282342-4u6d1ntaiphdsn1uvmq2p81k9q99dpk8.apps.googleusercontent.com'
+var ourApi = process.env.REACT_APP_OUR_API
+var yourWebClientId = process.env.REACT_APP_WEB_CLIENT_ID
 var GoogleAuth
 var changeLoading
 var signInOrRegister

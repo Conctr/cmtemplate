@@ -44,7 +44,6 @@ export default class NavBar extends React.Component {
       ? lastName = getUserDetails()["lastname"]
       : lastName = 'Profile'
 
-      console.log( 'avatar from navbar ',getUserDetails().avatar )
       if(getUserDetails()["avatar"]){
         avatarUser = getUserDetails()["avatar"]
       } else {
