@@ -2,7 +2,7 @@ let moment = require("moment");
 //let actionheroClient = require('./actionheroClient')
 let applicationID = '2bf8fdd3b3144deea63aa54402938d68'//process.env.REACT_APP_APP_ID
 export function getDevicesData(deviceId, changeState,hoursBack,updateData){
-
+console.log('kahsbfghkbshdfg')
   let query = {
     limit:10000,
     orderBy: [{
@@ -41,7 +41,7 @@ export function getDevicesData(deviceId, changeState,hoursBack,updateData){
 
   clientDeviceDetails.connect((err, details) => {
     if (err) {
-      console.error(err);
+      console.error('errr jxgfgkjjksgj',err);
     }
     clientDeviceDetails.action("device_search_historical", params);
   });
@@ -53,7 +53,6 @@ export function getDevicesData(deviceId, changeState,hoursBack,updateData){
         // update graphs
       }
     } else if (message.context === "historical_data" && message.event === "initial_data" && !!message.data) {
-      //
       changeState(message.data);
       if (message.data.new_val && message.data.new_val._device_id) {
         // update graphs

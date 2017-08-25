@@ -97,16 +97,17 @@ class App extends Component {
               { !!this.state.token ?
                 (
                   <Route
-                    exact path='/'
+                    path='/'
                     render={
-                      () => <HomePage
+                      ({location}) => <HomePage
+                        pathname={location.pathname.substring(1)}
                         handleError={ this.handleError }
                       />
                     }
                   />
                 ) : (
                   <Route
-                    exact path='/'
+                    path='/'
                     render={
                       () => <LoginPage
                         handleErrors={this.handleError}

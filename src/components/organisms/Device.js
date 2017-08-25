@@ -9,8 +9,6 @@ import CircularProgress from 'material-ui/CircularProgress'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import Slider from 'material-ui/Slider'
-import Paper from 'material-ui/Paper'
-import BatteryIcon from '../atoms/Battery'
 import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog'
 import LineGraph from '../molecules/LineGraph'
 import moment from 'moment'
@@ -169,8 +167,11 @@ export default class DeviceInfo extends Component {
   }
 
   handleUpdateData = (newData)=>{
+    console.log('this.state.data',this.state.data)
+    let mutableData = this.state.data.slice()
+    mutableData.unshift(newData)
     this.setState({
-      data: this.state.data.concat(newData)
+      data: mutableData
     })
   }
 

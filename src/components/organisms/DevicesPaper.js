@@ -15,10 +15,18 @@ export default class DevicePage extends Component {
   }
 
   componentDidMount() {
+    if(this.props.pathname){
+      this.setState({selectedDevice: this.props.pathname})
+    }
     getAllDevices()
     .then(res =>{
       this.setState({ devicesData: res.data })
     })
+  }
+
+  componentWillReceiveProps(nextProps){
+    // console.log('nextProps',nextProps)
+    this.setState({selectedDevice: nextProps.pathname})
   }
 
   handleDeviceSelect = (selectedDevice) => {

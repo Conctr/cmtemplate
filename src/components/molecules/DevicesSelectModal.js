@@ -41,7 +41,7 @@ export default class SelectDevices extends React.Component {
             fullWidth={ true }
             labelPosition="before"
             icon={<ButtonIcon />}
-            label={!this.props.selectedDevice ? 'Click to Choose Device' : `Device:${selectedDeviceData.name ? (selectedDeviceData.name) : (selectedDeviceData.device_id)}`}
+            label={!this.props.selectedDevice ? 'Click to Choose Device' : selectedDeviceData ? selectedDeviceData.name ? selectedDeviceData.name : selectedDeviceData.device_id : 'asdf'}
             onTouchTap={ this.handleOpen }
           />
         </div>
