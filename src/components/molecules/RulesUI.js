@@ -9,7 +9,6 @@ function makeNumberStringInt(object) {
   Object.keys(object).forEach(key => {
     Object.keys(object[key]).forEach(condition => {
       let conditionInt = object[key][condition]
-        console.log('conditionInt',conditionInt)
         object[key][condition] = parseFloat(conditionInt)
     })
   })
@@ -53,7 +52,6 @@ export default class RulesUI extends Component{
   }
 
   onInputChange = (e, newValue) => {
-    console.log('e',e.target.id)
     this.setState({
       [e.target.id]: newValue
     })
@@ -107,7 +105,6 @@ export default class RulesUI extends Component{
   }
 
   render() {
-    console.log('naksdfjbvksdgbdkhgb',this.props.keysShown)
     return !this.state.loading ? (
       <div>
         <h3>Alert Settings</h3>

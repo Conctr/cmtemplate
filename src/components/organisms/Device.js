@@ -162,7 +162,6 @@ export default class DeviceInfo extends Component {
   }
 
   handleUpdateData = (newData)=>{
-    console.log('this.state.data',this.state.data)
     let mutableData = this.state.data.slice()
     mutableData.unshift(newData)
     this.setState({
@@ -255,7 +254,6 @@ export default class DeviceInfo extends Component {
   }
 
   saveDeviceSettings = (rules) => {
-    // console.log('asdf',JSON.stringify(rules))
     setDeviceAlertSettings(this.props.deviceId,rules,this.handleAlerts)
     updateDevice(this.deviceData.id,{new_name: this.state.newDeviceName})
     //todo save device name
@@ -295,10 +293,6 @@ export default class DeviceInfo extends Component {
     const sortedData = sorter(
       this.state.data,this.allGraphs.map(graph => graph.key)
     )
-    console.log('keysShown',this.state.keysShown)
-    console.log('sortedGraphs',sortedGraphs)
-    console.log('this.allGraphs',this.allGraphs)
-    console.log('sortedData',sortedData)
     return (
       <div style={{textAlign: 'center'}}>
         <ToastContainer
