@@ -28,10 +28,6 @@ export default class NavBar extends React.Component {
 
   render() {
     let yAxisMin,yAxisMax
-    console.log('this.props.upperlimit',this.props.upperlimit)
-    console.log('this.props.rangeY.max',this.props.rangeY.max)
-    console.log('this.props.lowerlimit',this.props.lowerlimit)
-    console.log('this.props.rangeY.min',this.props.rangeY.min)
     if ( this.props.upperlimit && this.props.rangeY.max < this.props.upperlimit ){
       yAxisMin = this.props.upperlimit
     } else {
@@ -42,6 +38,16 @@ export default class NavBar extends React.Component {
     } else {
       yAxisMax = this.props.rangeY.min
     }
+    // console.log('values',this.props.values[0])
+    // console.log("this.props.values[this.props.values.length -1].ts", typeof this.props.values[this.props.values.length -1].ts)
+    // console.log('upperX1', moment(this.props.values[this.props.values.length -1].ts).subtract(30,'minutes').toDate())
+    // console.log('upperX2', moment(this.props.values[0].ts).add(30,'minutes').toDate())
+    // console.log('upperLimit', this.props.upperlimit)
+    // console.log('lowerX1', moment(this.props.values[this.props.values.length -1].ts).subtract(30,'minutes').toDate())
+    // console.log('lowerX2', moment(this.props.values[0].ts).add(30,'minutes').toDate())
+    // console.log('lowerLimit', this.props.lowerlimit)
+    // console.log("\n\n")
+      
     return (
       <div>
         { !!this.props.lowerlimit ?
@@ -52,7 +58,7 @@ export default class NavBar extends React.Component {
         : false }
         <VictoryChart
           containerComponent={<VictoryVoronoiContainer/>}
-          animate={{ duration: 500 }}
+          // animate={{ duration: 100 }}
           theme={VictoryTheme.material}
           style={{ parent: { border: "2px solid white"} }}
           padding={{ top: 0, bottom: 40, left: 60, right: 0 }}
@@ -62,7 +68,7 @@ export default class NavBar extends React.Component {
           { !!this.props.upperlimit ? (
             <VictoryArea
               name="HigherLimit"
-              domainPadding={{ x: [-30, -30] }}
+              domainPadding={{ x: -30 }}
               style={{
                 data: {
                     fill: "#f9e9e9", fillOpacity: 1.0
@@ -72,14 +78,14 @@ export default class NavBar extends React.Component {
                 {x: moment(this.props.values[this.props.values.length -1].ts).subtract(30,'minutes').toDate(), y:  this.props.upperlimit},
                 {x: moment(this.props.values[0].ts).add(30,'minutes').toDate(), y:  this.props.upperlimit}
               ]}
-              y0={ (d) => 100}
+              y0={ (ddd) => 100}
             />
           ) : false }
 
           { !!this.props.lowerlimit ? (
             <VictoryArea
               name="LowerLimit"
-              domainPadding={{ x: [-30, -30] }}
+              domainPadding={{ x: -30 }}
               style={{
                 data: { fill: "#f9e9e9", fillOpacity: 1.0 }
               }}

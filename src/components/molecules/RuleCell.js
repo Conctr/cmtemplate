@@ -19,7 +19,7 @@ export default class RuleCell extends Component{
   }
 
   componentDidMount(){
-    console.log(('cell data',this.props.cellData))
+
     let returnVal = ''
     if(this.props.cellData) {
       returnVal = this.props.cellData

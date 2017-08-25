@@ -10,7 +10,6 @@ import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import Slider from 'material-ui/Slider'
 import Paper from 'material-ui/Paper'
-import BatteryIcon from '../atoms/Battery'
 import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog'
 import LineGraph from '../molecules/LineGraph'
 import moment from 'moment'
@@ -294,10 +293,7 @@ export default class DeviceInfo extends Component {
     const sortedData = sorter(
       this.state.data,this.allGraphs.map(graph => graph.key)
     )
-    console.log('keysShown',this.state.keysShown)
-    console.log('sortedGraphs',sortedGraphs)
-    console.log('this.allGraphs',this.allGraphs)
-    console.log('sortedData',sortedData)
+
     return (
       <div style={{textAlign: 'center'}}>
         <ToastContainer

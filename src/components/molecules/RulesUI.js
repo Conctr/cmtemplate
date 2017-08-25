@@ -5,23 +5,10 @@ import CircularProgress from 'material-ui/CircularProgress'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
-const ruleRows = [{
-  title: "Temperature",
-  identifier: 'temperature'
-},{
-  title: "Humidity",
-  identifier: 'humidity'
-},{
-  title: "Pressure",
-  identifier: 'pressure'
-}]
-let originalAlertSettings;
-
 function makeNumberStringInt(object) {
   Object.keys(object).forEach(key => {
     Object.keys(object[key]).forEach(condition => {
       let conditionInt = object[key][condition]
-        console.log('conditionInt',conditionInt)
         object[key][condition] = parseFloat(conditionInt)
     })
   })
@@ -65,7 +52,7 @@ export default class RulesUI extends Component{
   }
 
   onInputChange = (e, newValue) => {
-    console.log('e',e.target.id)
+
     this.setState({
       [e.target.id]: newValue
     })
@@ -95,7 +82,6 @@ export default class RulesUI extends Component{
   componentDidMount(){
     getDeviceAlertSettings()
     .then(alertSettings => {
-      originalAlertSettings = alertSettings
       this.alertSendSettings = alertSettings.alertSettings
       delete alertSettings.alertSettings
       this.setState({
@@ -129,7 +115,7 @@ export default class RulesUI extends Component{
   }
 
   render() {
-    console.log('rules',this.state.rules)
+
     return !this.state.loading ? (
       <div>
         <h3>Alert Settings</h3>
