@@ -13,6 +13,8 @@ import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog'
 import LineGraph from '../molecules/LineGraph'
 import moment from 'moment'
 import { toast, ToastContainer } from 'react-toastify'
+import CrossIcon from 'react-icons/lib/fa/times-circle'
+import CheckIcon from 'react-icons/lib/fa/check-circle'
 require('moment-duration-format')
 
 function sorter(data,dataKeys){
@@ -292,6 +294,21 @@ export default class DeviceInfo extends Component {
       return ''
     }
   }
+  checkIfArrayOutOfRange = (key,array) => {
+    let upperLimit,lowerLimit;
+    if(this.alertSettings[key]){
+      lowerLimit = this.alertSettings[key]['LT']
+      upperLimit = this.alertSettings[key]['GT']
+    }
+    if (
+      lowerLimit && !array.values.every(value => value.value > lowerLimit ) ||
+      upperLimit && !array.values.every(value => value.value < upperLimit )
+    ){
+      return <CrossIcon color='red'/>
+    } else {
+      return <CheckIcon color='green'/>
+    }
+  }
 
   // // Save state of settings
   // handleSettingsEnter = () => {
@@ -452,18 +469,11 @@ export default class DeviceInfo extends Component {
                     <Menu>
                       {sortedGraphs.map(keyShown => (
                         <div key={`${keyShown.key}Graph`}>
-                          {keyShown.key === this.state.selectedGraphKey ? (
-                            <MenuItem
-                              style={{
-                                backgroundColor: 'linear-gradient(0deg, blue, white)'
-                              }}
-                              onTouchTap={() => this.handleGraphSelect(keyShown.key)}
-                              primaryText={keyShown.displayTitle}/>
-                          ) : (
-                            <MenuItem
-                              onTouchTap={() => this.handleGraphSelect(keyShown.key)}
-                              primaryText={keyShown.displayTitle}/>
-                          )}
+                          <MenuItem
+                            style={keyShown.key === this.state.selectedGraphKey ? {backgroundColor: '#ff8484'} : {backgroundColor: 'white'}}
+                            leftIcon={this.checkIfArrayOutOfRange(keyShown.key,sortedData[keyShown.key])}
+                            onTouchTap={() => this.handleGraphSelect(keyShown.key)}
+                            primaryText={keyShown.displayTitle}/>
                         </div>
                       ))}
                     </Menu>
@@ -491,8 +501,6 @@ export default class DeviceInfo extends Component {
                       false
                     )}
                   </div>
-
-
                 </div>
               </div>
               </div>
