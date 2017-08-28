@@ -76,6 +76,7 @@ export default class NavBar extends React.Component {
                 label={ firstName + ' ' + lastName }
               />
               <IconMenu
+                className='float-menu'
                 iconButtonElement={
                   <IconButton touch={ true }>
                     <NavigationExpandMoreIcon />
@@ -83,7 +84,7 @@ export default class NavBar extends React.Component {
                 }
                 onRequestChange={ this.handleOnRequestChange }
                 open={ this.state.openMenu }
-                anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 targetOrigin={{ horizontal: 'right', vertical: 'top' }}
               >
                 <a

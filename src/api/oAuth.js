@@ -27,7 +27,7 @@ function updateSigninStatus(isSignedIn) {
 
     userDetails.firstname =  GoogleAuth.currentUser.get().w3.ofa
     userDetails.lastname = GoogleAuth.currentUser.get().w3.wea
-    userDetails.avatar = GoogleAuth.currentUser.get().w3.Paa 
+    userDetails.avatar = GoogleAuth.currentUser.get().w3.Paa
     if (signInOrRegister === 'signin'){
       authApi.authSignIn(email,'google',access_token)
       .then(data => {

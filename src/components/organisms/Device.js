@@ -288,12 +288,13 @@ export default class DeviceInfo extends Component {
       upperLimit = this.alertSettings[key]['GT']
       lowerLimit = this.alertSettings[key]['LT']
     }
-    if(value>upperLimit || value < lowerLimit){
+    if(value > upperLimit || value < lowerLimit){
       return 'warning'
-    }else {
+    } else {
       return ''
     }
   }
+
   checkIfArrayOutOfRange = (key,array) => {
     let upperLimit,lowerLimit;
     if(this.alertSettings[key]){
@@ -306,7 +307,7 @@ export default class DeviceInfo extends Component {
     ){
       return <CrossIcon color='red'/>
     } else {
-      return <CheckIcon color='green'/>
+      return <div></div>
     }
   }
 
@@ -470,7 +471,7 @@ export default class DeviceInfo extends Component {
                       {sortedGraphs.map(keyShown => (
                         <div key={`${keyShown.key}Graph`}>
                           <MenuItem
-                            style={keyShown.key === this.state.selectedGraphKey ? {backgroundColor: '#ff8484'} : {backgroundColor: 'white'}}
+                            style={keyShown.key === this.state.selectedGraphKey ? {backgroundColor: '#fbeeee'} : {backgroundColor: 'white'}}
                             leftIcon={this.checkIfArrayOutOfRange(keyShown.key,sortedData[keyShown.key])}
                             onTouchTap={() => this.handleGraphSelect(keyShown.key)}
                             primaryText={keyShown.displayTitle}/>
