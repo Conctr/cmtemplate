@@ -1,6 +1,6 @@
 import api from './init'
 
-const appId = '2bf8fdd3b3144deea63aa54402938d68'
+const appId = 'ae1ef20d281d4f008fc885a3e51b923f'
 let handleErrors
 export function init(handleError) {
     handleErrors = handleError

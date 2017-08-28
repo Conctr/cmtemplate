@@ -101,6 +101,7 @@ export default class DeviceInfo extends Component {
       this.deviceData = deviceData
       this.setState({"newDeviceName":deviceData.name})
       this.alertSettings = deviceAlertSettings
+      console.log('Vinny',model)
       this.allGraphs = model.map(modelData => {
         return {
           displayTitle: modelData.title,
@@ -151,6 +152,8 @@ export default class DeviceInfo extends Component {
 
   determineGraphsWithClass = (allGraphs) => {
     this.state.keysShown.forEach(graphShown => {
+      console.log('allGraphs',allGraphs)
+      console.log('this.state.keysShown',this.state.keysShown)
       allGraphs.forEach(graph => {
         if(graphShown.key === graph.key) {
           graph.display = true
@@ -364,17 +367,7 @@ export default class DeviceInfo extends Component {
                   <div className='section-header'>
                     <div className='status-title-block'>
                       <h2 className='status-title'>Current Status</h2>
-                      <p className='status-data-age'>Data last updated {
-                        moment.duration(
-                          moment().diff(
-                            moment(
-                              sortedData[
-                                Object.keys(sortedData)[0]
-                              ].values[0].ts
-                            )
-                          )
-                        ).format('k[hr] m[min] s[sec ago]')
-                      }</p>
+
                     </div>
                     {sortedGraphs.length > 0 ? (
                       <DeviceSettingsDialog
