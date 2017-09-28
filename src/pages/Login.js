@@ -21,8 +21,8 @@ export default class LoginPage extends Component {
 
  submitToAuth = (callback) => {
   // Get values from the field
-  const email = this.state.email
-  const password = this.state.password
+  const email = this.state.email.toLowerCase();
+  const password = this.state.password;
   // Call the callback function with our values
   callback({ email, password })
   }

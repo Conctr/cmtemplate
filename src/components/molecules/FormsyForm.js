@@ -24,7 +24,7 @@ class FormsyForm extends Component {
   }
 
   notifyFormError(data) {
-    console.error('Form error:', data);
+    // // console.error('Form error:', data);
   } 
 
   render() {

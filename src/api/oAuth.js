@@ -24,7 +24,7 @@ function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     let access_token = GoogleAuth.currentUser.get().Zi.access_token
     let email = GoogleAuth.currentUser.get().w3.U3
-    console.log(GoogleAuth.currentUser.get())
+    // console.log(GoogleAuth.currentUser.get())
     userDetails.firstname =  GoogleAuth.currentUser.get().w3.ofa
     userDetails.lastname = GoogleAuth.currentUser.get().w3.wea
     userDetails.avatar = GoogleAuth.currentUser.get().w3.Paa 

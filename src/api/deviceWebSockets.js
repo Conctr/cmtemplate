@@ -41,17 +41,15 @@ export function getDevicesData(deviceId, changeState,hoursBack,updateData){
 
   clientDeviceDetails.connect((err, details) => {
     if (err) {
-      console.error(err);
+      //// // console.error(err);
     }
     clientDeviceDetails.action("device_search_historical", params);
   });
   clientDeviceDetails.on("message", (message) => {
     if (message.context === "current_data" && message.event === "update_data" && message.data && message.data.new_val && message.data.new_val._device_id === deviceId) {
-      updateData(message.data.new_val)
+      //updateData(message.data.new_val)
     } else if (message.context === "historical_data" && message.event === "update_data" && message.data && message.data.new_val && message.data.new_val._device_id === deviceId) {
-      if (message.data.new_val && message.data.new_val._device_id) {
-        // update graphs
-      }
+        updateData(message.data.new_val);
     } else if (message.context === "historical_data" && message.event === "initial_data" && !!message.data) {
       //
       changeState(message.data);
@@ -62,7 +60,7 @@ export function getDevicesData(deviceId, changeState,hoursBack,updateData){
   });
 
   clientDeviceDetails.on("error", (error) => {
-    console.error("Error", error);
+    // // console.error("Error", error);
   });
 
 }

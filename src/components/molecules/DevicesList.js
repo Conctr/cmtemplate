@@ -20,14 +20,11 @@ class DevicePage extends Component {
           <List>
               {this.state.devicesData.map(device => (
                 <ListItem
-                  leftAvatar={
-                    <RaisedButton onTouchTap={
+                  onClick={
                       () => {
-                        this.props.handleModalClose()
-                        this.props.selectDevice(device.device_id)
+                          this.props.handleModalClose()
+                          this.props.selectDevice(device.device_id)
                       }
-                    }
-                    label="Select"/>
                   }
                   primaryText={device.name ? device.name : device.device_id}
                   key={device.device_id}
