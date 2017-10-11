@@ -2,7 +2,6 @@ let moment = require("moment");
 //let actionheroClient = require('./actionheroClient')
 let applicationID = process.env.REACT_APP_APP_ID
 export function getDevicesData(deviceId, changeState,hoursBack,updateData){
-
   let query = {
     limit:10000,
     orderBy: [{
@@ -51,7 +50,6 @@ export function getDevicesData(deviceId, changeState,hoursBack,updateData){
     } else if (message.context === "historical_data" && message.event === "update_data" && message.data && message.data.new_val && message.data.new_val._device_id === deviceId) {
         updateData(message.data.new_val);
     } else if (message.context === "historical_data" && message.event === "initial_data" && !!message.data) {
-      //
       changeState(message.data);
       if (message.data.new_val && message.data.new_val._device_id) {
         // update graphs

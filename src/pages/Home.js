@@ -39,7 +39,9 @@ class HomePage extends Component {
             <p>Please select devices or clusters to continue</p>
           </div>
         ) : this.state.value === 'devices' ? (
-          <DevicesPaper handleError={this.props.handleError}/>
+          <DevicesPaper
+            pathname={this.props.pathname}
+            handleError={this.props.handleError}/>
         ) : this.state.value === 'clusters' ? (
           <div>
             <h1>Clusters</h1>

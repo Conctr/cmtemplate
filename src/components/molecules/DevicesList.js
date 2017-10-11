@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment'
 import MobileTearSheet from '../molecules/MobileTearSheet';
 import RaisedButton from 'material-ui/RaisedButton';
-import Subheader from 'material-ui/Subheader';
 import { List, ListItem } from 'material-ui/List';
 
 class DevicePage extends Component {
@@ -20,11 +20,15 @@ class DevicePage extends Component {
           <List>
               {this.state.devicesData.map(device => (
                 <ListItem
-                  onClick={
+                  leftAvatar={<Link to={`/${device.device_id}`}>
+                      <RaisedButton onTouchTap={
                       () => {
-                          this.props.handleModalClose()
-                          this.props.selectDevice(device.device_id)
+                        this.props.handleModalClose()
+                        // this.props.selectDevice(device.device_id)
                       }
+                    } label="Select"/>
+
+                      </Link>
                   }
                   primaryText={device.name ? device.name : device.device_id}
                   key={device.device_id}

@@ -11,13 +11,12 @@ import CircularProgress from 'material-ui/CircularProgress'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import Slider from 'material-ui/Slider'
-import Paper from 'material-ui/Paper'
-import BatteryIcon from '../atoms/Battery'
 import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog'
 import LineGraph from '../molecules/LineGraph'
 import moment from 'moment'
 import {toast, ToastContainer} from 'react-toastify'
-
+import CrossIcon from 'react-icons/lib/fa/times-circle'
+import CheckIcon from 'react-icons/lib/fa/check-circle'
 require('moment-duration-format')
 
 function sorter(data, dataKeys) {
@@ -62,6 +61,11 @@ function sorter(data, dataKeys) {
     return sortedValues
 }
 
+function getOnlyConditions(alertSettings) {
+  let mutableAlertSettings = {...alertSettings}
+  delete mutableAlertSettings.alertSettings
+  return mutableAlertSettings
+}
 export default class DeviceInfo extends Component {
     alertSettings;
     // Determines which graphs get rendered
@@ -498,13 +502,14 @@ export default class DeviceInfo extends Component {
                                 </div>
                             </div>
                         ) : <h3>No Data Associated with this device</h3>}
+
                     </div>
                 ) : (
                     <div style={{marginTop: "20px"}}>
                         <CircularProgress/>
                     </div>
                 )}
-            </div>
+            </div> 
         )
     }
 }

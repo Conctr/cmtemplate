@@ -72,6 +72,7 @@ export default class LoginPage extends Component {
                   alt='wimo logo'
                   className='wimo-login-logo' />
                 <div>
+                  <div className='element'></div>
                   <div className='login-text-fields'>
                     <TextField
                       id='email'

@@ -28,10 +28,6 @@ export default class NavBar extends React.Component {
 
   render() {
     let yAxisMin,yAxisMax
-    // console.log('this.props.upperlimit',this.props.upperlimit)
-    // console.log('this.props.rangeY.max',this.props.rangeY.max)
-    // console.log('this.props.lowerlimit',this.props.lowerlimit)
-    // console.log('this.props.rangeY.min',this.props.rangeY.min)
     if ( this.props.upperlimit && this.props.rangeY.max < this.props.upperlimit ){
       yAxisMin = this.props.upperlimit
     } else {
@@ -52,9 +48,11 @@ export default class NavBar extends React.Component {
         : false }
         <VictoryChart
           containerComponent={<VictoryVoronoiContainer/>}
-          animate={{ duration: 500 }}
+          /* animate={{ duration: 500 }} */
           theme={VictoryTheme.material}
           style={{ parent: { border: "2px solid white"} }}
+
+          padding={{ top: 0, bottom: 40, left: 60, right: 0 }}
           domain={{x: [this.props.rangeX.min, this.props.rangeX.max], y: [yAxisMin, yAxisMax]}}
           domainPadding={30}
         >

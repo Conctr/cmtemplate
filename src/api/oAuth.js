@@ -27,7 +27,7 @@ function updateSigninStatus(isSignedIn) {
     // console.log(GoogleAuth.currentUser.get())
     userDetails.firstname =  GoogleAuth.currentUser.get().w3.ofa
     userDetails.lastname = GoogleAuth.currentUser.get().w3.wea
-    userDetails.avatar = GoogleAuth.currentUser.get().w3.Paa 
+    userDetails.avatar = GoogleAuth.currentUser.get().w3.Paa
     if (signInOrRegister === 'signin'){
       authApi.authSignIn(email,'google',access_token)
       .then(data => {
@@ -49,13 +49,17 @@ function updateSigninStatus(isSignedIn) {
 }
 
 function initClient(){
-  changeLoading(true)
-  window.gapi.client.init({
+  console.log("initialed gapi")
+  let gapiCreds = {
       'apiKey': ourApi,
       'clientId': yourWebClientId,
       'scope': 'profile',
       'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
-  }).then(function () {
+  };
+  console.log("gapiCreds",gapiCreds);
+
+  changeLoading(true)
+  window.gapi.client.init(gapiCreds).then(function () {
       GoogleAuth = window.gapi.auth2.getAuthInstance()
       changeLoading(false)
       GoogleAuth.isSignedIn.listen(updateSigninStatus)
