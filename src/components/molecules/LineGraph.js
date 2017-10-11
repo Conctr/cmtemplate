@@ -57,7 +57,7 @@ export default class NavBar extends React.Component {
           style={{ parent: { border: "2px solid white"} }}
           domain={{x: [this.props.rangeX.min, this.props.rangeX.max], y: [yAxisMin, yAxisMax]}}
           domainPadding={30}
-        >
+        > 
           { !!this.props.upperlimit ? (
             <VictoryArea
               name="HigherLimit"
