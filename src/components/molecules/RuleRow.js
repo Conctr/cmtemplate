@@ -7,7 +7,7 @@ export default class RuleRow extends Component{
   render() {
     return (
       <Toolbar style={{backgroundColor: 'white',width: '100%'}}>
-        <ToolbarTitle text={this.props.title}/>
+        <ToolbarTitle style={{fontSize: '1em'}} text={`${this.props.title}(${this.props.unit})`}/>
         <ToolbarSeparator />
         <ToolbarGroup style={{backgroundColor: 'white',display: 'flex',flexDirection: 'row'}}>
           <RuleCell

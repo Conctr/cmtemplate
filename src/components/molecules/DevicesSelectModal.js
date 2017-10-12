@@ -7,52 +7,58 @@ import ButtonIcon from 'react-icons/lib/fa/caret-down'
 
 export default class SelectDevices extends React.Component {
 
-    state = {
-        open: true
-    }
 
-    handleOpen = () => {
-        this.setState({open: true})
-    }
+  state={
+    open: false
+  }
 
-    handleClose = () => {
-        this.setState({open: false})
-    }
+  handleOpen = () => {
+    this.setState({ open: true })
+  }
 
-    render() {
-        const actions = [
-            <FlatButton
-                label='Close'
-                primary={true}
-                onTouchTap={this.handleClose}
-            />
-        ]
+  handleClose = () => {
+    this.setState({ open: false })
+  }
 
-        let selectedDeviceData = this.props.devicesData.find(
-            device => (
-                device.device_id === this.props.selectedDevice
-            )
-        )
+  render() {
+    const actions = [
+      <FlatButton
+        label='Close'
+        primary={ true }
+        onTouchTap={ this.handleClose }
+      />
+    ]
 
-        return (
-            <div>
-                <div style={{width: '30%', marginLeft: 'auto', marginRight: 'auto'}}>
+    let selectedDeviceData = this.props.devicesData.find(
+      device => (
+        device.device_id === this.props.selectedDevice
+      )
+    )
 
-                </div>
-                {
-                    this.state.open ? <DevicesList
-                        devicesData={this.props.devicesData}
-                        selectDevice={this.props.selectDevice}
-                        handleModalClose={this.handleClose}
-                    /> : <RaisedButton
-                        fullWidth={true}
-                        labelPosition="before"
-                        icon={<ButtonIcon/>}
-                        label={!this.props.selectedDevice ? 'Click to Choose Device' : `Device:${selectedDeviceData.name ? (selectedDeviceData.name) : (selectedDeviceData.device_id)}`}
-                        onTouchTap={this.handleOpen}
-                    />
-                }
-            </div>
-        )
-    }
+    return (
+      <div>
+        <div style={{width: '30%',marginLeft: 'auto',marginRight: 'auto'}}>
+          <RaisedButton
+            fullWidth={ true }
+            labelPosition="before"
+            icon={<ButtonIcon />}
+            label={!this.props.selectedDevice ? 'Click to Choose Device' : selectedDeviceData ? selectedDeviceData.name ? selectedDeviceData.name : selectedDeviceData.device_id : 'asdf'}
+            onTouchTap={ this.handleOpen }
+          />
+        </div>
+        <Dialog
+          title='Registered Devices'
+          actions={ actions }
+          modal={ true }
+          open={ this.state.open }
+        >
+          <DevicesList
+            devicesData={this.props.devicesData}
+            selectDevice={this.props.selectDevice}
+            handleModalClose={this.handleClose}
+          />
+        </Dialog>
+      </div>
+    )
+  }
 }

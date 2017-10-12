@@ -1,8 +1,6 @@
-import SettingsIcon from 'react-icons/lib/fa/cog'
 import React from 'react'
 import Drawer from 'material-ui/Drawer'
 import ChipContainer from './ChipContainer'
-import RaisedButton from 'material-ui/RaisedButton'
 import IconButton from 'material-ui/IconButton'
 import Settings from 'material-ui/svg-icons/action/settings'
 import TextField from '../atoms/TextField'
@@ -34,10 +32,6 @@ export default class DeviceSettingsDialog extends React.Component {
           iconStyle={{
             width:48,
             height:48
-          }}
-          style={{
-            width: 96,
-            height: 96,
           }}>
           <Settings
             onClick={this.handleToggle}

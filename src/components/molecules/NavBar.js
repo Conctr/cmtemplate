@@ -37,12 +37,12 @@ export default class NavBar extends React.Component {
     let firstName, lastName, avatarUser
       getUserDetails()["firstname"]
       ? firstName = getUserDetails()["firstname"]
-      : firstName = 'Set'
+      : firstName = 'User'
 
 
       getUserDetails()["lastname"]
       ? lastName = getUserDetails()["lastname"]
-      : lastName = 'Profile'
+      : lastName = ''
 
       if(getUserDetails()["avatar"]){
         avatarUser = getUserDetails()["avatar"]
@@ -76,6 +76,7 @@ export default class NavBar extends React.Component {
                 label={ firstName + ' ' + lastName }
               />
               <IconMenu
+                className='float-menu'
                 iconButtonElement={
                   <IconButton touch={ true }>
                     <NavigationExpandMoreIcon />
@@ -83,7 +84,7 @@ export default class NavBar extends React.Component {
                 }
                 onRequestChange={ this.handleOnRequestChange }
                 open={ this.state.openMenu }
-                anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 targetOrigin={{ horizontal: 'right', vertical: 'top' }}
               >
                 <a
