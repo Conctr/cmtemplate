@@ -21,64 +21,11 @@ function epochToTime(values, milisecondConverter) {
 
 export default class NavBar extends React.Component {
 
-<<<<<<< HEAD
     constructor(props) {
         super(props);
         this.state = {};
     }
-=======
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
-  render() {
-    let yAxisMin,yAxisMax
-    if ( this.props.upperlimit && this.props.rangeY.max < this.props.upperlimit ){
-      yAxisMin = this.props.upperlimit
-    } else {
-      yAxisMin = this.props.rangeY.max
-    }
-    if ( this.props.lowerlimit && this.props.rangeY.min > this.props.lowerlimit ) {
-      yAxisMax = this.props.lowerlimit
-    } else {
-      yAxisMax = this.props.rangeY.min
-    }
-    return (
-      <div>
-        { !!this.props.lowerlimit ?
-          <p> Low {this.props.graphPreference.displayTitle} warning: {this.props.lowerlimit} </p>
-        : false }
-        { !!this.props.upperlimit ?
-          <p> High {this.props.graphPreference.displayTitle} warning: {this.props.upperlimit}</p>
-        : false }
-        <VictoryChart
-          containerComponent={<VictoryVoronoiContainer/>}
-          /* animate={{ duration: 500 }} */
-          theme={VictoryTheme.material}
-          style={{ parent: { border: "2px solid white"} }}
-
-          padding={{ top: 0, bottom: 40, left: 60, right: 0 }}
-          domain={{x: [this.props.rangeX.min, this.props.rangeX.max], y: [yAxisMin, yAxisMax]}}
-          domainPadding={30}
-        >
-          { !!this.props.upperlimit ? (
-            <VictoryArea
-              name="HigherLimit"
-              domainPadding={{ x: [-30, -30] }}
-              style={{
-                data: {
-                    fill: "#f9e9e9", fillOpacity: 1.0
-                }
-              }}
-              data={[
-                {x: moment(this.props.values[this.props.values.length -1].ts).subtract(30,'minutes').toDate(), y:  this.props.upperlimit},
-                {x: moment(this.props.values[0].ts).add(30,'minutes').toDate(), y:  this.props.upperlimit}
-              ]}
-              y0={ (d) => 100}
-            />
-          ) : false }
->>>>>>> origin/envvar/charles/variables
 
     render() {
         let yAxisMin, yAxisMax

@@ -23,7 +23,6 @@ export function getUserDetails() {
 }
 
 function updateSigninStatus(isSignedIn) {
-<<<<<<< HEAD
     if (isSignedIn) {
         let access_token = GoogleAuth.currentUser.get().Zi.access_token
         let email = GoogleAuth.currentUser.get().w3.U3
@@ -48,35 +47,10 @@ function updateSigninStatus(isSignedIn) {
                     handleErrors(error.message)
                 })
         }
-=======
-  if (isSignedIn) {
-    let access_token = GoogleAuth.currentUser.get().Zi.access_token
-    let email = GoogleAuth.currentUser.get().w3.U3
-    // console.log(GoogleAuth.currentUser.get())
-    userDetails.firstname =  GoogleAuth.currentUser.get().w3.ofa
-    userDetails.lastname = GoogleAuth.currentUser.get().w3.wea
-    userDetails.avatar = GoogleAuth.currentUser.get().w3.Paa
-    if (signInOrRegister === 'signin'){
-      authApi.authSignIn(email,'google',access_token)
-      .then(data => {
-        setConctrToken(data.jwt)
-      })
-      .catch(error => {
-        throw Error(error)
-      })
-    } else if (signInOrRegister === 'register'){
-      authApi.authRegister(email,'google',access_token)
-      .then(data => {
-        setConctrToken(data.jwt)
-      })
-      .catch(error => {
-        handleErrors(error)
-      })
->>>>>>> origin/envvar/charles/variables
+
     }
 }
 
-<<<<<<< HEAD
 function initClient() {
     changeLoading(true)
     window.gapi.client.init({
@@ -89,24 +63,7 @@ function initClient() {
         changeLoading(false)
         GoogleAuth.isSignedIn.listen(updateSigninStatus)
     })
-=======
-function initClient(){
-  console.log("initialed gapi")
-  let gapiCreds = {
-      'apiKey': ourApi,
-      'clientId': yourWebClientId,
-      'scope': 'profile',
-      'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
-  };
-  console.log("gapiCreds",gapiCreds);
 
-  changeLoading(true)
-  window.gapi.client.init(gapiCreds).then(function () {
-      GoogleAuth = window.gapi.auth2.getAuthInstance()
-      changeLoading(false)
-      GoogleAuth.isSignedIn.listen(updateSigninStatus)
-  })
->>>>>>> origin/envvar/charles/variables
 }
 
 export function signIn(param) {
