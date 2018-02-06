@@ -1,6 +1,6 @@
 import * as authApi from './auth'
-const ourApi = process.env.GOOGLE_OAUTH_API_ID
-const yourWebClientId = process.env.GOOGLE_OAUTH_CLIENT_ID
+const ourApi = process.env.REACT_APP_GOOGLE_OAUTH_API_ID
+const yourWebClientId = process.env.REACT_APP_OAUTH_CLIENT_ID
 let GoogleAuth
 let changeLoading
 let signInOrRegister
