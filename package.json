@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
-    "dotenv": "^4.0.0",
     "formsy-react": "^0.19.5",
     "material-ui": "^0.18.7",
     "moment": "^2.18.1",
