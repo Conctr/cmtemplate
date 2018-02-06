@@ -1,7 +1,7 @@
 import api from './init'
 const request = require('request');
 
-const REACT_APP_APP_ID = '2bf8fdd3b3144deea63aa54402938d68' //process.env.REACT_APP_APP_ID
+const appId = process.env.REACT_APP_CONCTR_APP_API_ID
 
 let unloadToken;
 
@@ -10,7 +10,7 @@ export function loadFunctions(key,callback) {
 }
 
 export function getAll() {
-    return api.get(`/consumers/admin/${REACT_APP_APP_ID}/devices`)
+    return api.get(`/consumers/admin/${appId}/devices`)
   .then(res =>
     res.data)
   .catch(error => {
@@ -20,13 +20,13 @@ export function getAll() {
 
 //https://api.staging.conctr.com/consumers/admin/{app_id}/devices/{device_id}
 export function getSingle(deviceId) {
-  return api.get(`/consumers/admin/${REACT_APP_APP_ID}/devices/${deviceId}`)
+  return api.get(`/consumers/admin/${appId}/devices/${deviceId}`)
   .then(res =>res.data.data)
     .catch(error => {
       throw Error(error.response.data.error)})
     }
 export function getModel(deviceId) {
-  return api.get(`/consumers/admin/${REACT_APP_APP_ID}/devices/${deviceId}/model`)
+  return api.get(`/consumers/admin/${appId}/devices/${deviceId}/model`)
   .then(res =>
     res.data.data.events)
     .catch(error => {
@@ -35,7 +35,7 @@ export function getModel(deviceId) {
 
 
 export function update(deviceId,conditions) {
-  return api.patch(`/consumers/admin/${REACT_APP_APP_ID}/devices/${deviceId}`, conditions)
+  return api.patch(`/consumers/admin/${appId}/devices/${deviceId}`, conditions)
 .then(res => res.data)
 .catch(error => {
   throw Error(error.response.data.error)})
