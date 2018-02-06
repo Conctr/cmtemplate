@@ -5,6 +5,7 @@
   height: 100vh;
   background-image: url('../../../imgs/bottles.png');
   background-position: center;
+  background-size: cover;
 }
 
 .conctr-footer-box {
@@ -33,7 +34,8 @@
   max-width: 85%;
 }
 
-.wimo-login-logo {
+.app-login-logo {
+  height: 120px;
   max-width: 85%;
   padding-bottom: 20px;
 }
@@ -94,7 +96,6 @@
 }
 
 @media only screen and (max-width: 768px) {
-
   .welcome-container {
     position: relative;
     left: auto;
