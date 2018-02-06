@@ -18,7 +18,6 @@ export function getAll() {
     throw Error(error.response.data.error)})
 }
 
-//https://api.staging.conctr.com/consumers/admin/{app_id}/devices/{device_id}
 export function getSingle(deviceId) {
   return api.get(`/consumers/admin/${appId}/devices/${deviceId}`)
   .then(res =>res.data.data)
