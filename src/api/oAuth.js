@@ -1,6 +1,6 @@
 import * as authApi from './auth'
-const ourApi = 'AIzaSyDw5Ha6D5FMUT8cZ7uKpSFa2cfg-DllREM'
-const yourWebClientId = '825347282342-4u6d1ntaiphdsn1uvmq2p81k9q99dpk8.apps.googleusercontent.com'
+const ourApi = process.env.GOOGLE_OAUTH_API_ID
+const yourWebClientId = process.env.GOOGLE_OAUTH_CLIENT_ID
 let GoogleAuth
 let changeLoading
 let signInOrRegister
@@ -60,6 +60,7 @@ function initClient(){
       changeLoading(false)
       GoogleAuth.isSignedIn.listen(updateSigninStatus)
   })
+  .catch(error => console.log(error))
 }
 
 export function signIn(param){
