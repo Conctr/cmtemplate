@@ -1,11 +1,11 @@
 import * as authApi from './auth'
-var ourApi = 'AIzaSyDw5Ha6D5FMUT8cZ7uKpSFa2cfg-DllREM'
-var yourWebClientId = '825347282342-4u6d1ntaiphdsn1uvmq2p81k9q99dpk8.apps.googleusercontent.com'
-var GoogleAuth
-var changeLoading
-var signInOrRegister
-var setConctrToken
-var handleErrors
+const ourApi = process.env.REACT_APP_GOOGLE_OAUTH_API_ID
+const yourWebClientId = process.env.REACT_APP_OAUTH_CLIENT_ID
+let GoogleAuth
+let changeLoading
+let signInOrRegister
+let setConctrToken
+let handleErrors
 let userDetails = {}
 
 
@@ -60,6 +60,7 @@ function initClient(){
       changeLoading(false)
       GoogleAuth.isSignedIn.listen(updateSigninStatus)
   })
+  .catch(error => console.log(error))
 }
 
 export function signIn(param){

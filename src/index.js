@@ -13,7 +13,6 @@ WebFont.load({
 })
 let interceptSuccessful = () => {console.log('succes')}
 let interceptError = () => {console.log('error')}
-require('dotenv').config()
 axios.interceptors.response.use(interceptSuccessful, interceptError);
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

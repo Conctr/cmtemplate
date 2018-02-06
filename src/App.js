@@ -5,7 +5,6 @@ import LoginPage from './pages/Login'
 import DevicePage from './pages/Device'
 import NavBar from '../src/components/molecules/NavBar';
 import TestPage from './pages/Test'
-import './custom.css'
 import * as authAPI from './api/auth'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import {

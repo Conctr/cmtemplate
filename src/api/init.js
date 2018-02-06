@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: "https://api.staging.conctr.com/"//process.env.REACT_APP_API_URL
+    baseURL: process.env.REACT_APP_API_URL
 })
 
 export function setApiToken(token) {
