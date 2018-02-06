@@ -1,11 +1,11 @@
 import * as authApi from './auth'
-var ourApi = 'AIzaSyDw5Ha6D5FMUT8cZ7uKpSFa2cfg-DllREM'
-var yourWebClientId = '825347282342-4u6d1ntaiphdsn1uvmq2p81k9q99dpk8.apps.googleusercontent.com'
-var GoogleAuth
-var changeLoading
-var signInOrRegister
-var setConctrToken
-var handleErrors
+const ourApi = 'ZMjBBGIr8SPnj_IiWlT2awdae' 
+const yourWebClientId = '623084099025-ru09r0q5rhjguaj4n348umdjcllr3hrp.apps.googleusercontent.com'
+let GoogleAuth
+let changeLoading
+let signInOrRegister
+let setConctrToken
+let handleErrors
 let userDetails = {}
 
 
