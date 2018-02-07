@@ -6,12 +6,8 @@ import RaisedButton from "material-ui/RaisedButton";
 import TextField from "../components/atoms/TextField";
 import GoogleIcon from "react-icons/lib/fa/google";
 import conctrLogo from "../imgs/conctr-logo.png";
-
-// customer need to change the logo image file name
 import Logo from "../imgs/logoImage.jpg";
-
-// customer need to change the background image file name
-import backgroundImageFile from "../imgs/bottles.png";
+import backgroundImageFile from "../imgs/placeholder-background.svg";
 
 export default class LoginPage extends Component {
   constructor(props) {
@@ -73,11 +69,11 @@ export default class LoginPage extends Component {
         style={
           !!backgroundImage
             ? {
-                backgroundImage: `url(${backgroundImage})`
-              }
+              backgroundImage: `url(${backgroundImage})`
+            }
             : {
-                background: `${backgroundColor}`
-              }
+              background: `${backgroundColor}`
+            }
         }
       >
         <div className="conctr-footer-box">
@@ -94,64 +90,64 @@ export default class LoginPage extends Component {
           {this.state.loading ? (
             <CircularProgress />
           ) : (
-            <div className="login-dialog">
-              <img
-                src={!!logoUrl ? logoUrl : Logo}
-                alt="app logo"
-                className="app-login-logo"
-              />
-              <div>
-                <div className="element" />
-                <div className="login-text-fields">
-                  <TextField
-                    id="email"
-                    floatingLabelText="Email"
-                    fullWidth={true}
-                    onChange={this.onInputChange}
-                    onEnterKeyDown={() =>
-                      this.submitToAuth(this.props.onSignIn)
-                    }
-                    value={this.state.email}
-                    hintText="Email"
+              <div className="login-dialog">
+                <img
+                  src={!!logoUrl ? logoUrl : Logo}
+                  alt="app logo"
+                  className="app-login-logo"
+                />
+                <div>
+                  <div className="element" />
+                  <div className="login-text-fields">
+                    <TextField
+                      id="email"
+                      floatingLabelText="Email"
+                      fullWidth={true}
+                      onChange={this.onInputChange}
+                      onEnterKeyDown={() =>
+                        this.submitToAuth(this.props.onSignIn)
+                      }
+                      value={this.state.email}
+                      hintText="Email"
+                    />
+                    <TextField
+                      id="password"
+                      floatingLabelText="Password"
+                      fullWidth={true}
+                      onChange={this.onInputChange}
+                      onEnterKeyDown={() =>
+                        this.submitToAuth(this.props.onSignIn)
+                      }
+                      value={this.state.password}
+                      hintText="Password"
+                      type="password"
+                    />
+                  </div>
+                  <RaisedButton
+                    className="login-button"
+                    label="Log in"
+                    onTouchTap={() => this.submitToAuth(this.props.onSignIn)}
                   />
-                  <TextField
-                    id="password"
-                    floatingLabelText="Password"
-                    fullWidth={true}
-                    onChange={this.onInputChange}
-                    onEnterKeyDown={() =>
-                      this.submitToAuth(this.props.onSignIn)
-                    }
-                    value={this.state.password}
-                    hintText="Password"
-                    type="password"
+                  <RaisedButton
+                    className="login-button"
+                    label="Log in with Google"
+                    onTouchTap={() => oauthApi.signIn("signin")}
+                    icon={<GoogleIcon className="button-icon" />}
+                  />
+                  <div className="login-divider">
+                    <Divider />
+                  </div>
+                  <div className="login-text">Device, but no account?</div>
+                  <RaisedButton
+                    className="login-button"
+                    label="Register with Google"
+                    onTouchTap={() => oauthApi.signIn("register")}
+                    primary={true}
+                    icon={<GoogleIcon className="button-icon" />}
                   />
                 </div>
-                <RaisedButton
-                  className="login-button"
-                  label="Log in"
-                  onTouchTap={() => this.submitToAuth(this.props.onSignIn)}
-                />
-                <RaisedButton
-                  className="login-button"
-                  label="Log in with Google"
-                  onTouchTap={() => oauthApi.signIn("signin")}
-                  icon={<GoogleIcon className="button-icon" />}
-                />
-                <div className="login-divider">
-                  <Divider />
-                </div>
-                <div className="login-text">Device, but no account?</div>
-                <RaisedButton
-                  className="login-button"
-                  label="Register with Google"
-                  onTouchTap={() => oauthApi.signIn("register")}
-                  primary={true}
-                  icon={<GoogleIcon className="button-icon" />}
-                />
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     );
