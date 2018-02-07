@@ -7,10 +7,8 @@ import TextField from "../components/atoms/TextField";
 import GoogleIcon from "react-icons/lib/fa/google";
 import conctrLogo from "../imgs/conctr-logo.png";
 
-// customer need to change the logo image file name
 import Logo from "../imgs/logoImage.jpg";
 
-// customer need to change the background image file name
 import backgroundImageFile from "../imgs/bottles.png";
 
 export default class LoginPage extends Component {
@@ -60,20 +58,16 @@ export default class LoginPage extends Component {
   }
 
   render() {
-    const logoUrl = process.env.REACT_APP_LOGO_IMAGE_URL;
-
-    const backgroundImage =
-      process.env.REACT_APP_BACKGROUND_IMAGE_URL || backgroundImageFile;
-
-    const backgroundColor = process.env.REACT_APP_BACKGROUND_COLOR;
+    const useColor = false;
+    const backgroundColor = "#C8C8C8";
 
     return (
       <div
         className="login-background"
         style={
-          !!backgroundImage
+          !useColor
             ? {
-                backgroundImage: `url(${backgroundImage})`
+                backgroundImage: `url(${backgroundImageFile})`
               }
             : {
                 background: `${backgroundColor}`
@@ -95,11 +89,7 @@ export default class LoginPage extends Component {
             <CircularProgress />
           ) : (
             <div className="login-dialog">
-              <img
-                src={!!logoUrl ? logoUrl : Logo}
-                alt="app logo"
-                className="app-login-logo"
-              />
+              <img src={Logo} alt="app logo" className="app-login-logo" />
               <div>
                 <div className="element" />
                 <div className="login-text-fields">
