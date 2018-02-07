@@ -56,21 +56,17 @@ export default class LoginPage extends Component {
   }
 
   render() {
-    const logoUrl = process.env.REACT_APP_LOGO_IMAGE_URL;
-
-    const backgroundImage =
-      process.env.REACT_APP_BACKGROUND_IMAGE_URL || backgroundImageFile;
-
-    const backgroundColor = process.env.REACT_APP_BACKGROUND_COLOR;
+    const useColor = false;
+    const backgroundColor = "#C8C8C8";
 
     return (
       <div
         className="login-background"
         style={
-          !!backgroundImage
+          !useColor
             ? {
-              backgroundImage: `url(${backgroundImage})`
-            }
+                backgroundImage: `url(${backgroundImageFile})`
+              }
             : {
               background: `${backgroundColor}`
             }
