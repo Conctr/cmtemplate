@@ -88,7 +88,7 @@ export default class LoginPage extends Component {
           ) : (
               <div className="login-dialog">
                 <img
-                  src={!!logoUrl ? logoUrl : Logo}
+                  src={Logo}
                   alt="app logo"
                   className="app-login-logo"
                 />
