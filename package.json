@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "enzyme-to-json": "^3.3.1",
     "formsy-react": "^0.19.5",
     "material-ui": "^0.18.7",
     "moment": "^2.18.1",
@@ -30,6 +31,8 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-15": "^1.0.5",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-import": "^2.7.0",
@@ -37,6 +40,7 @@
     "eslint-plugin-react": "^7.1.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
-    "gulp-sass": "^3.1.0"
+    "gulp-sass": "^3.1.0",
+    "react-test-renderer": "15"
   }
 }
