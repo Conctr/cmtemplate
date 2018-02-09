@@ -1,23 +1,22 @@
-import React, { Component } from "react";
-import * as deviceWebSocket from "../../api/deviceWebSockets";
+import React, { Component } from "react"
+import * as deviceWebSocket from "../../api/deviceWebSockets"
 import {
   getModel as getDeviceModel,
   update as updateDevice,
   getSingle as getDevice,
   setAlertSettings as setDeviceAlertSettings,
   getAlertSettings as getDeviceAlertSettings
-} from "../../api/device";
-import CircularProgress from "material-ui/CircularProgress";
-import Menu from "material-ui/Menu";
-import MenuItem from "material-ui/MenuItem";
-import Slider from "material-ui/Slider";
-import DeviceSettingsDialog from "../molecules/DeviceSettingsDialog";
-import LineGraph from "../molecules/LineGraph";
-import moment from "moment";
-import { toast, ToastContainer } from "react-toastify";
-import CrossIcon from "react-icons/lib/fa/times-circle";
-import CheckIcon from "react-icons/lib/fa/check-circle";
-require("moment-duration-format");
+} from "../../api/device"
+import CircularProgress from "material-ui/CircularProgress"
+import Menu from "material-ui/Menu"
+import MenuItem from "material-ui/MenuItem"
+import Slider from "material-ui/Slider"
+import DeviceSettingsDialog from "../molecules/DeviceSettingsDialog"
+import LineGraph from "../molecules/LineGraph"
+import moment from "moment"
+import { toast, ToastContainer } from "react-toastify"
+import CrossIcon from "react-icons/lib/fa/times-circle"
+require("moment-duration-format")
 
 function sorter(data, dataKeys) {
   /* function to sort data into
@@ -30,48 +29,48 @@ function sorter(data, dataKeys) {
   }
   */
 
-  let sortedValues = {};
+  let sortedValues = {}
   if (data != null) {
     dataKeys.forEach(key => {
-      sortedValues[key] = {};
-      sortedValues[key].values = [];
+      sortedValues[key] = {}
+      sortedValues[key].values = []
       for (let i = 0; i < data.length; i++) {
-        let time = data[i]["_ts"];
+        let time = data[i]["_ts"]
 
-        sortedValues[key].values.push({ ts: time, value: data[i][key] });
+        sortedValues[key].values.push({ ts: time, value: data[i][key] })
       }
-      let allX = sortedValues[key].values.map(val => moment(val.ts));
-      let allY = sortedValues[key].values.map(val => val.value);
-      let minX = Math.min.apply(null, allX);
-      let maxX = Math.max.apply(null, allX);
-      let minY = Math.min.apply(null, allY);
-      let maxY = Math.max.apply(null, allY);
+      let allX = sortedValues[key].values.map(val => moment(val.ts))
+      let allY = sortedValues[key].values.map(val => val.value)
+      let minX = Math.min.apply(null, allX)
+      let maxX = Math.max.apply(null, allX)
+      let minY = Math.min.apply(null, allY)
+      let maxY = Math.max.apply(null, allY)
 
       sortedValues[key]["rangeX"] = {
         min: moment(minX).toDate(),
         max: moment(maxX).toDate()
-      };
+      }
       sortedValues[key]["rangeY"] = {
         min: minY,
         max: maxY
-      };
-    });
+      }
+    })
   }
-  return sortedValues;
+  return sortedValues
 }
 
 function getOnlyConditions(alertSettings) {
-  let mutableAlertSettings = { ...alertSettings };
-  delete mutableAlertSettings.alertSettings;
-  return mutableAlertSettings;
+  let mutableAlertSettings = { ...alertSettings }
+  delete mutableAlertSettings.alertSettings
+  return mutableAlertSettings
 }
 export default class DeviceInfo extends Component {
-  alertSettings;
+  alertSettings
   // Determines which graphs get rendered
-  allGraphs = [];
-  deviceData = {};
+  allGraphs = []
+  deviceData = {}
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       data: null,
       hoursBackShown: 3,
@@ -80,11 +79,11 @@ export default class DeviceInfo extends Component {
       loaderShown: false,
       keysShown: [],
       selectedGraphKey: null
-    };
-    this.defaultChange = null;
+    }
+    this.defaultChange = null
   }
 
-  originalShownKeys;
+  originalShownKeys
 
   componentDidMount() {
     deviceWebSocket.getDevicesData(
@@ -92,90 +91,90 @@ export default class DeviceInfo extends Component {
       this.updateData,
       this.state.hoursBack,
       this.handleUpdateData
-    );
+    )
     Promise.all([
       getDeviceModel(this.props.deviceId),
       getDevice(this.props.deviceId),
       getDeviceAlertSettings()
     ])
       .then(([model, deviceData, deviceAlertSettings]) => {
-        this.deviceData = deviceData;
-        this.setState({ newDeviceName: deviceData.name });
-        this.alertSettings = deviceAlertSettings;
+        this.deviceData = deviceData
+        this.setState({ newDeviceName: deviceData.name })
+        this.alertSettings = deviceAlertSettings
         this.allGraphs = model.map(modelData => {
           return {
             displayTitle: modelData.title,
             key: modelData.reference,
             unit: modelData.unit
-          };
-        });
-        this.getDeviceSettings();
+          }
+        })
+        this.getDeviceSettings()
       })
       .catch(error => {
         // this.props.handleError(error)
-        console.error(error);
-      });
+        console.error(error)
+      })
   }
 
   componentWillReceiveProps({ deviceId }) {
     this.setState({
       data: null
-    });
+    })
     deviceWebSocket.getDevicesData(
       this.props.deviceId,
       this.updateData,
       this.state.hoursBack,
       this.handleUpdateData
-    );
+    )
     Promise.all([
       getDeviceModel(this.props.deviceId),
       getDevice(this.props.deviceId),
       getDeviceAlertSettings()
     ])
       .then(([model, deviceData, deviceAlertSettings]) => {
-        this.deviceData = deviceData;
-        this.alertSettings = deviceAlertSettings;
+        this.deviceData = deviceData
+        this.alertSettings = deviceAlertSettings
         this.allGraphs = model.map(modelData => {
           return {
             displayTitle: modelData.title,
             key: modelData.reference,
             unit: modelData.unit
-          };
-        });
-        this.getDeviceSettings();
+          }
+        })
+        this.getDeviceSettings()
       })
       .catch(error => {
         // this.props.handleError(error)
-        console.error(error);
-      });
+        console.error(error)
+      })
   }
 
   determineGraphsWithClass = allGraphs => {
     this.state.keysShown.forEach(graphShown => {
       allGraphs.forEach(graph => {
         if (graphShown.key === graph.key) {
-          graph.display = true;
+          graph.display = true
           // Optimasation issue, loop will keep running even when matched
         }
-      });
-    });
-    return allGraphs;
-  };
+      })
+    })
+    return allGraphs
+  }
 
   updateData = newData => {
     this.setState({
       data: newData,
       loaderShown: false
-    });
-  };
+    })
+  }
 
   handleUpdateData = newData => {
-    let mutableData = this.state.data.slice();
-    mutableData.unshift(newData);
+    let mutableData = this.state.data.slice()
+    mutableData.unshift(newData)
     this.setState({
       data: mutableData
-    });
-  };
+    })
+  }
 
   handleSliderStop = value => {
     deviceWebSocket.getDevicesData(
@@ -183,154 +182,141 @@ export default class DeviceInfo extends Component {
       this.updateData,
       value,
       this.handleUpdateData
-    );
+    )
     this.setState({
       hoursBack: value,
       loaderShown: true,
       hoursBackShown: value
-    });
-  };
+    })
+  }
 
   handleSlider = value => {
     this.setState({
       hoursBackShown: value
-    });
-  };
+    })
+  }
 
   getBatteryPercentage = latestBattery => {
     // Getting the percentage of how far between two points.
-    let lower = 2.31;
-    let upper = 2.794;
-    let value = latestBattery;
-    let percentage = (value - lower) / (upper - lower);
-    return percentage * 100;
-  };
+    let lower = 2.31
+    let upper = 2.794
+    let value = latestBattery
+    let percentage = (value - lower) / (upper - lower)
+    return percentage * 100
+  }
 
   handleGraphDelete = graphKey => {
     if (graphKey !== this.state.selectedGraphKey) {
       this.setState({
         keysShown: this.state.keysShown.filter(graphShown => {
-          return graphShown.key !== graphKey;
+          return graphShown.key !== graphKey
         })
-      });
+      })
     } else {
       this.setState({
         keysShown: this.state.keysShown.filter(
           graphShown => graphShown.key !== graphKey
         ),
         selectedGraphKey: null
-      });
+      })
     }
     this.allGraphs = this.allGraphs.map(graph => {
-      graph.display = false;
-      return graph;
-    });
-  };
+      graph.display = false
+      return graph
+    })
+  }
 
   handleGraphAdd = graphKey => {
-    let elementToAdd = this.allGraphs.find(graph => graph.key === graphKey);
+    let elementToAdd = this.allGraphs.find(graph => graph.key === graphKey)
     this.setState({
       keysShown: this.state.keysShown.concat(elementToAdd)
-    });
+    })
     this.allGraphs = this.allGraphs.map(graph => {
-      graph.display = false;
-      return graph;
-    });
-  };
+      graph.display = false
+      return graph
+    })
+  }
 
   handleGraphSelect = selectedGraphKey => {
-    this.setState({ selectedGraphKey: selectedGraphKey });
-  };
+    this.setState({ selectedGraphKey: selectedGraphKey })
+  }
 
   saveGraphSettings = object => {
-    localStorage.setItem("graphPreference", JSON.stringify(object));
-    return object;
-  };
+    localStorage.setItem("graphPreference", JSON.stringify(object))
+    return object
+  }
 
   getGraphSettings = () => {
-    return localStorage.graphPreference;
-  };
+    return localStorage.graphPreference
+  }
 
   getDeviceSettings = () => {
     // Graph Preference
-    let alertSettingConditions = { ...this.alertSettings };
-    delete alertSettingConditions.alertSettings;
-    let array = [];
+    let alertSettingConditions = { ...this.alertSettings }
+    delete alertSettingConditions.alertSettings
+    let array = []
     Object.keys(alertSettingConditions).forEach(settingCondition => {
-      array.push(this.allGraphs.find(graph => graph.key === settingCondition));
-    });
-    this.setState({ keysShown: array });
-  };
+      array.push(this.allGraphs.find(graph => graph.key === settingCondition))
+    })
+    this.setState({ keysShown: array })
+  }
 
   saveDeviceSettings = rules => {
-    setDeviceAlertSettings(this.props.deviceId, rules, this.handleAlerts);
-    updateDevice(this.deviceData.id, { new_name: this.state.newDeviceName });
+    setDeviceAlertSettings(this.props.deviceId, rules, this.handleAlerts)
+    updateDevice(this.deviceData.id, { new_name: this.state.newDeviceName })
     //todo save device name
-  };
+  }
 
   handleAlerts = (err, res) => {
     if (err) {
-      toast.error("Failed to update settings, please try later");
+      toast.error("Failed to update settings, please try later")
     } else {
-      toast.success("Successfully saved settings");
+      toast.success("Successfully saved settings")
     }
-  };
+  }
 
   updateDeviceName = newDeviceName => {
-    this.setState({ newDeviceName: newDeviceName });
-  };
+    this.setState({ newDeviceName: newDeviceName })
+  }
 
-  resetGraphsShown = () => {};
+  resetGraphsShown = () => {}
 
   checkIfOutOfRange = (key, value) => {
-    let upperLimit, lowerLimit;
+    let upperLimit, lowerLimit
     if (this.alertSettings[key]) {
-      upperLimit = this.alertSettings[key]["GT"];
-      lowerLimit = this.alertSettings[key]["LT"];
+      upperLimit = this.alertSettings[key]["GT"]
+      lowerLimit = this.alertSettings[key]["LT"]
     }
     if (value > upperLimit || value < lowerLimit) {
-      return "warning";
+      return "warning"
     } else {
-      return "";
+      return ""
     }
-  };
+  }
 
   checkIfArrayOutOfRange = (key, array) => {
-    let upperLimit, lowerLimit;
+    let upperLimit, lowerLimit
     if (this.alertSettings[key]) {
-      lowerLimit = this.alertSettings[key]["LT"];
-      upperLimit = this.alertSettings[key]["GT"];
+      lowerLimit = this.alertSettings[key]["LT"]
+      upperLimit = this.alertSettings[key]["GT"]
     }
     if (
       (lowerLimit && !array.values.every(value => value.value > lowerLimit)) ||
       (upperLimit && !array.values.every(value => value.value < upperLimit))
     ) {
-      return <CrossIcon color="red" />;
+      return <CrossIcon color="red" />
     } else {
-      return <div />;
+      return <div />
     }
-  };
-
-  // // Save state of settings
-  // handleSettingsEnter = () => {
-  //   this.state.
-  // }
-  // // Save state of settings
-  // handleSettingsSave = () => {
-  //   this.state.
-  // }
-  // // Save state of settings
-  // handleSettingsCancel = () => {
-  //   this.state.
-  // }
+  }
 
   render() {
-    const sortedGraphs = this.determineGraphsWithClass(this.allGraphs);
+    const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
     const sortedData = sorter(
       this.state.data,
       this.allGraphs.map(graph => graph.key)
-    );
-    let alertConditions = getOnlyConditions(this.alertSettings);
+    )
+    let alertConditions = getOnlyConditions(this.alertSettings)
     return (
       <div style={{ textAlign: "center" }}>
         <ToastContainer
@@ -414,14 +400,16 @@ export default class DeviceInfo extends Component {
                             <p className="status-data-type">
                               {keyShown.displayTitle}
                             </p>
-                            <h3
+                            {/* disable the data value blinking func*/}
+                            {/*<h3
                               className={`status-data-value ${this.checkIfOutOfRange(
                                 keyShown.key,
                                 sortedData[
                                   keyShown.key
                                 ].values[0].value.toFixed(1)
                               )}`}
-                            >
+                            >*/}
+                            <h3 className={"status-data-value"}>
                               {sortedData[keyShown.key].values[0].value.toFixed(
                                 1
                               )}{" "}
@@ -469,12 +457,12 @@ export default class DeviceInfo extends Component {
                           step={1}
                           value={this.state.hoursBack}
                           onChange={(event, value) => {
-                            this.defaultChange = value;
-                            this.handleSlider(value);
+                            this.defaultChange = value
+                            this.handleSlider(value)
                           }}
                           onDragStop={() => {
                             this.defaultChange > 0 &&
-                              this.handleSliderStop(this.defaultChange);
+                              this.handleSliderStop(this.defaultChange)
                           }}
                         />
                       </div>
@@ -493,10 +481,6 @@ export default class DeviceInfo extends Component {
                                   ? { backgroundColor: "#fbeeee" }
                                   : { backgroundColor: "white" }
                               }
-                              leftIcon={this.checkIfArrayOutOfRange(
-                                keyShown.key,
-                                sortedData[keyShown.key]
-                              )}
                               onTouchTap={() =>
                                 this.handleGraphSelect(keyShown.key)
                               }
@@ -557,6 +541,6 @@ export default class DeviceInfo extends Component {
           <CircularProgress />
         )}
       </div>
-    );
+    )
   }
 }
