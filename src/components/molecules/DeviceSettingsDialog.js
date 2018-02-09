@@ -5,6 +5,8 @@ import IconButton from "material-ui/IconButton"
 import Settings from "material-ui/svg-icons/action/settings"
 import TextField from "../atoms/TextField"
 import RulesUI from "./RulesUI"
+import RaisedButton from "material-ui/RaisedButton"
+
 export default class DeviceSettingsDialog extends React.Component {
   constructor(props) {
     super(props)
@@ -54,13 +56,15 @@ export default class DeviceSettingsDialog extends React.Component {
             handleGraphAdd={this.props.handleGraphAdd}
             sortedGraphs={this.props.sortedGraphs}
           />
-          <RulesUI
+          <RaisedButton onClick={this.handleClose} label="Close" />
+          {/*  alert setting is disabled*/}
+          {/*<RulesUI
             keysShown={this.props.keysShown}
             handleClose={this.handleClose}
             saveSettings={this.props.saveSettings}
             resetGraphsShown={this.props.resetGraphsShown}
             sortedGraphs={this.props.sortedGraphs}
-          />
+          />*/}
         </Drawer>
       </div>
     )
