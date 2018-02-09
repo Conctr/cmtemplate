@@ -6,7 +6,12 @@ import DevicesPaper from "../src/components/organisms/DevicesPaper"
 import "./custom.css"
 import * as authAPI from "./api/auth"
 import injectTapEventPlugin from "react-tap-event-plugin"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.min.css"
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
@@ -59,6 +64,7 @@ class App extends Component {
     if (token) {
       localStorage.setItem(tokenKey, token)
     } else {
+      // window.location.href = "/"
       localStorage.removeItem(tokenKey)
     }
     setApiToken(token)
@@ -82,34 +88,37 @@ class App extends Component {
               newestOnTop={false}
               closeOnClick
             />
-            <NavBar
-              signedIn={!!this.state.token}
-              logOut={() => this.setToken(null)}
-            />
+            <NavBar signedIn={!!this.state.token} logOut={this.handleSignOut} />
             <Switch>
-              {!!this.state.token ? (
-                <Route
-                  path="/"
-                  render={({ location }) => (
-                    <DevicesPaper
-                      pathname={location.pathname.substring(1)}
-                      handleError={this.handleError}
-                    />
-                  )}
-                />
-              ) : (
-                <Route
-                  path="/"
-                  render={() => (
+              <Route
+                path="/login"
+                exact
+                render={() =>
+                  !!this.state.token ? (
+                    <Redirect to="/" />
+                  ) : (
                     <LoginPage
                       handleErrors={this.handleError}
                       setToken={this.setToken}
                       onSignIn={this.handleSignIn}
                       onRegister={this.handleRegister}
                     />
-                  )}
-                />
-              )}
+                  )
+                }
+              />
+              <Route
+                path="/"
+                render={({ location }) =>
+                  !!this.state.token ? (
+                    <DevicesPaper
+                      pathname={location.pathname.substring(1)}
+                      handleError={this.handleError}
+                    />
+                  ) : (
+                    <Redirect to="/login" />
+                  )
+                }
+              />
 
               <Route
                 render={({ location }) => <p>{location.pathname} not found</p>}

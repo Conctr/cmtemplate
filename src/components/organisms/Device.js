@@ -310,19 +310,6 @@ export default class DeviceInfo extends Component {
     }
   }
 
-  // // Save state of settings
-  // handleSettingsEnter = () => {
-  //   this.state.
-  // }
-  // // Save state of settings
-  // handleSettingsSave = () => {
-  //   this.state.
-  // }
-  // // Save state of settings
-  // handleSettingsCancel = () => {
-  //   this.state.
-  // }
-
   render() {
     const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
     const sortedData = sorter(
