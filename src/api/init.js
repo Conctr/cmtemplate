@@ -15,12 +15,6 @@ export function setToken(token) {
   }
 }
 
-// export function setApiToken(token) {
-//   if (!!token){
-//     api.defaults.headers['Authorization'] = `jwt:${token}`
-//   } else {
-//     delete api.defaults.headers['Authorization']
-//   }
-// }
+setToken(getValidToken())
 
 export default api

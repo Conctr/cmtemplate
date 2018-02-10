@@ -77,13 +77,14 @@ class App extends Component {
     // authAPI.init(this.handleError)
     // loadDeviceApiFunctions("unloadToken", () => this.setToken(null))
   // }
-  onGoogleLoginSuccess = (status, response) => {
+  onGoogleLoginSuccess = (response, status) => {
     const email = response.profile.email
     const provider = response._provider
     const accessToken = response.token.accessToken
     if (status === "signIn") {
       authSignIn(email, provider, accessToken)
         .then(decodedToken => {
+          console.log(decodedToken)
           this.setState({decodedToken})
         })
         .catch(err => {
@@ -93,18 +94,20 @@ class App extends Component {
           this.setState({ error: conctrError })
         })
     }
-    if (status === "register") {
-      authRegister(email, provider, accessToken)
-        .then(conctrUser => {
-          this.setState({ token: conctrUser.jwt })
-        })
-        .catch(err => {
-          const conctrError = {
-            conctrError: err.response.data.error
-          }
-          this.setState({decodedToken})
-        })
-    }
+    // if (status === "register") {
+    //   authRegister(email, provider, accessToken)
+    //     .then(conctrUser => {
+    //       this.setState({ token: conctrUser.jwt })
+    //     })
+    //     .catch(err => {
+    //       const conctrError = {
+    //         conctrError: err.response.data.error
+    //       }
+    //       this.setState({ error: conctrError })
+    //     })
+    // }
+  }
+  onGoogleLoginFailure = (response, status) => {
   }
 
 
