@@ -60,7 +60,6 @@ export default class NavBar extends React.Component {
                 onTouchTap={this.handleOpenMenu}
                 icon={
                   <Avatar
-                    // src="http://i.telegraph.co.uk/multimedia/archive/03388/enfield_3388479b.jpg"
                     src={avatarUser}
                     size={30}
                   />

@@ -29,7 +29,7 @@ class App extends Component {
 
   onSignOut = () => {
     signOutNow()
-    this.setState({ decodedToken:null })
+    this.setState({ decodedToken: null })
   }
   // handleError = error => {
   //   toast.error(error)
@@ -126,7 +126,7 @@ class App extends Component {
               newestOnTop={false}
               closeOnClick
             />
-            <NavBar signedIn={signedIn} logOut={this.signOutNow} />
+            <NavBar signedIn={signedIn} logOut={this.onSignOut} />
             <Switch>
               <Route
                 path="/login"
@@ -138,7 +138,6 @@ class App extends Component {
                     <LoginPage
                       GoogleLoginSuccess={this.onGoogleLoginSuccess}
                       GoogleLoginFailure={this.onGoogleLoginFailure}
-                      
                       // handleErrors={this.handleError}
                       // setToken={this.setToken}
                       // onSignIn={this.handleSignIn}
