@@ -70,10 +70,25 @@ const LoginPage = ({
   GoogleLoginSuccess,
   GoogleLoginFailure,
   GoogleRegisterSuccess,
-  GoogleRegisterFailure
+  GoogleRegisterFailure,
+  useColor,
+  backgroundColor
 }) => {
   return (
-    <div>
+    // <div>
+          <div
+        className="login-background"
+        style={
+          !useColor
+            ? {
+                backgroundImage: `url(${backgroundImageFile})`
+              }
+            : {
+              background: `${backgroundColor}`
+            }
+        }
+      >
+
         <GoogleLogin
           clientId="623084099025-ru09r0q5rhjguaj4n348umdjcllr3hrp.apps.googleusercontent.com"
           buttonText="Login With Google"
@@ -94,30 +109,6 @@ const LoginPage = ({
             GoogleRegisterSuccess(response, 'register')
           }}
         />
-      {/* <SocialButton
-        provider="google"
-        appId="623084099025-ru09r0q5rhjguaj4n348umdjcllr3hrp.apps.googleusercontent.com"
-        onLoginSuccess={(response) => {
-          GoogleLoginSuccess(response, 'signIn')
-        }}
-        onLoginFailure={(response) => {
-          GoogleLoginFailure(response, 'signIn')
-        }}
-      >
-        Login with google
-      </SocialButton>
-      <SocialButton
-        provider="google"
-        appId="623084099025-ru09r0q5rhjguaj4n348umdjcllr3hrp.apps.googleusercontent.com"
-        onLoginSuccess={(response) => {
-          GoogleLoginSuccess(response, 'register')
-        }}
-        onLoginFailure={(response) => {
-          GoogleLoginFailure(response, 'register')
-        }}
-      >
-        Register With Google
-      </SocialButton> */}
     </div>
   )
 }
@@ -145,6 +136,7 @@ export default LoginPage
 //   render() {
 //     const useColor = false;
 //     const backgroundColor = "#C8C8C8";
+
 
 //     return (
 //       <div

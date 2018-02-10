@@ -117,6 +117,8 @@ class App extends Component {
                       GoogleLoginFailure={this.onGoogleFailure}
                       GoogleRegisterSuccess={this.onGoogleSuccess}
                       GoogleRegisterFailure={this.onGoogleFailure}
+                      useColor={false}
+                      backgroundColor="#C8C8C8"
                     />
                   )
                 }
