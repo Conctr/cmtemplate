@@ -1,4 +1,6 @@
 import api from './init'
+import { setToken } from './init'
+import { getDecodedToken } from './token';
 
 const appId = process.env.REACT_APP_CONCTR_APP_API_ID
 let handleErrors
@@ -39,7 +41,11 @@ export function authSignIn(email,provider,access_token) {
   "provider": provider
   }
   )
-  .then(res => res.data)
+  .then(res => {
+    const token = res.data.jwt
+    setToken(token)
+    return getDecodedToken()
+  })
   .catch(error => {
     throw Error(error.response.data.error)})
   }
@@ -53,13 +59,15 @@ export function authRegister(email,provider,access_token) {
   "provider": provider
   }
   )
-  .then(res => res.data)
+  .then(res => {
+    const token = res.data.jwt
+    setToken(token)
+    return getDecodedToken()
+  })
   .catch(error => {
     handleErrors(error.response.data.error)})
   }
-// export function register({ email, password }) {
-//     return api.post('/auth/register', {
-//         email,
-//         password
-//     }).then(res => res.data)
-// }
+
+export function signOutNow() {
+  setToken(null)
+}

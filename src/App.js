@@ -1,6 +1,9 @@
 import React, { Component } from "react"
-import { setApiToken } from "./api/init"
-import LoginPage from "./pages/Login"
+
+import { signOutNow } from './api/auth'
+import { getDecodedToken } from './api/token'
+
+import LoginPage from "./pages/LoginPage"
 import NavBar from "../src/components/molecules/NavBar"
 import DevicesPaper from "../src/components/organisms/DevicesPaper"
 import "./custom.css"
@@ -17,66 +20,68 @@ import "react-toastify/dist/ReactToastify.min.css"
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
 import { wimoTheme } from "./styles/WimoTheme"
 import { loadFunctions as loadDeviceApiFunctions } from "./api/device"
-const tokenKey = "userToken"
-const savedToken = localStorage.getItem(tokenKey)
-setApiToken(savedToken)
 injectTapEventPlugin()
 
 class App extends Component {
   state = {
-    token: savedToken,
+    decodedToken: getDecodedToken(),
     error: null,
-    createAccount: false
   }
 
-  handleError = error => {
-    toast.error(error)
+  onSignOut = () => {
+    signOutNow()
+    this.setState({ decodedToken:null })
   }
+  // handleError = error => {
+  //   toast.error(error)
+  // }
 
-  handleSignIn = ({ email, password }) => {
-    authAPI
-      .signIn({ email, password })
-      .then(json => {
-        this.setToken(json.jwt)
-      })
-      .catch(error => {
-        this.handleError(error.message)
-      })
-  }
+  // handleSignIn = ({ email, password }) => {
+  //   authAPI
+  //     .signIn({ email, password })
+  //     .then(json => {
+  //       this.setToken(json.jwt)
+  //     })
+  //     .catch(error => {
+  //       this.handleError(error.message)
+  //     })
+  // }
 
-  handleRegister = ({ email, password }) => {
-    authAPI
-      .register({ email, password })
-      .then(json => {
-        this.setToken(json.jwt)
-      })
-      .catch(error => {
-        this.handleError(error)
-      })
-  }
+  // handleRegister = ({ email, password }) => {
+  //   authAPI
+  //     .register({ email, password })
+  //     .then(json => {
+  //       this.setToken(json.jwt)
+  //     })
+  //     .catch(error => {
+  //       this.handleError(error)
+  //     })
+  // }
 
-  handleSignOut = () => {
-    this.setToken(null)
-  }
+  // handleSignOut = () => {
+  //   this.setToken(null)
+  // }
 
   // setToken(null) === signOut()
-  setToken = token => {
-    if (token) {
-      localStorage.setItem(tokenKey, token)
-    } else {
-      // window.location.href = "/"
-      localStorage.removeItem(tokenKey)
-    }
-    setApiToken(token)
-    this.setState({ token: token })
-  }
+  // setToken = token => {
+  //   if (token) {
+  //     localStorage.setItem(tokenKey, token)
+  //   } else {
+  //     // window.location.href = "/"
+  //     localStorage.removeItem(tokenKey)
+  //   }
+  //   setApiToken(token)
+  //   this.setState({ token: token })
+  // }
 
-  componentDidMount() {
-    authAPI.init(this.handleError)
-    loadDeviceApiFunctions("unloadToken", () => this.setToken(null))
-  }
+  // componentDidMount() {
+    // authAPI.init(this.handleError)
+    // loadDeviceApiFunctions("unloadToken", () => this.setToken(null))
+  // }
 
   render() {
+    const {decodedToken} = this.state
+    const signedIn = !!decodedToken
     return (
       <Router>
         {/* apply app theme*/}
@@ -88,20 +93,23 @@ class App extends Component {
               newestOnTop={false}
               closeOnClick
             />
-            <NavBar signedIn={!!this.state.token} logOut={this.handleSignOut} />
+            <NavBar signedIn={signedIn} logOut={this.signOutNow} />
             <Switch>
               <Route
                 path="/login"
                 exact
                 render={() =>
-                  !!this.state.token ? (
+                  signedIn ? (
                     <Redirect to="/" />
                   ) : (
                     <LoginPage
-                      handleErrors={this.handleError}
-                      setToken={this.setToken}
-                      onSignIn={this.handleSignIn}
-                      onRegister={this.handleRegister}
+                      // GoogleLoginSuccess={this.onGoogleLoginSuccess}
+                      // GoogleLoginFailure={this.onGoogleLoginFailure}
+                      
+                      // handleErrors={this.handleError}
+                      // setToken={this.setToken}
+                      // onSignIn={this.handleSignIn}
+                      // onRegister={this.handleRegister}
                     />
                   )
                 }
@@ -109,7 +117,7 @@ class App extends Component {
               <Route
                 path="/"
                 render={({ location }) =>
-                  !!this.state.token ? (
+                  signedIn ? (
                     <DevicesPaper
                       pathname={location.pathname.substring(1)}
                       handleError={this.handleError}
