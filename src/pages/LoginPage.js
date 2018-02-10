@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import * as oauthApi from "../api/oAuth"
+import React from 'react'
 import CircularProgress from "material-ui/CircularProgress"
 import Divider from "material-ui/Divider"
 import RaisedButton from "material-ui/RaisedButton"
@@ -10,97 +9,95 @@ import Logo from "../imgs/logoImage.jpg"
 import backgroundImageFile from "../imgs/placeholder-background.svg"
 import SocialButton from '../components/SocialButton'
 
-import { authSignIn, authRegister } from "../api/auth"
-import { ToastContainer, toast } from "react-toastify"
+// class LoginPage extends Component {
+//   state = {
+//     token: null,
+//     error: null
+//   }
 
-class LoginPage extends Component {
-  state = {
-    token: null,
-    error: null
-  }
+//   // Google 0Auth Login
+//   handleGoogleLoginSuccess = (status, response) => {
+//     console.log('response', response)
+//     const email = response.profile.email
+//     const provider = response._provider
+//     const accessToken = response.token.accessToken
+//     if (status === "signIn") {
+//       authSignIn(email, provider, accessToken)
+//         .then(conctrUser => {
+//           this.setState({ token: conctrUser.jwt })
+//         })
+//         .catch(err => {
+//           const conctrError = {
+//             conctrError: err.response.data.error
+//           }
+//           this.setState({ error: conctrError })
+//         })
+//     }
+//     if (status === "register") {
+//       authRegister(email, provider, accessToken)
+//         .then(conctrUser => {
+//           this.setState({ token: conctrUser.jwt })
+//         })
+//         .catch(err => {
+//           const conctrError = {
+//             conctrError: err.response.data.error
+//           }
+//           this.setState({ error: conctrError })
+//         })
+//     }
+//   }
+//   handleGoogleLoginFailure = (status, response) => {
+//     if (status === "signIn") {
+//       if (response.message) {
+//         const googleError = {
+//           error: response.message
+//         }
+//         this.setState({ error: googleError })
+//       }
+//     }
+//     // register
+//     if (status === "register") {
+//       if (response.message) {
+//         const googleError = {
+//           error: response.message
+//         }
+//         this.setState({ error: googleError })
+//       }
+//     }
+//   }
 
-  // Google 0Auth Login
-  handleGoogleLoginSuccess = (status, response) => {
-    console.log('response', response)
-    const email = response.profile.email
-    const provider = response._provider
-    const accessToken = response.token.accessToken
-    if (status === "signIn") {
-      authSignIn(email, provider, accessToken)
-        .then(conctrUser => {
-          this.setState({ token: conctrUser.jwt })
-        })
-        .catch(err => {
-          const conctrError = {
-            conctrError: err.response.data.error
-          }
-          this.setState({ error: conctrError })
-        })
-    }
-    if (status === "register") {
-      authRegister(email, provider, accessToken)
-        .then(conctrUser => {
-          this.setState({ token: conctrUser.jwt })
-        })
-        .catch(err => {
-          const conctrError = {
-            conctrError: err.response.data.error
-          }
-          this.setState({ error: conctrError })
-        })
-    }
-  }
-  handleGoogleLoginFailure = (status, response) => {
-    if (status === "signIn") {
-      if (response.message) {
-        const googleError = {
-          error: response.message
-        }
-        this.setState({ error: googleError })
-      }
-    }
-    // register
-    if (status === "register") {
-      if (response.message) {
-        const googleError = {
-          error: response.message
-        }
-        this.setState({ error: googleError })
-      }
-    }
-  }
-
-  render() {
-    const { error, token } = this.state
-    error && error.conctrError && toast.error(error.conctrError)
-    console.log('token', token)
-    return (
-      <div>
-        <ToastContainer
-          position="top-right"
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-        />
-        <SocialButton
-          provider="google"
-          appId="623084099025-ru09r0q5rhjguaj4n348umdjcllr3hrp.apps.googleusercontent.com"
-          onLoginSuccess={this.handleGoogleLoginSuccess.bind(this, "signIn")}
-          onLoginFailure={this.handleGoogleLoginFailure.bind(this, "signIn")}
-        >
-          Login with google
-        </SocialButton>
-        <SocialButton
-          provider="google"
-          appId="623084099025-ru09r0q5rhjguaj4n348umdjcllr3hrp.apps.googleusercontent.com"
-          onLoginSuccess={this.handleGoogleLoginSuccess.bind(this, "register")}
-          onLoginFailure={this.handleGoogleLoginFailure.bind(this, "register")}
-        >
-          Register With Google
-        </SocialButton>
-      </div>
-    )
-  }
+const LoginPage = ({
+  GoogleLoginSuccess,
+  GoogleLoginFailure
+}) => {
+  return (
+    <div>
+      <SocialButton
+        provider="google"
+        appId="623084099025-ru09r0q5rhjguaj4n348umdjcllr3hrp.apps.googleusercontent.com"
+        onLoginSuccess={(response) => {
+          GoogleLoginSuccess(response, 'signIn')
+        }}
+        onLoginFailure={(response) => {
+          GoogleLoginFailure(response, 'signIn')
+        }}
+      >
+        Login with google
+      </SocialButton>
+      <SocialButton
+        provider="google"
+        appId="623084099025-ru09r0q5rhjguaj4n348umdjcllr3hrp.apps.googleusercontent.com"
+        onLoginSuccess={(response) => {
+          GoogleLoginSuccess(response, 'register')
+        }}
+        onLoginFailure={(response) => {
+          GoogleLoginFailure(response, 'register')
+        }}
+      >
+        Register With Google
+      </SocialButton>
+    </div>
+  )
 }
 
 export default LoginPage

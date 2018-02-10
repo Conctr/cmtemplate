@@ -8,7 +8,7 @@ import NavBar from "../src/components/molecules/NavBar"
 import DevicesPaper from "../src/components/organisms/DevicesPaper"
 import "./custom.css"
 import * as authAPI from "./api/auth"
-import injectTapEventPlugin from "react-tap-event-plugin"
+import {authSignIn, authRegister} from './api/auth'
 import {
   BrowserRouter as Router,
   Route,
@@ -20,7 +20,6 @@ import "react-toastify/dist/ReactToastify.min.css"
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
 import { wimoTheme } from "./styles/WimoTheme"
 import { loadFunctions as loadDeviceApiFunctions } from "./api/device"
-injectTapEventPlugin()
 
 class App extends Component {
   state = {
@@ -78,10 +77,41 @@ class App extends Component {
     // authAPI.init(this.handleError)
     // loadDeviceApiFunctions("unloadToken", () => this.setToken(null))
   // }
+  onGoogleLoginSuccess = (status, response) => {
+    const email = response.profile.email
+    const provider = response._provider
+    const accessToken = response.token.accessToken
+    if (status === "signIn") {
+      authSignIn(email, provider, accessToken)
+        .then(decodedToken => {
+          this.setState({decodedToken})
+        })
+        .catch(err => {
+          const conctrError = {
+            conctrError: err.response.data.error
+          }
+          this.setState({ error: conctrError })
+        })
+    }
+    if (status === "register") {
+      authRegister(email, provider, accessToken)
+        .then(conctrUser => {
+          this.setState({ token: conctrUser.jwt })
+        })
+        .catch(err => {
+          const conctrError = {
+            conctrError: err.response.data.error
+          }
+          this.setState({decodedToken})
+        })
+    }
+  }
+
 
   render() {
     const {decodedToken} = this.state
     const signedIn = !!decodedToken
+    console.log(decodedToken)
     return (
       <Router>
         {/* apply app theme*/}
@@ -103,8 +133,8 @@ class App extends Component {
                     <Redirect to="/" />
                   ) : (
                     <LoginPage
-                      // GoogleLoginSuccess={this.onGoogleLoginSuccess}
-                      // GoogleLoginFailure={this.onGoogleLoginFailure}
+                      GoogleLoginSuccess={this.onGoogleLoginSuccess}
+                      GoogleLoginFailure={this.onGoogleLoginFailure}
                       
                       // handleErrors={this.handleError}
                       // setToken={this.setToken}
