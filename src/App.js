@@ -32,10 +32,10 @@ class App extends Component {
   }
 
   // if OAuth for Google Login Passes
-  onGoogleLoginSuccess = (response, status) => {
-    const email = response.profile.email
-    const provider = response._provider
-    const accessToken = response.token.accessToken
+  onGoogleSuccess = (response, status) => {
+    const accessToken  = response.Zi.access_token
+    const email = response.w3.U3
+    const provider = 'google'
     if (status === "signIn") {
       authSignIn(email, provider, accessToken)
         .then(decodedToken => {
@@ -55,6 +55,7 @@ class App extends Component {
           this.setState({ token: conctrUser.jwt })
         })
         .catch(err => {
+          console.log(err)
           const conctrError = {
             conctrError: err.response.data.error
           }
@@ -64,7 +65,7 @@ class App extends Component {
   }
 
   // if OAuth for Google Login fails
-  onGoogleLoginFailure = (response, status) => {
+  onGoogleFailure = (response, status) => {
     if (status === "signIn") {
       if (response.message) {
         const googleError = {
@@ -88,6 +89,8 @@ class App extends Component {
   render() {
     const {decodedToken, error} = this.state
     const signedIn = !!decodedToken
+    console.log(error)
+    // errors
     error && error.conctrError && toast.error(error.conctrError)
     return (
       <Router>
@@ -110,8 +113,10 @@ class App extends Component {
                     <Redirect to="/" />
                   ) : (
                     <LoginPage
-                      GoogleLoginSuccess={this.onGoogleLoginSuccess}
-                      GoogleLoginFailure={this.onGoogleLoginFailure}
+                      GoogleLoginSuccess={this.onGoogleSuccess}
+                      GoogleLoginFailure={this.onGoogleFailure}
+                      GoogleRegisterSuccess={this.onGoogleSuccess}
+                      GoogleRegisterFailure={this.onGoogleFailure}
                     />
                   )
                 }

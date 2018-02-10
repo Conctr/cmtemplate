@@ -7,7 +7,7 @@ import GoogleIcon from "react-icons/lib/fa/google"
 import conctrLogo from "../imgs/conctr-logo.png"
 import Logo from "../imgs/logoImage.jpg"
 import backgroundImageFile from "../imgs/placeholder-background.svg"
-import SocialButton from '../components/SocialButton'
+import GoogleLogin from 'react-google-login'
 
 // class LoginPage extends Component {
 //   state = {
@@ -68,11 +68,33 @@ import SocialButton from '../components/SocialButton'
 
 const LoginPage = ({
   GoogleLoginSuccess,
-  GoogleLoginFailure
+  GoogleLoginFailure,
+  GoogleRegisterSuccess,
+  GoogleRegisterFailure
 }) => {
   return (
     <div>
-      <SocialButton
+        <GoogleLogin
+          clientId="623084099025-ru09r0q5rhjguaj4n348umdjcllr3hrp.apps.googleusercontent.com"
+          buttonText="Login With Google"
+          onSuccess={(response) => {
+            GoogleLoginSuccess(response, 'signIn')
+          }}
+          onFailure={(response) => {
+            GoogleLoginFailure(response, 'signIn')
+          }}
+        />
+        <GoogleLogin
+          clientId="623084099025-ru09r0q5rhjguaj4n348umdjcllr3hrp.apps.googleusercontent.com"
+          buttonText="Register With Google"
+          onSuccess={(response) => {
+            GoogleRegisterSuccess(response, 'register')
+          }}
+          onFailure={(response) => {
+            GoogleRegisterSuccess(response, 'register')
+          }}
+        />
+      {/* <SocialButton
         provider="google"
         appId="623084099025-ru09r0q5rhjguaj4n348umdjcllr3hrp.apps.googleusercontent.com"
         onLoginSuccess={(response) => {
@@ -95,7 +117,7 @@ const LoginPage = ({
         }}
       >
         Register With Google
-      </SocialButton>
+      </SocialButton> */}
     </div>
   )
 }
