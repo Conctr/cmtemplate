@@ -3,10 +3,6 @@ import { setToken } from "./init"
 import { getDecodedToken } from "./token"
 
 const appId = process.env.REACT_APP_CONCTR_APP_API_ID
-let handleErrors
-export function init(handleError) {
-  handleErrors = handleError
-}
 
 export function signIn({ email, password }) {
   return api
@@ -17,9 +13,6 @@ export function signIn({ email, password }) {
       }
     })
     .then(res => res.data)
-    .catch(error => {
-      throw Error(error.response.data.error)
-    })
 }
 
 export function register({ email, password }) {
@@ -31,9 +24,6 @@ export function register({ email, password }) {
       }
     })
     .then(res => res.data)
-    .catch(error => {
-      throw Error(error.response.data.error)
-    })
 }
 
 export function authSignIn(email, provider, access_token) {
@@ -57,9 +47,6 @@ export function authSignIn(email, provider, access_token) {
       const token = res.data.jwt
       setToken(token)
       return getDecodedToken()
-    })
-    .catch(error => {
-      throw Error(error.response.data.error)
     })
 }
 
@@ -85,9 +72,6 @@ export function authRegister(email, provider, access_token) {
       const token = res.data.jwt
       setToken(token)
       return getDecodedToken()
-    })
-    .catch(error => {
-      handleErrors(error.response.data.error)
     })
 }
 

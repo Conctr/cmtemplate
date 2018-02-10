@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-
 import { signOutNow } from './api/auth'
 import { getDecodedToken } from './api/token'
 
@@ -31,52 +30,8 @@ class App extends Component {
     signOutNow()
     this.setState({ decodedToken: null })
   }
-  // handleError = error => {
-  //   toast.error(error)
-  // }
 
-  // handleSignIn = ({ email, password }) => {
-  //   authAPI
-  //     .signIn({ email, password })
-  //     .then(json => {
-  //       this.setToken(json.jwt)
-  //     })
-  //     .catch(error => {
-  //       this.handleError(error.message)
-  //     })
-  // }
-
-  // handleRegister = ({ email, password }) => {
-  //   authAPI
-  //     .register({ email, password })
-  //     .then(json => {
-  //       this.setToken(json.jwt)
-  //     })
-  //     .catch(error => {
-  //       this.handleError(error)
-  //     })
-  // }
-
-  // handleSignOut = () => {
-  //   this.setToken(null)
-  // }
-
-  // setToken(null) === signOut()
-  // setToken = token => {
-  //   if (token) {
-  //     localStorage.setItem(tokenKey, token)
-  //   } else {
-  //     // window.location.href = "/"
-  //     localStorage.removeItem(tokenKey)
-  //   }
-  //   setApiToken(token)
-  //   this.setState({ token: token })
-  // }
-
-  // componentDidMount() {
-    // authAPI.init(this.handleError)
-    // loadDeviceApiFunctions("unloadToken", () => this.setToken(null))
-  // }
+  // if OAuth for Google Login Passes
   onGoogleLoginSuccess = (response, status) => {
     const email = response.profile.email
     const provider = response._provider
@@ -94,27 +49,46 @@ class App extends Component {
           this.setState({ error: conctrError })
         })
     }
-    // if (status === "register") {
-    //   authRegister(email, provider, accessToken)
-    //     .then(conctrUser => {
-    //       this.setState({ token: conctrUser.jwt })
-    //     })
-    //     .catch(err => {
-    //       const conctrError = {
-    //         conctrError: err.response.data.error
-    //       }
-    //       this.setState({ error: conctrError })
-    //     })
-    // }
+    if (status === "register") {
+      authRegister(email, provider, accessToken)
+        .then(conctrUser => {
+          this.setState({ token: conctrUser.jwt })
+        })
+        .catch(err => {
+          const conctrError = {
+            conctrError: err.response.data.error
+          }
+          this.setState({ error: conctrError })
+        })
+    }
   }
+
+  // if OAuth for Google Login fails
   onGoogleLoginFailure = (response, status) => {
+    if (status === "signIn") {
+      if (response.message) {
+        const googleError = {
+          error: response.message
+        }
+        this.setState({ error: googleError })
+      }
+    }
+    // register
+    if (status === "register") {
+      if (response.message) {
+        const googleError = {
+          error: response.message
+        }
+        this.setState({ error: googleError })
+      }
+    }
   }
 
 
   render() {
-    const {decodedToken} = this.state
+    const {decodedToken, error} = this.state
     const signedIn = !!decodedToken
-    console.log(decodedToken)
+    error && error.conctrError && toast.error(error.conctrError)
     return (
       <Router>
         {/* apply app theme*/}
@@ -138,10 +112,6 @@ class App extends Component {
                     <LoginPage
                       GoogleLoginSuccess={this.onGoogleLoginSuccess}
                       GoogleLoginFailure={this.onGoogleLoginFailure}
-                      // handleErrors={this.handleError}
-                      // setToken={this.setToken}
-                      // onSignIn={this.handleSignIn}
-                      // onRegister={this.handleRegister}
                     />
                   )
                 }
@@ -152,7 +122,7 @@ class App extends Component {
                   signedIn ? (
                     <DevicesPaper
                       pathname={location.pathname.substring(1)}
-                      handleError={this.handleError}
+                      // handleError={this.handleError}
                     />
                   ) : (
                     <Redirect to="/login" />
