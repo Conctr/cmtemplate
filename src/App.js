@@ -57,7 +57,7 @@ class App extends Component {
     }
     if (status === "register") {
       authRegister(email, provider, accessToken)
-        .then(conctrUser => {
+        .then(conctrUser=> {
           this.setState({ token: conctrUser.jwt })
         })
         .catch(err => {
