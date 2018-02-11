@@ -1,12 +1,14 @@
 import axios from 'axios'
 import { rememberToken, getValidToken } from './token'
 
+const conctrKey = 'conctrToken'
+
 const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL
 })
 
 export function setToken(token) {
-  rememberToken(token)
+  rememberToken(token, conctrKey)
   if (token) {
     axios.defaults.headers.common['Authorization'] = `jwt:${token}`
   }
@@ -15,6 +17,6 @@ export function setToken(token) {
   }
 }
 
-setToken(getValidToken())
+setToken(getValidToken(conctrKey))
 
 export default api

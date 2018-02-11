@@ -1,6 +1,6 @@
 import api from "./init"
 import { setToken } from "./init"
-import { getDecodedToken } from "./token"
+import { getConctrDecodedToken } from "./token"
 
 const appId = process.env.REACT_APP_CONCTR_APP_API_ID
 
@@ -46,7 +46,7 @@ export function authSignIn(email, provider, access_token) {
     .then(res => {
       const token = res.data.jwt
       setToken(token)
-      return getDecodedToken()
+      return getConctrDecodedToken()
     })
 }
 
@@ -71,7 +71,7 @@ export function authRegister(email, provider, access_token) {
     .then(res => {
       const token = res.data.jwt
       setToken(token)
-      return getDecodedToken()
+      return getConctrDecodedToken()
     })
 }
 

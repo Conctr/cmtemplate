@@ -1,8 +1,8 @@
 import decodeJWT from 'jwt-decode'
 
-const key = 'conctrToken'
+// const key = 'conctrToken'
 
-export function rememberToken(token) {
+export function rememberToken(token, key) {
   if (token) {
     // Remember the token
     localStorage.setItem(key, token)
@@ -13,7 +13,7 @@ export function rememberToken(token) {
   }
 }
 
-export function getValidToken() {
+export function getValidToken(key) {
   const token = localStorage.getItem(key)
   try {
     const decodedToken = decodeJWT(token)
@@ -31,8 +31,9 @@ export function getValidToken() {
   }
 }
 
-export function getDecodedToken() {
-  const validToken = getValidToken()
+export function getConctrDecodedToken() {
+  const conctrToken = 'conctrToken'
+  const validToken = getValidToken(conctrToken)
   if(validToken) {
     return decodeJWT(validToken)
   }

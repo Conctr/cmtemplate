@@ -11,7 +11,7 @@ import { wimoTheme } from "./styles/WimoTheme"
 
 // Api Calls
 import { signOutNow } from './api/auth'
-import { getDecodedToken } from './api/token'
+import { getConctrDecodedToken } from './api/token'
 import { loadFunctions as loadDeviceApiFunctions } from "./api/device"
 import {authSignIn, authRegister} from './api/auth'
 
@@ -28,7 +28,7 @@ import "react-toastify/dist/ReactToastify.min.css"
 
 class App extends Component {
   state = {
-    decodedToken: getDecodedToken(),
+    decodedToken: getConctrDecodedToken(),
     error: null,
     userData: null
   }
@@ -96,6 +96,7 @@ class App extends Component {
 
   render() {
     const {decodedToken, error, userData} = this.state
+    console.log('decodedToken', decodedToken)
     console.log('userData', userData)
     const signedIn = !!decodedToken
     console.log(error)
