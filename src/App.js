@@ -14,6 +14,7 @@ import { signOutNow } from './api/auth'
 import { getConctrDecodedToken } from './api/token'
 import { loadFunctions as loadDeviceApiFunctions } from "./api/device"
 import {authSignIn, authRegister} from './api/auth'
+import { setEncodedToken } from './api/profileToken'
 
 // Pages
 import LoginPage from "./pages/LoginPage"
@@ -30,7 +31,6 @@ class App extends Component {
   state = {
     decodedToken: getConctrDecodedToken(),
     error: null,
-    userData: null
   }
 
   onSignOut = () => {
@@ -40,7 +40,9 @@ class App extends Component {
 
   // if OAuth for Google Login Passes
   onGoogleSuccess = (response, status) => {
-    this.setState({userData: response.profileObj})
+
+    //  set jwt of userData in localstorage
+    setEncodedToken(response.profileObj)
     const accessToken  = response.Zi.access_token
     const email = response.w3.U3
     const provider = 'google'
@@ -97,7 +99,6 @@ class App extends Component {
   render() {
     const {decodedToken, error, userData} = this.state
     console.log('decodedToken', decodedToken)
-    console.log('userData', userData)
     const signedIn = !!decodedToken
     console.log(error)
     // errors
@@ -113,7 +114,7 @@ class App extends Component {
               newestOnTop={false}
               closeOnClick
             />
-            <NavBar signedIn={signedIn} logOut={this.onSignOut} userData={userData} />
+            <NavBar signedIn={signedIn} logOut={this.onSignOut} />
             <Switch>
               <Route
                 path="/login"

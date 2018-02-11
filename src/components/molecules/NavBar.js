@@ -8,15 +8,15 @@ import NavigationExpandMoreIcon from "material-ui/svg-icons/navigation/expand-mo
 import { Toolbar, ToolbarGroup, ToolbarSeparator } from "material-ui/Toolbar"
 import logo from "../../imgs/logoImage.jpg"
 import { getUserDetails } from "../../api/oAuth"
+import { getProfileDecodedToken } from '../../api/profileToken'
 
 export default class NavBar extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
+    state = {
       value: 3,
-      openMenu: false
+      openMenu: false,
+      // checks local storage to get user data 
+      userData: getProfileDecodedToken()
     }
-  }
 
   handleChange = (event, index, value) => this.setState({ value })
 
@@ -29,8 +29,8 @@ export default class NavBar extends React.Component {
   handleOpenMenu = () => this.setState({ openMenu: true })
 
   render() {
-    const {userData} = this.props
-    console.log(userData)
+    const {userData} = this.state
+    console.log('userData', userData)
 
     const logoImage = process.env.REACT_APP_LOGO_IMAGE_URL || logo
     let firstName, lastName, avatarUser
