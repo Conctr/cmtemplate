@@ -81,6 +81,7 @@ export default class NavBar extends React.Component {
     )
   }
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
     this.setState({ userData: getProfileDecodedToken() })
   }
 }
