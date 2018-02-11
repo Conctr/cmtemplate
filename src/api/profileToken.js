@@ -3,7 +3,7 @@ import { rememberToken, getValidToken } from './token'
 import decodeJWT from 'jwt-decode'
 
 // enviroment variable
-const secret = 'placeHolderSecret'
+const secret = process.env.REACT_APP_PROFILE_SECRET
 
 export function setEncodedToken(payload) {
     const profileDataKey = 'profileDataToken'

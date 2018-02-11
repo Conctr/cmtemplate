@@ -31,6 +31,7 @@ class App extends Component {
   state = {
     decodedToken: getConctrDecodedToken(),
     error: null,
+    userData: null
   }
 
   onSignOut = () => {
@@ -40,7 +41,7 @@ class App extends Component {
 
   // if OAuth for Google Login Passes
   onGoogleSuccess = (response, status) => {
-
+    this.setState({userData: response.profileObj})
     //  set jwt of userData in localstorage
     setEncodedToken(response.profileObj)
     const accessToken  = response.Zi.access_token
@@ -114,7 +115,7 @@ class App extends Component {
               newestOnTop={false}
               closeOnClick
             />
-            <NavBar signedIn={signedIn} logOut={this.onSignOut} />
+            <NavBar signedIn={signedIn} logOut={this.onSignOut} userData={userData} />
             <Switch>
               <Route
                 path="/login"
