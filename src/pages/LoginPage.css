@@ -18,12 +18,32 @@
           transition-timing-function: ease-in-out;
   padding: 0;
 }
-.google-button:focus, .google-button:hover {
+.google-button-2 {
+        height: 34px;
+        width: 294px;
+        border-width: 0;
+        background: #90a6ff;
+        color: white;
+        border-radius: 1px;
+        white-space: nowrap;
+        -webkit-box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.05);
+                box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.05);
+        -webkit-transition-property: background-color, -webkit-box-shadow;
+        transition-property: background-color, -webkit-box-shadow;
+        transition-property: background-color, box-shadow;
+        transition-property: background-color, box-shadow, -webkit-box-shadow;
+        -webkit-transition-duration: 150ms;
+                transition-duration: 150ms;
+        -webkit-transition-timing-function: ease-in-out;
+                transition-timing-function: ease-in-out;
+        padding: 0;
+}
+.google-button:focus, .google-button:hover, .google-button-2:focus, .google-button-2:hover {
   cursor: pointer;
   -webkit-box-shadow: 1px 4px 5px 1px rgba(0, 0, 0, 0.1);
           box-shadow: 1px 4px 5px 1px rgba(0, 0, 0, 0.1);
 }
-.google-button:active {
+.google-button:active, .google-button-2:active {
   background-color: #e5e5e5;
   -webkit-box-shadow: none;
           box-shadow: none;

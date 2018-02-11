@@ -6,7 +6,7 @@ import MenuItem from "material-ui/MenuItem"
 import RaisedButton from "material-ui/RaisedButton"
 import NavigationExpandMoreIcon from "material-ui/svg-icons/navigation/expand-more"
 import { Toolbar, ToolbarGroup, ToolbarSeparator } from "material-ui/Toolbar"
-import logo from "../../imgs/logoImage.jpg"
+import logo from "../../imgs/placeholder-logo.svg"
 import { getProfileDecodedToken } from "../../api/profileToken"
 
 export default class NavBar extends React.Component {
@@ -75,8 +75,8 @@ export default class NavBar extends React.Component {
             </ToolbarGroup>
           </Toolbar>
         ) : (
-          false
-        )}
+            false
+          )}
       </div>
     )
   }

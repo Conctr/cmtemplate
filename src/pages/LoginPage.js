@@ -5,7 +5,7 @@ import RaisedButton from "material-ui/RaisedButton"
 import TextField from "../components/atoms/TextField"
 import GoogleIcon from "react-icons/lib/fa/google"
 import conctrLogo from "../imgs/conctr-logo.png"
-import Logo from "../imgs/logoImage.jpg"
+import Logo from "../imgs/placeholder-logo.svg"
 import backgroundImageFile from "../imgs/placeholder-background.svg"
 import GoogleLogin from "react-google-login"
 
@@ -25,11 +25,11 @@ const LoginPage = ({
       style={
         !useColor
           ? {
-              backgroundImage: `url(${backgroundImageFile})`
-            }
+            backgroundImage: `url(${backgroundImageFile})`
+          }
           : {
-              background: `${backgroundColor}`
-            }
+            background: `${backgroundColor}`
+          }
       }
     >
       <div className="conctr-footer-box">
@@ -112,7 +112,7 @@ const LoginPage = ({
             </div>
             <div className="login-text">Device, but no account?</div>
             <GoogleLogin
-              className="google-button"
+              className="google-button-2"
               clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
               buttonText="Register With Google"
               onSuccess={response => {
