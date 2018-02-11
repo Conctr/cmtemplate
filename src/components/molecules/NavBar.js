@@ -64,7 +64,11 @@ export default class NavBar extends React.Component {
                   <MenuItem primaryText="Email Conctr Support" />
                 </a>
                 <MenuItem
-                  onTouchTap={this.props.logOut}
+                  onTouchTap={() => {
+                    this.props.logOut()
+                    this.setState({ openMenu: false })
+                    this.setState({ userData: null })
+                  }}
                   primaryText="Log Out"
                 />
               </IconMenu>
@@ -75,5 +79,8 @@ export default class NavBar extends React.Component {
         )}
       </div>
     )
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ userData: getProfileDecodedToken() })
   }
 }
