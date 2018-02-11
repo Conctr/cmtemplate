@@ -3,18 +3,11 @@ const request = require("request")
 
 const appId = process.env.REACT_APP_CONCTR_APP_API_ID
 
-let unloadToken
-
-export function loadFunctions(key, callback) {
-  unloadToken = callback
-}
-
 export function getAll() {
   return api
     .get(`/consumers/admin/${appId}/devices`)
     .then(res => res.data)
     .catch(error => {
-      unloadToken()
       throw Error(error.response.data.error)
     })
 }

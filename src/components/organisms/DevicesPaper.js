@@ -55,7 +55,7 @@ export default class DevicePaper extends Component {
                 {this.state.selectedDevice ? (
                   <Device
                     deviceId={this.state.selectedDevice}
-                    handleError={this.props.handleError}
+                    // handleError={this.props.handleError}
                   />
                 ) : (
                   false

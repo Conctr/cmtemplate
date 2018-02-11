@@ -128,6 +128,7 @@ export default class RulesUI extends Component {
             </div>
           ))}
         </div>
+
         <TextField
           id="numberTo"
           floatingLabelText="Phone Number"

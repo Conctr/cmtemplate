@@ -400,14 +400,16 @@ export default class DeviceInfo extends Component {
                             <p className="status-data-type">
                               {keyShown.displayTitle}
                             </p>
-                            <h3
+                            {/* disable the data value blinking func*/}
+                            {/*<h3
                               className={`status-data-value ${this.checkIfOutOfRange(
                                 keyShown.key,
                                 sortedData[
                                   keyShown.key
                                 ].values[0].value.toFixed(1)
                               )}`}
-                            >
+                            >*/}
+                            <h3 className={"status-data-value"}>
                               {sortedData[keyShown.key].values[0].value.toFixed(
                                 1
                               )}{" "}
@@ -479,10 +481,6 @@ export default class DeviceInfo extends Component {
                                   ? { backgroundColor: "#fbeeee" }
                                   : { backgroundColor: "white" }
                               }
-                              leftIcon={this.checkIfArrayOutOfRange(
-                                keyShown.key,
-                                sortedData[keyShown.key]
-                              )}
                               onTouchTap={() =>
                                 this.handleGraphSelect(keyShown.key)
                               }
