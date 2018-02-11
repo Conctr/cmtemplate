@@ -7,16 +7,15 @@ import RaisedButton from "material-ui/RaisedButton"
 import NavigationExpandMoreIcon from "material-ui/svg-icons/navigation/expand-more"
 import { Toolbar, ToolbarGroup, ToolbarSeparator } from "material-ui/Toolbar"
 import logo from "../../imgs/logoImage.jpg"
-import { getUserDetails } from "../../api/oAuth"
-import { getProfileDecodedToken } from '../../api/profileToken'
+import { getProfileDecodedToken } from "../../api/profileToken"
 
 export default class NavBar extends React.Component {
-    state = {
-      value: 3,
-      openMenu: false,
-      // checks local storage to get user data 
-      userData: getProfileDecodedToken()
-    }
+  state = {
+    value: 3,
+    openMenu: false,
+    // checks local storage to get user data
+    userData: getProfileDecodedToken()
+  }
 
   handleChange = (event, index, value) => this.setState({ value })
 
@@ -29,26 +28,8 @@ export default class NavBar extends React.Component {
   handleOpenMenu = () => this.setState({ openMenu: true })
 
   render() {
-    const {userData} = this.state
-    console.log('userData', userData)
-
+    const { userData } = this.state
     const logoImage = process.env.REACT_APP_LOGO_IMAGE_URL || logo
-    let firstName, lastName, avatarUser
-    getUserDetails()["firstname"]
-      ? (firstName = getUserDetails()["firstname"])
-      : (firstName = "Set")
-
-    getUserDetails()["lastname"]
-      ? (lastName = getUserDetails()["lastname"])
-      : (lastName = "Profile")
-
-    if (getUserDetails()["avatar"]) {
-      avatarUser = getUserDetails()["avatar"]
-    } else {
-      avatarUser =
-        "https://mysticpants.com/_include/img/CONCTR-LOGO-MUSTARD-LINE.png"
-    }
-
     return (
       <div>
         {this.props.signedIn ? (
@@ -61,13 +42,8 @@ export default class NavBar extends React.Component {
               <RaisedButton
                 primary={true}
                 onTouchTap={this.handleOpenMenu}
-                icon={
-                  <Avatar
-                    src={avatarUser}
-                    size={30}
-                  />
-                }
-                label={firstName + " " + lastName}
+                icon={<Avatar src={userData && userData.imageUrl} size={30} />}
+                label={userData && userData.name}
               />
               <IconMenu
                 className="float-menu"
@@ -78,8 +54,8 @@ export default class NavBar extends React.Component {
                 }
                 onRequestChange={this.handleOnRequestChange}
                 open={this.state.openMenu}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                targetOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "left", vertical: "top" }}
+                targetOrigin={{ horizontal: "left", vertical: "top" }}
               >
                 <a href="https://conctr.com" className="naked-href">
                   <MenuItem primaryText="About Conctr" />
@@ -88,10 +64,7 @@ export default class NavBar extends React.Component {
                   <MenuItem primaryText="Email Conctr Support" />
                 </a>
                 <MenuItem
-                  onTouchTap={() => {
-                    this.props.logOut()
-                    this.setState({ openMenu: false })
-                  }}
+                  onTouchTap={this.props.logOut}
                   primaryText="Log Out"
                 />
               </IconMenu>
