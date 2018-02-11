@@ -29,6 +29,9 @@ export default class NavBar extends React.Component {
   handleOpenMenu = () => this.setState({ openMenu: true })
 
   render() {
+    const {userData} = this.props
+    console.log(userData)
+
     const logoImage = process.env.REACT_APP_LOGO_IMAGE_URL || logo
     let firstName, lastName, avatarUser
     getUserDetails()["firstname"]

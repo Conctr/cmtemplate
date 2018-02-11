@@ -30,6 +30,7 @@ class App extends Component {
   state = {
     decodedToken: getDecodedToken(),
     error: null,
+    userData: null
   }
 
   onSignOut = () => {
@@ -39,6 +40,7 @@ class App extends Component {
 
   // if OAuth for Google Login Passes
   onGoogleSuccess = (response, status) => {
+    this.setState({userData: response.profileObj})
     const accessToken  = response.Zi.access_token
     const email = response.w3.U3
     const provider = 'google'
@@ -93,7 +95,8 @@ class App extends Component {
 
 
   render() {
-    const {decodedToken, error} = this.state
+    const {decodedToken, error, userData} = this.state
+    console.log('userData', userData)
     const signedIn = !!decodedToken
     console.log(error)
     // errors
@@ -109,7 +112,7 @@ class App extends Component {
               newestOnTop={false}
               closeOnClick
             />
-            <NavBar signedIn={signedIn} logOut={this.onSignOut} />
+            <NavBar signedIn={signedIn} logOut={this.onSignOut} userData={userData} />
             <Switch>
               <Route
                 path="/login"
