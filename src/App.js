@@ -1,13 +1,4 @@
 import React, { Component } from "react"
-import { signOutNow } from './api/auth'
-import { getDecodedToken } from './api/token'
-
-import LoginPage from "./pages/LoginPage"
-import NavBar from "../src/components/molecules/NavBar"
-import DevicesPaper from "../src/components/organisms/DevicesPaper"
-import "./custom.css"
-import * as authAPI from "./api/auth"
-import {authSignIn, authRegister} from './api/auth'
 import {
   BrowserRouter as Router,
   Route,
@@ -15,10 +6,25 @@ import {
   Redirect
 } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.min.css"
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
 import { wimoTheme } from "./styles/WimoTheme"
+
+// Api Calls
+import { signOutNow } from './api/auth'
+import { getDecodedToken } from './api/token'
 import { loadFunctions as loadDeviceApiFunctions } from "./api/device"
+import {authSignIn, authRegister} from './api/auth'
+
+// Pages
+import LoginPage from "./pages/LoginPage"
+import DevicesPaper from "../src/components/organisms/DevicesPaper"
+
+// Nav
+import NavBar from "../src/components/molecules/NavBar"
+
+// css
+import "./custom.css"
+import "react-toastify/dist/ReactToastify.min.css"
 
 class App extends Component {
   state = {
