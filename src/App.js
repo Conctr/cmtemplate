@@ -37,6 +37,10 @@ class App extends Component {
   onSignOut = () => {
     signOutNow()
     this.setState({ decodedToken: null })
+    const auth2 = window.gapi.auth2.getAuthInstance()
+    if (auth2 != null) {
+      auth2.disconnect()
+    }
   }
 
   // if OAuth for Google Login Passes
