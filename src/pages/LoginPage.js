@@ -52,8 +52,6 @@ const LoginPage = ({
                 id="email"
                 floatingLabelText="Email"
                 fullWidth={true}
-                onChange={this.onInputChange}
-                onEnterKeyDown={() => this.submitToAuth(this.props.onSignIn)}
                 // value={this.state.email}
                 hintText="Email"
               />
@@ -61,8 +59,6 @@ const LoginPage = ({
                 id="password"
                 floatingLabelText="Password"
                 fullWidth={true}
-                onChange={this.onInputChange}
-                onEnterKeyDown={() => this.submitToAuth(this.props.onSignIn)}
                 hintText="Password"
                 type="password"
               />
