@@ -47,13 +47,14 @@ const LoginPage = ({
           <img src={Logo} alt="app logo" className="app-login-logo" />
           <div>
             <div className="element" />
+            <form>
             <div className="login-text-fields">
               <TextField
                 id="email"
                 floatingLabelText="Email"
                 fullWidth={true}
-                // value={this.state.email}
                 hintText="Email"
+                type="email"
               />
               <TextField
                 id="password"
@@ -62,12 +63,14 @@ const LoginPage = ({
                 hintText="Password"
                 type="password"
               />
+              
             </div>
             <RaisedButton
               className="login-button"
               label="Log in"
               onTouchTap={() => this.submitToAuth(this.props.onSignIn)}
             />
+            </form>
             <GoogleLogin
               className="google-button"
               clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
