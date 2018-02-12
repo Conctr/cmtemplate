@@ -73,6 +73,7 @@ const LoginPage = ({
             </form>
             <GoogleLogin
               className="google-button"
+              buttonText="Login With Google"
               clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
               onSuccess={response => {
                 GoogleLoginSuccess(response, "signIn")
