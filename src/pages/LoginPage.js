@@ -8,6 +8,7 @@ import conctrLogo from "../imgs/conctr-logo.png"
 import Logo from "../imgs/placeholder-logo.svg"
 import backgroundImageFile from "../imgs/placeholder-background.svg"
 import GoogleLogin from "react-google-login"
+import CubeSpinner from "../components/CubeSpinner"
 
 import "./LoginPage.css"
 
