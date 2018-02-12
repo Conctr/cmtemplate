@@ -29,5 +29,23 @@ describe('Login Page',() => {
     it('second Component GoogleLogin is Register with Google', () => {
       expect(wrapper.find('t').at(1).props().buttonText).toEqual('Register With Google')
     })
+      test('Login With Google Button', () => {
+        beforeEach(() => {
+        const GoogleLoginSuccessSpy = jest.fn()
+        wrapper = shallow(<LoginPage 
+            GoogleLoginSuccess = {GoogleLoginSuccessSpy}
+            />)
+        })
+        it('Successfully ' , () => {
+          console.log(wrapper.find('t').at(0).props().onSuccess())
+        })
+        // console.log(wrapper.find('t').at(0).props().onSuccess())
+        // console.log( GoogleLoginSuccess)
+        // GoogleLoginSuccess()
+        // GoogleLoginSuccess()
+      })
+    // it('on Sucess ', () => {
+    //   console.log(wrapper.find('t').at(0).props().onSuccess())
+    // })
   })
 })
