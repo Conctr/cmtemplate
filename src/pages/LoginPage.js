@@ -119,7 +119,7 @@ const LoginPage = ({
                 GoogleRegisterSuccess(response, "register")
               }}
               onFailure={response => {
-                GoogleRegisterSuccess(response, "register")
+                GoogleRegisterFailure(response, "register")
               }}
             >
               <span className="google-button__icon">

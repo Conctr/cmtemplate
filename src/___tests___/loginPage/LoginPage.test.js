@@ -42,13 +42,35 @@ describe('Login Page',() => {
             />)
         GoogleLoginProps = wrapper.find('t').at(0).props()
         })
-        it('on Successful Login GoogleLoginSuccess called is called' , () => {
+        it('on successful Login GoogleLoginSuccess called is called' , () => {
           GoogleLoginProps.onSuccess()
           expect(GoogleLoginSuccessSpy).toBeCalled()
         })
-        it('on Failed Login GoogleLoginFailure callback is called', () => {
+        it('on failed Login GoogleLoginFailure callback is called', () => {
           GoogleLoginProps.onFailure()
           expect(GoogleLoginFailureSpy).toBeCalled()
+        })
+      })
+      describe('Register With Google Button', () => {
+        let GoogleRegisterSuccessSpy
+        let GoogleRegisterFailureSpy
+        let GoogleRegisterProps
+        beforeEach(() => {
+        GoogleRegisterSuccessSpy = jest.fn()
+        GoogleRegisterFailureSpy = jest.fn()
+        wrapper = shallow(<LoginPage 
+            GoogleRegisterSuccess={GoogleRegisterSuccessSpy}
+            GoogleRegisterFailure={GoogleRegisterFailureSpy}
+            />)
+        GoogleRegisterProps = wrapper.find('t').at(1).props()
+        })
+        it('On successful register GoogleRegisterSuccess spy is called', () => {
+          GoogleRegisterProps.onSuccess()
+          expect(GoogleRegisterSuccessSpy).toBeCalled()
+        })
+        it('on failed register GoogleRegisterFailure callback is called', () => {
+          GoogleRegisterProps.onFailure()
+          expect(GoogleRegisterFailureSpy).toBeCalled()
         })
       })
   })
