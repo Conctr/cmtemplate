@@ -1,22 +1,25 @@
-import React, { Component } from "react"
-import * as deviceWebSocket from "../../api/deviceWebSockets"
+import React, { Component } from 'react'
+import * as deviceWebSocket from '../../api/deviceWebSockets'
 import {
   getModel as getDeviceModel,
   update as updateDevice,
   getSingle as getDevice,
   setAlertSettings as setDeviceAlertSettings,
   getAlertSettings as getDeviceAlertSettings
-} from "../../api/device"
-import CircularProgress from "material-ui/CircularProgress"
-import Menu from "material-ui/Menu"
-import MenuItem from "material-ui/MenuItem"
-import Slider from "material-ui/Slider"
-import DeviceSettingsDialog from "../molecules/DeviceSettingsDialog"
-import LineGraph from "../molecules/LineGraph"
-import moment from "moment"
-import { toast, ToastContainer } from "react-toastify"
-import CrossIcon from "react-icons/lib/fa/times-circle"
-require("moment-duration-format")
+} from '../../api/device'
+
+import CircularProgress from 'material-ui/CircularProgress'
+import CustomSpinner from '../CustomSpinner'
+
+import Menu from 'material-ui/Menu'
+import MenuItem from 'material-ui/MenuItem'
+import Slider from 'material-ui/Slider'
+import DeviceSettingsDialog from '../molecules/DeviceSettingsDialog'
+import LineGraph from '../molecules/LineGraph'
+import moment from 'moment'
+import { toast, ToastContainer } from 'react-toastify'
+import CrossIcon from 'react-icons/lib/fa/times-circle'
+require('moment-duration-format')
 
 function sorter(data, dataKeys) {
   /* function to sort data into
@@ -35,7 +38,7 @@ function sorter(data, dataKeys) {
       sortedValues[key] = {}
       sortedValues[key].values = []
       for (let i = 0; i < data.length; i++) {
-        let time = data[i]["_ts"]
+        let time = data[i]['_ts']
 
         sortedValues[key].values.push({ ts: time, value: data[i][key] })
       }
@@ -46,11 +49,11 @@ function sorter(data, dataKeys) {
       let minY = Math.min.apply(null, allY)
       let maxY = Math.max.apply(null, allY)
 
-      sortedValues[key]["rangeX"] = {
+      sortedValues[key]['rangeX'] = {
         min: moment(minX).toDate(),
         max: moment(maxX).toDate()
       }
-      sortedValues[key]["rangeY"] = {
+      sortedValues[key]['rangeY'] = {
         min: minY,
         max: maxY
       }
@@ -242,7 +245,7 @@ export default class DeviceInfo extends Component {
   }
 
   saveGraphSettings = object => {
-    localStorage.setItem("graphPreference", JSON.stringify(object))
+    localStorage.setItem('graphPreference', JSON.stringify(object))
     return object
   }
 
@@ -269,9 +272,9 @@ export default class DeviceInfo extends Component {
 
   handleAlerts = (err, res) => {
     if (err) {
-      toast.error("Failed to update settings, please try later")
+      toast.error('Failed to update settings, please try later')
     } else {
-      toast.success("Successfully saved settings")
+      toast.success('Successfully saved settings')
     }
   }
 
@@ -284,21 +287,21 @@ export default class DeviceInfo extends Component {
   checkIfOutOfRange = (key, value) => {
     let upperLimit, lowerLimit
     if (this.alertSettings[key]) {
-      upperLimit = this.alertSettings[key]["GT"]
-      lowerLimit = this.alertSettings[key]["LT"]
+      upperLimit = this.alertSettings[key]['GT']
+      lowerLimit = this.alertSettings[key]['LT']
     }
     if (value > upperLimit || value < lowerLimit) {
-      return "warning"
+      return 'warning'
     } else {
-      return ""
+      return ''
     }
   }
 
   checkIfArrayOutOfRange = (key, array) => {
     let upperLimit, lowerLimit
     if (this.alertSettings[key]) {
-      lowerLimit = this.alertSettings[key]["LT"]
-      upperLimit = this.alertSettings[key]["GT"]
+      lowerLimit = this.alertSettings[key]['LT']
+      upperLimit = this.alertSettings[key]['GT']
     }
     if (
       (lowerLimit && !array.values.every(value => value.value > lowerLimit)) ||
@@ -318,7 +321,7 @@ export default class DeviceInfo extends Component {
     )
     let alertConditions = getOnlyConditions(this.alertSettings)
     return (
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: 'center' }}>
         <ToastContainer
           position="top-right"
           type="default"
@@ -334,21 +337,21 @@ export default class DeviceInfo extends Component {
               <div
                 className="the-first"
                 style={{
-                  textAlign: "center",
-                  marginLeft: "auto",
-                  marginRight: "auto"
+                  textAlign: 'center',
+                  marginLeft: 'auto',
+                  marginRight: 'auto'
                 }}
               >
                 <h1>
                   {this.state.newDeviceName
                     ? this.state.newDeviceName
-                    : "No Name"}
+                    : 'No Name'}
                 </h1>
                 <div
                   style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center"
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center'
                   }}
                 />
 
@@ -359,7 +362,7 @@ export default class DeviceInfo extends Component {
                     <div className="status-title-block">
                       <h2 className="status-title">Current Status</h2>
                       <p className="status-data-age">
-                        Data last updated{" "}
+                        Data last updated{' '}
                         {moment
                           .duration(
                             moment().diff(
@@ -369,7 +372,7 @@ export default class DeviceInfo extends Component {
                               )
                             )
                           )
-                          .format("k[hr] m[min] s[sec ago]")}
+                          .format('k[hr] m[min] s[sec ago]')}
                       </p>
                     </div>
                     {sortedGraphs.length > 0 ? (
@@ -386,7 +389,7 @@ export default class DeviceInfo extends Component {
                         keysShown={this.state.keysShown}
                       />
                     ) : (
-                      <CircularProgress />
+                      <CustomSpinner />
                     )}
                   </div>
                   {this.state.keysShown.length > 0 ? (
@@ -409,11 +412,11 @@ export default class DeviceInfo extends Component {
                                 ].values[0].value.toFixed(1)
                               )}`}
                             >*/}
-                            <h3 className={"status-data-value"}>
+                            <h3 className={'status-data-value'}>
                               {sortedData[keyShown.key].values[0].value &&
                                 sortedData[
                                   keyShown.key
-                                ].values[0].value.toFixed(1)}{" "}
+                                ].values[0].value.toFixed(1)}{' '}
                               {keyShown.unit}
                             </h3>
                           </div>
@@ -439,10 +442,10 @@ export default class DeviceInfo extends Component {
                     {!this.state.loaderShown ? (
                       <div
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          marginLeft: "auto",
-                          marginRight: "auto"
+                          display: 'flex',
+                          alignItems: 'center',
+                          marginLeft: 'auto',
+                          marginRight: 'auto'
                         }}
                       >
                         <div className="slider-range">
@@ -452,7 +455,7 @@ export default class DeviceInfo extends Component {
                           </h5>
                         </div>
                         <Slider
-                          style={{ width: "65%" }}
+                          style={{ width: '65%' }}
                           min={1}
                           max={24}
                           step={1}
@@ -468,7 +471,7 @@ export default class DeviceInfo extends Component {
                         />
                       </div>
                     ) : (
-                      <CircularProgress />
+                      <CustomSpinner />
                     )}
                   </div>
                   <div className="graph-block">
@@ -479,8 +482,8 @@ export default class DeviceInfo extends Component {
                             <MenuItem
                               style={
                                 keyShown.key === this.state.selectedGraphKey
-                                  ? { backgroundColor: "#fbeeee" }
-                                  : { backgroundColor: "white" }
+                                  ? { backgroundColor: '#fbeeee' }
+                                  : { backgroundColor: 'white' }
                               }
                               onTouchTap={() =>
                                 this.handleGraphSelect(keyShown.key)
@@ -512,7 +515,7 @@ export default class DeviceInfo extends Component {
                               ? parseFloat(
                                   this.alertSettings[
                                     this.state.selectedGraphKey
-                                  ]["GT"]
+                                  ]['GT']
                                 )
                               : null
                           }
@@ -522,7 +525,7 @@ export default class DeviceInfo extends Component {
                               ? parseFloat(
                                   this.alertSettings[
                                     this.state.selectedGraphKey
-                                  ]["LT"]
+                                  ]['LT']
                                 )
                               : null
                           }
@@ -539,7 +542,7 @@ export default class DeviceInfo extends Component {
             )}
           </div>
         ) : (
-          <CircularProgress />
+          <CustomSpinner />
         )}
       </div>
     )

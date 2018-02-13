@@ -1,37 +1,47 @@
-import React, { Component } from "react"
+import React, { Component } from 'react'
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect
-} from "react-router-dom"
-import { ToastContainer, toast } from "react-toastify"
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
-import { wimoTheme } from "./styles/WimoTheme"
+} from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { wimoTheme } from './styles/WimoTheme'
 
 // Api Calls
-import { signOutNow } from "./api/auth"
-import { getConctrDecodedToken } from "./api/token"
-import { loadFunctions as loadDeviceApiFunctions } from "./api/device"
-import { authSignIn, authRegister } from "./api/auth"
-import { setEncodedToken } from "./api/profileToken"
+import { signOutNow } from './api/auth'
+import { getConctrDecodedToken } from './api/token'
+import { loadFunctions as loadDeviceApiFunctions } from './api/device'
+import { authSignIn, authRegister } from './api/auth'
+import { setEncodedToken } from './api/profileToken'
 
 // Pages
-import LoginPage from "./pages/LoginPage"
-import DevicesPaper from "../src/components/organisms/DevicesPaper"
+import LoginPage from './pages/LoginPage'
+import DevicesPaper from '../src/components/organisms/DevicesPaper'
 
 // Nav
-import NavBar from "../src/components/molecules/NavBar"
+import NavBar from '../src/components/molecules/NavBar'
+
+// Loading
+import CustomSpinner from './components/CustomSpinner'
 
 // css
-import "./custom.css"
-import "react-toastify/dist/ReactToastify.min.css"
+import './custom.css'
+import 'react-toastify/dist/ReactToastify.min.css'
+import { Z_NULL } from 'zlib'
 
 class App extends Component {
   state = {
     decodedToken: getConctrDecodedToken(),
     error: null,
-    userData: null
+    userData: null,
+    loading: true
+  }
+
+  // Loading w/ timeout
+  componentDidMount = () => {
+    setTimeout(() => this.setState({ loading: false }), 5000)
   }
 
   onSignOut = () => {
@@ -50,8 +60,8 @@ class App extends Component {
     setEncodedToken(response.profileObj)
     const accessToken = response.Zi.access_token
     const email = response.w3.U3
-    const provider = "google"
-    if (status === "signIn") {
+    const provider = 'google'
+    if (status === 'signIn') {
       authSignIn(email, provider, accessToken)
         .then(decodedToken => {
           console.log(decodedToken)
@@ -64,7 +74,7 @@ class App extends Component {
           this.setState({ error: conctrError })
         })
     }
-    if (status === "register") {
+    if (status === 'register') {
       authRegister(email, provider, accessToken)
         .then(conctrUser => {
           this.setState({ token: conctrUser.jwt })
@@ -81,7 +91,7 @@ class App extends Component {
 
   // if OAuth for Google Login fails
   onGoogleFailure = (response, status) => {
-    if (status === "signIn") {
+    if (status === 'signIn') {
       if (response.message) {
         const googleError = {
           error: response.message
@@ -90,7 +100,7 @@ class App extends Component {
       }
     }
     // register
-    if (status === "register") {
+    if (status === 'register') {
       if (response.message) {
         const googleError = {
           error: response.message
@@ -102,11 +112,11 @@ class App extends Component {
 
   render() {
     const { decodedToken, error, userData } = this.state
-    console.log("decodedToken", decodedToken)
+    console.log('decodedToken', decodedToken)
     const signedIn = !!decodedToken
     console.log(error)
-    // errors
     error && error.conctrError && toast.error(error.conctrError)
+
     return (
       <Router>
         {/* apply app theme*/}
@@ -126,6 +136,8 @@ class App extends Component {
                 render={() =>
                   signedIn ? (
                     <Redirect to="/" />
+                  ) : this.state.loading ? (
+                    <CustomSpinner />
                   ) : (
                     <LoginPage
                       GoogleLoginSuccess={this.onGoogleSuccess}
