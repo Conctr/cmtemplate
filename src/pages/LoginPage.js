@@ -1,16 +1,16 @@
-import React from "react"
-import CircularProgress from "material-ui/CircularProgress"
-import Divider from "material-ui/Divider"
-import RaisedButton from "material-ui/RaisedButton"
-import TextField from "../components/atoms/TextField"
-import GoogleIcon from "react-icons/lib/fa/google"
-import conctrLogo from "../imgs/conctr-logo.png"
-import Logo from "../imgs/placeholder-logo.svg"
-import backgroundImageFile from "../imgs/placeholder-background.svg"
-import GoogleLogin from "react-google-login"
-import CubeSpinner from "../components/CubeSpinner"
+import React from 'react'
+import CircularProgress from 'material-ui/CircularProgress'
+import Divider from 'material-ui/Divider'
+import RaisedButton from 'material-ui/RaisedButton'
+import TextField from '../components/atoms/TextField'
+import GoogleIcon from 'react-icons/lib/fa/google'
+import conctrLogo from '../imgs/conctr-logo.png'
+import Logo from '../imgs/placeholder-logo.svg'
+import backgroundImageFile from '../imgs/placeholder-background.svg'
+import GoogleLogin from 'react-google-login'
+import CustomSpinner from '../components/CustomSpinner'
 
-import "./LoginPage.css"
+import './LoginPage.css'
 
 const LoginPage = ({
   GoogleLoginSuccess,
@@ -26,11 +26,11 @@ const LoginPage = ({
       style={
         !useColor
           ? {
-            backgroundImage: `url(${backgroundImageFile})`
-          }
+              backgroundImage: `url(${backgroundImageFile})`
+            }
           : {
-            background: `${backgroundColor}`
-          }
+              background: `${backgroundColor}`
+            }
       }
     >
       <div className="conctr-footer-box">
@@ -48,39 +48,38 @@ const LoginPage = ({
           <img src={Logo} alt="app logo" className="app-login-logo" />
           <div>
             <div className="element" />
-            <div className="login-text-fields">
-              <TextField
-                id="email"
-                floatingLabelText="Email"
-                fullWidth={true}
-                onChange={this.onInputChange}
-                onEnterKeyDown={() => this.submitToAuth(this.props.onSignIn)}
-                // value={this.state.email}
-                hintText="Email"
+            <form>
+              <div className="login-text-fields">
+                <TextField
+                  id="email"
+                  floatingLabelText="Email"
+                  fullWidth={true}
+                  hintText="Email"
+                  type="email"
+                />
+                <TextField
+                  id="password"
+                  floatingLabelText="Password"
+                  fullWidth={true}
+                  hintText="Password"
+                  type="password"
+                />
+              </div>
+              <RaisedButton
+                className="login-button"
+                label="Log in"
+                onTouchTap={() => this.submitToAuth(this.props.onSignIn)}
               />
-              <TextField
-                id="password"
-                floatingLabelText="Password"
-                fullWidth={true}
-                onChange={this.onInputChange}
-                onEnterKeyDown={() => this.submitToAuth(this.props.onSignIn)}
-                hintText="Password"
-                type="password"
-              />
-            </div>
-            <RaisedButton
-              className="login-button"
-              label="Log in"
-              onTouchTap={() => this.submitToAuth(this.props.onSignIn)}
-            />
+            </form>
             <GoogleLogin
               className="google-button"
+              buttonText="Login With Google"
               clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
               onSuccess={response => {
-                GoogleLoginSuccess(response, "signIn")
+                GoogleLoginSuccess(response, 'signIn')
               }}
               onFailure={response => {
-                GoogleLoginFailure(response, "signIn")
+                GoogleLoginFailure(response, 'signIn')
               }}
             >
               <span className="google-button__icon">
@@ -117,10 +116,10 @@ const LoginPage = ({
               clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
               buttonText="Register With Google"
               onSuccess={response => {
-                GoogleRegisterSuccess(response, "register")
+                GoogleRegisterSuccess(response, 'register')
               }}
               onFailure={response => {
-                GoogleRegisterSuccess(response, "register")
+                GoogleRegisterFailure(response, 'register')
               }}
             >
               <span className="google-button__icon">

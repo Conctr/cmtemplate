@@ -14,7 +14,7 @@ export default class NavBar extends React.Component {
     value: 3,
     openMenu: false,
     // checks local storage to get user data
-    userData: this.props.userData || getProfileDecodedToken()
+    userData: getProfileDecodedToken()
   }
 
   handleChange = (event, index, value) => this.setState({ value })
@@ -81,6 +81,7 @@ export default class NavBar extends React.Component {
     )
   }
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
     this.setState({ userData: getProfileDecodedToken() })
   }
 }

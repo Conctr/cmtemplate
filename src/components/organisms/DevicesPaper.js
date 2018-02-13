@@ -1,9 +1,10 @@
-import React, { Component } from "react"
-import CircularProgress from "material-ui/CircularProgress"
-import Paper from "material-ui/Paper"
-import DevicesSelectModal from "../molecules/DevicesSelectModal"
-import Device from "./Device"
-import { getAll as getAllDevices } from "../../api/device"
+import React, { Component } from 'react'
+import CircularProgress from 'material-ui/CircularProgress'
+import CustomSpinner from '../CustomSpinner'
+import Paper from 'material-ui/Paper'
+import DevicesSelectModal from '../molecules/DevicesSelectModal'
+import Device from './Device'
+import { getAll as getAllDevices } from '../../api/device'
 
 export default class DevicePaper extends Component {
   constructor(props) {
@@ -64,7 +65,7 @@ export default class DevicePaper extends Component {
             </Paper>
           </div>
         ) : (
-          <CircularProgress />
+          <CustomSpinner />
         )}
       </div>
     )
