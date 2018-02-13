@@ -22,7 +22,7 @@ export function getDevicesData(deviceId, changeState,hoursBack,updateData){
   });
 
   let params = {
-    authorization: `jwt:${window.localStorage.getItem('userToken')}`,
+    authorization: `jwt:${window.localStorage.getItem('conctrToken')}`,
     _device_id: deviceId,
     app_id: applicationID,
     where: query.where,

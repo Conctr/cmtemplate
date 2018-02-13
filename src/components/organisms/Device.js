@@ -410,9 +410,10 @@ export default class DeviceInfo extends Component {
                               )}`}
                             >*/}
                             <h3 className={"status-data-value"}>
-                              {sortedData[keyShown.key].values[0].value.toFixed(
-                                1
-                              )}{" "}
+                              {sortedData[keyShown.key].values[0].value &&
+                                sortedData[
+                                  keyShown.key
+                                ].values[0].value.toFixed(1)}{" "}
                               {keyShown.unit}
                             </h3>
                           </div>
