@@ -29,23 +29,27 @@ describe('Login Page',() => {
     it('second Component GoogleLogin is Register with Google', () => {
       expect(wrapper.find('t').at(1).props().buttonText).toEqual('Register With Google')
     })
-      test('Login With Google Button', () => {
+      describe('Login With Google Button', () => {
+        let GoogleLoginSuccessSpy
+        let GoogleLoginFailureSpy
+        let GoogleLoginProps
         beforeEach(() => {
-        const GoogleLoginSuccessSpy = jest.fn()
+        GoogleLoginSuccessSpy = jest.fn()
+        GoogleLoginFailureSpy = jest.fn()
         wrapper = shallow(<LoginPage 
-            GoogleLoginSuccess = {GoogleLoginSuccessSpy}
+            GoogleLoginSuccess={GoogleLoginSuccessSpy}
+            GoogleLoginFailure={GoogleLoginFailureSpy}
             />)
+        GoogleLoginProps = wrapper.find('t').at(0).props()
         })
-        it('Successfully ' , () => {
-          console.log(wrapper.find('t').at(0).props().onSuccess())
+        it('on Successful Login GoogleLoginSuccess called is called' , () => {
+          GoogleLoginProps.onSuccess()
+          expect(GoogleLoginSuccessSpy).toBeCalled()
         })
-        // console.log(wrapper.find('t').at(0).props().onSuccess())
-        // console.log( GoogleLoginSuccess)
-        // GoogleLoginSuccess()
-        // GoogleLoginSuccess()
+        it('on Failed Login GoogleLoginFailure callback is called', () => {
+          GoogleLoginProps.onFailure()
+          expect(GoogleLoginFailureSpy).toBeCalled()
+        })
       })
-    // it('on Sucess ', () => {
-    //   console.log(wrapper.find('t').at(0).props().onSuccess())
-    // })
   })
 })
