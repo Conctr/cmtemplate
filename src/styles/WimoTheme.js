@@ -1,18 +1,18 @@
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { red800, red50 } from 'material-ui/styles/colors'
+import { red800, red50, grey300, grey400, grey600 } from 'material-ui/styles/colors'
 
 export const wimoTheme = getMuiTheme({
   chip: {
     backgroundColor: red50
   },
-  circularProgress:{
-     color: red800
+  circularProgress: {
+    color: red800
   },
   flatButton: {
-    primaryTextColor: red800
+    primaryTextColor: grey600
   },
   palette: {
-    textColor: red800
+    textColor: grey600
   },
   tabs: {
     backgroundColor: red800
@@ -21,10 +21,10 @@ export const wimoTheme = getMuiTheme({
     focusColor: red800
   },
   toolbar: {
-    backgroundColor: red800
+    backgroundColor: grey300
   },
   raisedButton: {
-    primaryColor: red800
+    primaryColor: grey400
   },
   slider: {
     selectionColor: red800,

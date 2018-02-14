@@ -1,65 +1,82 @@
-import api from './init'
+import api from "./init"
+import { setToken } from "./init"
+import { setEncodedToken } from '../api/profileToken'
+import { getConctrDecodedToken } from "./token"
 
-const appId = '2bf8fdd3b3144deea63aa54402938d68'
-let handleErrors
-export function init(handleError) {
-    handleErrors = handleError
-}
+const appId = process.env.REACT_APP_CONCTR_APP_API_ID
 
 export function signIn({ email, password }) {
-    return api.post(`/consumers/admin/${appId}/login`, {
-	"userData": {
-		"email": email,
-		"pwd": password
-	}
-})
-  .then(res => res.data)
-  .catch(error => {
-    throw Error(error.response.data.error)})
+  return api
+    .post(`/consumers/admin/${appId}/login`, {
+      userData: {
+        email: email,
+        pwd: password
+      }
+    })
+    .then(res => res.data)
 }
 
 export function register({ email, password }) {
-    return api.post(`/consumers/admin/${appId}/register`, {
-	"userData": {
-		"email": email,
-		"pwd": password
-	}
-})
-  .then(res => res.data)
-  .catch(error => {
-    throw Error(error.response.data.error)})
+  return api
+    .post(`/consumers/admin/${appId}/register`, {
+      userData: {
+        email: email,
+        pwd: password
+      }
+    })
+    .then(res => res.data)
 }
 
-export function authSignIn(email,provider,access_token) {
-  api.defaults.headers['Authorization'] = `oth:${access_token}`
-  return api.post(`/consumers/admin/${appId}/oauth/login`, {
-  "userData": {
-    "email": email
-    },
-  "provider": provider
-  }
-  )
-  .then(res => res.data)
-  .catch(error => {
-    throw Error(error.response.data.error)})
-  }
+export function authSignIn(email, provider, access_token) {
+  return api
+    .post(
+      `/consumers/admin/${appId}/oauth/login`,
+      {
+        userData: {
+          email: email
+        },
+        provider: provider
+      },
+      {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `oth:${access_token}`
+        }
+      }
+    )
+    .then(res => {
+      const token = res.data.jwt
+      setToken(token)
+      return getConctrDecodedToken()
+    })
+}
 
-export function authRegister(email,provider,access_token) {
-  api.defaults.headers['Authorization'] = `oth:${access_token}`
-  return api.post(`/consumers/admin/${appId}/oauth/register`, {
-  "userData": {
-    "email": email
-    },
-  "provider": provider
-  }
-  )
-  .then(res => res.data)
-  .catch(error => {
-    handleErrors(error.response.data.error)})
-  }
-// export function register({ email, password }) {
-//     return api.post('/auth/register', {
-//         email,
-//         password
-//     }).then(res => res.data)
-// }
+export function authRegister(email, provider, access_token) {
+  api.defaults.headers["Authorization"] = `oth:${access_token}`
+  return api
+    .post(
+      `/consumers/admin/${appId}/oauth/register`,
+      {
+        userData: {
+          email: email
+        },
+        provider: provider
+      },
+      {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `oth:${access_token}`
+        }
+      }
+    )
+    .then(res => {
+      const token = res.data.jwt
+      setToken(token)
+      return getConctrDecodedToken()
+    })
+}
+
+export function signOutNow() {
+  setToken(null)
+  setEncodedToken(null)
+}

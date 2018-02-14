@@ -1,115 +1,87 @@
-import React from 'react'
-import Avatar from 'material-ui/Avatar'
-import IconMenu from 'material-ui/IconMenu'
-import IconButton from 'material-ui/IconButton'
-import MenuItem from 'material-ui/MenuItem'
-import RaisedButton from 'material-ui/RaisedButton'
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
-import {
-  Toolbar,
-  ToolbarGroup,
-  ToolbarSeparator } from 'material-ui/Toolbar'
-import logo from '../../imgs/wimo-logo-y.svg'
-import {getUserDetails} from '../../api/oAuth'
-
+import React from "react"
+import Avatar from "material-ui/Avatar"
+import IconMenu from "material-ui/IconMenu"
+import IconButton from "material-ui/IconButton"
+import MenuItem from "material-ui/MenuItem"
+import RaisedButton from "material-ui/RaisedButton"
+import NavigationExpandMoreIcon from "material-ui/svg-icons/navigation/expand-more"
+import { Toolbar, ToolbarGroup, ToolbarSeparator } from "material-ui/Toolbar"
+import logo from "../../imgs/placeholder-logo.svg"
+import { getProfileDecodedToken } from "../../api/profileToken"
 
 export default class NavBar extends React.Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: 3,
-      openMenu: false
-    }
+  state = {
+    value: 3,
+    openMenu: false,
+    // checks local storage to get user data
+    userData: getProfileDecodedToken()
   }
 
   handleChange = (event, index, value) => this.setState({ value })
 
-  handleOnRequestChange = (value) => {
+  handleOnRequestChange = value => {
     this.setState({
       openMenu: value
     })
   }
 
-  handleOpenMenu = () => this.setState({ openMenu: true });
+  handleOpenMenu = () => this.setState({ openMenu: true })
 
   render() {
-    let firstName, lastName, avatarUser
-      getUserDetails()["firstname"]
-      ? firstName = getUserDetails()["firstname"]
-      : firstName = 'Set'
-
-
-      getUserDetails()["lastname"]
-      ? lastName = getUserDetails()["lastname"]
-      : lastName = 'Profile'
-
-      if(getUserDetails()["avatar"]){
-        avatarUser = getUserDetails()["avatar"]
-      } else {
-        avatarUser = 'https://mysticpants.com/_include/img/CONCTR-LOGO-MUSTARD-LINE.png'
-      }
-
+    const { userData } = this.state
+    const logoImage = process.env.REACT_APP_LOGO_IMAGE_URL || logo
     return (
       <div>
         {this.props.signedIn ? (
           <Toolbar>
-            <ToolbarGroup firstChild={ true }>
-              <img
-                className='navbar-logo'
-                src={ logo }
-                alt='wimo logo'
-              />
+            <ToolbarGroup firstChild={true}>
+              <img className="navbar-logo" src={logoImage} alt="app logo" />
             </ToolbarGroup>
             <ToolbarGroup>
               <ToolbarSeparator />
               <RaisedButton
-                primary={ true }
-                onTouchTap={ this.handleOpenMenu }
-                icon={
-                  <Avatar
-                    // src="http://i.telegraph.co.uk/multimedia/archive/03388/enfield_3388479b.jpg"
-                    src={avatarUser}
-                    size={ 30 }
-                  />
-                }
-                label={ firstName + ' ' + lastName }
+                primary={true}
+                onTouchTap={this.handleOpenMenu}
+                icon={<Avatar src={userData && userData.imageUrl} size={30} />}
+                label={userData && userData.name}
               />
               <IconMenu
-                className='float-menu'
+                className="float-menu"
                 iconButtonElement={
-                  <IconButton touch={ true }>
+                  <IconButton touch={true}>
                     <NavigationExpandMoreIcon />
                   </IconButton>
                 }
-                onRequestChange={ this.handleOnRequestChange }
-                open={ this.state.openMenu }
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+                onRequestChange={this.handleOnRequestChange}
+                open={this.state.openMenu}
+                anchorOrigin={{ horizontal: "left", vertical: "top" }}
+                targetOrigin={{ horizontal: "left", vertical: "top" }}
               >
-                <a
-                  href='https://conctr.com'
-                  className='naked-href'
-                >
+                <a href="https://conctr.com" className="naked-href">
                   <MenuItem primaryText="About Conctr" />
                 </a>
-                <a
-                  href="mailto:support@conctr.com"
-                  className='naked-href'
-                >
+                <a href="mailto:support@conctr.com" className="naked-href">
                   <MenuItem primaryText="Email Conctr Support" />
                 </a>
                 <MenuItem
-                  onTouchTap={ this.props.logOut }
+                  onTouchTap={() => {
+                    this.props.logOut()
+                    this.setState({ openMenu: false })
+                    this.setState({ userData: null })
+                  }}
                   primaryText="Log Out"
                 />
               </IconMenu>
             </ToolbarGroup>
           </Toolbar>
         ) : (
-          false
-        )}
+            false
+          )}
       </div>
     )
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
+    this.setState({ userData: getProfileDecodedToken() })
   }
 }

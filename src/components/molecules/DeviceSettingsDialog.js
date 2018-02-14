@@ -1,20 +1,21 @@
-import React from 'react'
-import Drawer from 'material-ui/Drawer'
-import ChipContainer from './ChipContainer'
-import IconButton from 'material-ui/IconButton'
-import Settings from 'material-ui/svg-icons/action/settings'
-import TextField from '../atoms/TextField'
-import RulesUI from './RulesUI'
-export default class DeviceSettingsDialog extends React.Component {
+import React from "react"
+import Drawer from "material-ui/Drawer"
+import ChipContainer from "./ChipContainer"
+import IconButton from "material-ui/IconButton"
+import Settings from "material-ui/svg-icons/action/settings"
+import TextField from "../atoms/TextField"
+import RulesUI from "./RulesUI"
+import RaisedButton from "material-ui/RaisedButton"
 
+export default class DeviceSettingsDialog extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = {open: false};
+    super(props)
+    this.state = { open: false }
   }
 
-  handleToggle = () => this.setState({open: !this.state.open});
+  handleToggle = () => this.setState({ open: !this.state.open })
 
-  handleClose = () => this.setState({open: false});
+  handleClose = () => this.setState({ open: false })
 
   onInputChange = (e, newValue) => {
     this.props.newDeviceName(newValue)
@@ -26,46 +27,46 @@ export default class DeviceSettingsDialog extends React.Component {
   render() {
     let deviceData = this.props.deviceData
     return (
-      <div className='device-settings'>
+      <div className="device-settings">
         <IconButton
-          className='device-settings-modal-button'
+          className="device-settings-modal-button"
           iconStyle={{
-            width:48,
-            height:48
+            width: 48,
+            height: 48
           }}
           style={{
             width: 96,
-            height: 96,
-          }}>
-          <Settings
-            onClick={this.handleToggle}
-          />
+            height: 96
+          }}
+        >
+          <Settings onClick={this.handleToggle} />
         </IconButton>
-        <Drawer open={this.state.open}
-        openSecondary={true}
-        width={400}>
-        <TextField
-          id='deviceName'
-          defaultValue={deviceData.name}
-          floatingLabelText="Device Name"
-          onChange={this.onInputChange}
-          onEnterKeyDown={() =>
-            {// this.props.updateDevice(deviceData.id,{new_name: this.state.deviceName})
-          }
-          }
+        <Drawer open={this.state.open} openSecondary={true} width={400}>
+          <TextField
+            id="deviceName"
+            defaultValue={deviceData.name}
+            floatingLabelText="Device Name"
+            onChange={this.onInputChange}
+            onEnterKeyDown={() => {
+              // this.props.updateDevice(deviceData.id,{new_name: this.state.deviceName})
+            }}
           />
-        <ChipContainer
-         handleGraphDelete={this.props.handleGraphDelete}
-         handleGraphAdd={this.props.handleGraphAdd}
-         sortedGraphs={this.props.sortedGraphs}/>
-          <RulesUI
+          <ChipContainer
+            handleGraphDelete={this.props.handleGraphDelete}
+            handleGraphAdd={this.props.handleGraphAdd}
+            sortedGraphs={this.props.sortedGraphs}
+          />
+          <RaisedButton onClick={this.handleClose} label="Close" />
+          {/*  alert setting is disabled*/}
+          {/*<RulesUI
             keysShown={this.props.keysShown}
             handleClose={this.handleClose}
             saveSettings={this.props.saveSettings}
             resetGraphsShown={this.props.resetGraphsShown}
-            sortedGraphs={this.props.sortedGraphs}/>
+            sortedGraphs={this.props.sortedGraphs}
+          />*/}
         </Drawer>
       </div>
-    );
+    )
   }
 }

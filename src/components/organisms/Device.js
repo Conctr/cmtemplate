@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import * as deviceWebSocket from '../../api/deviceWebSockets'
-import { getModel as getDeviceModel,
+import {
+  getModel as getDeviceModel,
   update as updateDevice,
   getSingle as getDevice,
   setAlertSettings as setDeviceAlertSettings,
-  getAlertSettings as getDeviceAlertSettings } from '../../api/device'
+  getAlertSettings as getDeviceAlertSettings
+} from '../../api/device'
+
 import CircularProgress from 'material-ui/CircularProgress'
+import CustomSpinner from '../CustomSpinner'
+
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import Slider from 'material-ui/Slider'
@@ -14,10 +19,9 @@ import LineGraph from '../molecules/LineGraph'
 import moment from 'moment'
 import { toast, ToastContainer } from 'react-toastify'
 import CrossIcon from 'react-icons/lib/fa/times-circle'
-import CheckIcon from 'react-icons/lib/fa/check-circle'
 require('moment-duration-format')
 
-function sorter(data,dataKeys){
+function sorter(data, dataKeys) {
   /* function to sort data into
   {key:
     {
@@ -29,63 +33,62 @@ function sorter(data,dataKeys){
   */
 
   let sortedValues = {}
-  if(data != null) {
+  if (data != null) {
     dataKeys.forEach(key => {
-    sortedValues[key] = {}
-    sortedValues[key].values = []
-      for(let i = 0; i < data.length; i++){
+      sortedValues[key] = {}
+      sortedValues[key].values = []
+      for (let i = 0; i < data.length; i++) {
         let time = data[i]['_ts']
 
-        sortedValues[key].values.push({ts: time,value: data[i][key]})
+        sortedValues[key].values.push({ ts: time, value: data[i][key] })
       }
-    let allX = sortedValues[key].values.map(val => (moment(val.ts)))
-    let allY = sortedValues[key].values.map(val => (val.value))
-    let minX = Math.min.apply(null, allX)
-    let maxX = Math.max.apply(null, allX)
-    let minY = Math.min.apply(null, allY)
-    let maxY = Math.max.apply(null, allY)
+      let allX = sortedValues[key].values.map(val => moment(val.ts))
+      let allY = sortedValues[key].values.map(val => val.value)
+      let minX = Math.min.apply(null, allX)
+      let maxX = Math.max.apply(null, allX)
+      let minY = Math.min.apply(null, allY)
+      let maxY = Math.max.apply(null, allY)
 
-    sortedValues[key]['rangeX'] = {
-      min: moment(minX).toDate(),
-      max: moment(maxX).toDate()
-    }
-    sortedValues[key]['rangeY'] = {
-      min: minY,
-      max: maxY
-    }
-
-  })
+      sortedValues[key]['rangeX'] = {
+        min: moment(minX).toDate(),
+        max: moment(maxX).toDate()
+      }
+      sortedValues[key]['rangeY'] = {
+        min: minY,
+        max: maxY
+      }
+    })
   }
   return sortedValues
 }
 
 function getOnlyConditions(alertSettings) {
-  let mutableAlertSettings = {...alertSettings}
+  let mutableAlertSettings = { ...alertSettings }
   delete mutableAlertSettings.alertSettings
   return mutableAlertSettings
 }
 export default class DeviceInfo extends Component {
-  alertSettings;
+  alertSettings
   // Determines which graphs get rendered
   allGraphs = []
   deviceData = {}
-  constructor(props){
-    super(props);
+  constructor(props) {
+    super(props)
     this.state = {
       data: null,
-      hoursBackShown:3,
-      newDeviceName:this.deviceData.name,
+      hoursBackShown: 3,
+      newDeviceName: this.deviceData.name,
       hoursBack: 3,
       loaderShown: false,
       keysShown: [],
       selectedGraphKey: null
-    };
-    this.defaultChange = null;
+    }
+    this.defaultChange = null
   }
 
-  originalShownKeys;
+  originalShownKeys
 
-  componentDidMount(){
+  componentDidMount() {
     deviceWebSocket.getDevicesData(
       this.props.deviceId,
       this.updateData,
@@ -97,26 +100,26 @@ export default class DeviceInfo extends Component {
       getDevice(this.props.deviceId),
       getDeviceAlertSettings()
     ])
-    .then(([model,deviceData,deviceAlertSettings]) => {
-      this.deviceData = deviceData
-      this.setState({"newDeviceName":deviceData.name})
-      this.alertSettings = deviceAlertSettings
-      this.allGraphs = model.map(modelData => {
-        return {
-          displayTitle: modelData.title,
-          key: modelData.reference,
-          unit: modelData.unit
-        }
+      .then(([model, deviceData, deviceAlertSettings]) => {
+        this.deviceData = deviceData
+        this.setState({ newDeviceName: deviceData.name })
+        this.alertSettings = deviceAlertSettings
+        this.allGraphs = model.map(modelData => {
+          return {
+            displayTitle: modelData.title,
+            key: modelData.reference,
+            unit: modelData.unit
+          }
+        })
+        this.getDeviceSettings()
       })
-      this.getDeviceSettings()
-    })
-    .catch(error => {
-      // this.props.handleError(error)
-      console.error(error);
-    })
+      .catch(error => {
+        // this.props.handleError(error)
+        console.error(error)
+      })
   }
 
-  componentWillReceiveProps({deviceId}) {
+  componentWillReceiveProps({ deviceId }) {
     this.setState({
       data: null
     })
@@ -131,28 +134,28 @@ export default class DeviceInfo extends Component {
       getDevice(this.props.deviceId),
       getDeviceAlertSettings()
     ])
-    .then(([model,deviceData,deviceAlertSettings]) => {
-      this.deviceData = deviceData
-      this.alertSettings = deviceAlertSettings
-      this.allGraphs = model.map(modelData => {
-        return {
-          displayTitle: modelData.title,
-          key: modelData.reference,
-          unit: modelData.unit
-        }
+      .then(([model, deviceData, deviceAlertSettings]) => {
+        this.deviceData = deviceData
+        this.alertSettings = deviceAlertSettings
+        this.allGraphs = model.map(modelData => {
+          return {
+            displayTitle: modelData.title,
+            key: modelData.reference,
+            unit: modelData.unit
+          }
+        })
+        this.getDeviceSettings()
       })
-      this.getDeviceSettings()
-    })
-    .catch(error => {
-      // this.props.handleError(error)
-      console.error(error);
-    })
+      .catch(error => {
+        // this.props.handleError(error)
+        console.error(error)
+      })
   }
 
-  determineGraphsWithClass = (allGraphs) => {
+  determineGraphsWithClass = allGraphs => {
     this.state.keysShown.forEach(graphShown => {
       allGraphs.forEach(graph => {
-        if(graphShown.key === graph.key) {
+        if (graphShown.key === graph.key) {
           graph.display = true
           // Optimasation issue, loop will keep running even when matched
         }
@@ -161,14 +164,14 @@ export default class DeviceInfo extends Component {
     return allGraphs
   }
 
-  updateData = (newData)=>{
+  updateData = newData => {
     this.setState({
       data: newData,
-      loaderShown:false
+      loaderShown: false
     })
   }
 
-  handleUpdateData = (newData)=>{
+  handleUpdateData = newData => {
     let mutableData = this.state.data.slice()
     mutableData.unshift(newData)
     this.setState({
@@ -176,11 +179,12 @@ export default class DeviceInfo extends Component {
     })
   }
 
-  handleSliderStop = (value)=>{
+  handleSliderStop = value => {
     deviceWebSocket.getDevicesData(
       this.props.deviceId,
       this.updateData,
-      value,this.handleUpdateData
+      value,
+      this.handleUpdateData
     )
     this.setState({
       hoursBack: value,
@@ -189,13 +193,13 @@ export default class DeviceInfo extends Component {
     })
   }
 
-  handleSlider = (value)=>{
+  handleSlider = value => {
     this.setState({
       hoursBackShown: value
     })
   }
 
-  getBatteryPercentage = (latestBattery) =>{
+  getBatteryPercentage = latestBattery => {
     // Getting the percentage of how far between two points.
     let lower = 2.31
     let upper = 2.794
@@ -204,19 +208,19 @@ export default class DeviceInfo extends Component {
     return percentage * 100
   }
 
-  handleGraphDelete = (graphKey) => {
-    if(graphKey !== this.state.selectedGraphKey){
+  handleGraphDelete = graphKey => {
+    if (graphKey !== this.state.selectedGraphKey) {
       this.setState({
-        keysShown: this.state.keysShown.filter(graphShown =>{
+        keysShown: this.state.keysShown.filter(graphShown => {
           return graphShown.key !== graphKey
         })
       })
     } else {
       this.setState({
-        keysShown: this.state.keysShown.filter(graphShown =>(
-          graphShown.key !== graphKey
-        )),selectedGraphKey: null
-
+        keysShown: this.state.keysShown.filter(
+          graphShown => graphShown.key !== graphKey
+        ),
+        selectedGraphKey: null
       })
     }
     this.allGraphs = this.allGraphs.map(graph => {
@@ -225,7 +229,7 @@ export default class DeviceInfo extends Component {
     })
   }
 
-  handleGraphAdd = (graphKey) => {
+  handleGraphAdd = graphKey => {
     let elementToAdd = this.allGraphs.find(graph => graph.key === graphKey)
     this.setState({
       keysShown: this.state.keysShown.concat(elementToAdd)
@@ -236,12 +240,12 @@ export default class DeviceInfo extends Component {
     })
   }
 
-  handleGraphSelect = (selectedGraphKey) => {
-    this.setState({selectedGraphKey: selectedGraphKey})
+  handleGraphSelect = selectedGraphKey => {
+    this.setState({ selectedGraphKey: selectedGraphKey })
   }
 
-  saveGraphSettings = (object) => {
-    localStorage.setItem('graphPreference',JSON.stringify(object))
+  saveGraphSettings = object => {
+    localStorage.setItem('graphPreference', JSON.stringify(object))
     return object
   }
 
@@ -251,87 +255,73 @@ export default class DeviceInfo extends Component {
 
   getDeviceSettings = () => {
     // Graph Preference
-    let alertSettingConditions = {...this.alertSettings}
+    let alertSettingConditions = { ...this.alertSettings }
     delete alertSettingConditions.alertSettings
     let array = []
     Object.keys(alertSettingConditions).forEach(settingCondition => {
       array.push(this.allGraphs.find(graph => graph.key === settingCondition))
     })
-    this.setState({keysShown: array})
+    this.setState({ keysShown: array })
   }
 
-  saveDeviceSettings = (rules) => {
-    setDeviceAlertSettings(this.props.deviceId,rules,this.handleAlerts)
-    updateDevice(this.deviceData.id,{new_name: this.state.newDeviceName})
+  saveDeviceSettings = rules => {
+    setDeviceAlertSettings(this.props.deviceId, rules, this.handleAlerts)
+    updateDevice(this.deviceData.id, { new_name: this.state.newDeviceName })
     //todo save device name
   }
 
-  handleAlerts = (err,res) => {
-    if(err) {
+  handleAlerts = (err, res) => {
+    if (err) {
       toast.error('Failed to update settings, please try later')
-    }else {
+    } else {
       toast.success('Successfully saved settings')
     }
   }
 
-  updateDeviceName = (newDeviceName)=>{
-    this.setState ({"newDeviceName" : newDeviceName})
+  updateDeviceName = newDeviceName => {
+    this.setState({ newDeviceName: newDeviceName })
   }
 
-  resetGraphsShown = () => {
+  resetGraphsShown = () => {}
 
-  }
-
-  checkIfOutOfRange = (key,value) => {
-    let upperLimit,lowerLimit;
-    if( this.alertSettings[key] ){
+  checkIfOutOfRange = (key, value) => {
+    let upperLimit, lowerLimit
+    if (this.alertSettings[key]) {
       upperLimit = this.alertSettings[key]['GT']
       lowerLimit = this.alertSettings[key]['LT']
     }
-    if(value > upperLimit || value < lowerLimit){
+    if (value > upperLimit || value < lowerLimit) {
       return 'warning'
     } else {
       return ''
     }
   }
 
-  checkIfArrayOutOfRange = (key,array) => {
-    let upperLimit,lowerLimit;
-    if(this.alertSettings[key]){
+  checkIfArrayOutOfRange = (key, array) => {
+    let upperLimit, lowerLimit
+    if (this.alertSettings[key]) {
       lowerLimit = this.alertSettings[key]['LT']
       upperLimit = this.alertSettings[key]['GT']
     }
     if (
-      lowerLimit && !array.values.every(value => value.value > lowerLimit ) ||
-      upperLimit && !array.values.every(value => value.value < upperLimit )
-    ){
-      return <CrossIcon color='red'/>
+      (lowerLimit && !array.values.every(value => value.value > lowerLimit)) ||
+      (upperLimit && !array.values.every(value => value.value < upperLimit))
+    ) {
+      return <CrossIcon color="red" />
     } else {
-      return <div></div>
+      return <div />
     }
   }
-
-  // // Save state of settings
-  // handleSettingsEnter = () => {
-  //   this.state.
-  // }
-  // // Save state of settings
-  // handleSettingsSave = () => {
-  //   this.state.
-  // }
-  // // Save state of settings
-  // handleSettingsCancel = () => {
-  //   this.state.
-  // }
 
   render() {
     const sortedGraphs = this.determineGraphsWithClass(this.allGraphs)
     const sortedData = sorter(
-      this.state.data,this.allGraphs.map(graph => graph.key)
+      this.state.data,
+      this.allGraphs.map(graph => graph.key)
     )
     let alertConditions = getOnlyConditions(this.alertSettings)
     return (
-      <div style={{textAlign: 'center'}}>
+      <div style={{ textAlign: 'center' }}>
         <ToastContainer
           position="top-right"
           type="default"
@@ -343,44 +333,52 @@ export default class DeviceInfo extends Component {
         />
         {this.state.data ? (
           <div>
-            { !!this.state.data.length ? (
+            {!!this.state.data.length ? (
               <div
-                className='the-first'
+                className="the-first"
                 style={{
                   textAlign: 'center',
                   marginLeft: 'auto',
                   marginRight: 'auto'
-                }}>
-                <h1>{this.state.newDeviceName ? this.state.newDeviceName : 'No Name'}</h1>
-                <div style={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center'
-                }}>
-                </div>
+                }}
+              >
+                <h1>
+                  {this.state.newDeviceName
+                    ? this.state.newDeviceName
+                    : 'No Name'}
+                </h1>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center'
+                  }}
+                />
 
                 {/* Current Status */}
 
-                <div className='status-container'>
-                  <div className='section-header'>
-                    <div className='status-title-block'>
-                      <h2 className='status-title'>Current Status</h2>
-                      <p className='status-data-age'>Data last updated {
-                        moment.duration(
-                          moment().diff(
-                            moment(
-                              sortedData[
-                                Object.keys(sortedData)[0]
-                              ].values[0].ts
+                <div className="status-container">
+                  <div className="section-header">
+                    <div className="status-title-block">
+                      <h2 className="status-title">Current Status</h2>
+                      <p className="status-data-age">
+                        Data last updated{' '}
+                        {moment
+                          .duration(
+                            moment().diff(
+                              moment(
+                                sortedData[Object.keys(sortedData)[0]].values[0]
+                                  .ts
+                              )
                             )
                           )
-                        ).format('k[hr] m[min] s[sec ago]')
-                      }</p>
+                          .format('k[hr] m[min] s[sec ago]')}
+                      </p>
                     </div>
                     {sortedGraphs.length > 0 ? (
                       <DeviceSettingsDialog
                         resetGraphsShown={this.resetGraphsShown}
-                        newDeviceName ={this.updateDeviceName}
+                        newDeviceName={this.updateDeviceName}
                         alertSettings={this.alertSettings}
                         saveSettings={this.saveDeviceSettings}
                         updateDevice={updateDevice}
@@ -391,124 +389,160 @@ export default class DeviceInfo extends Component {
                         keysShown={this.state.keysShown}
                       />
                     ) : (
-                      <CircularProgress />
+                      <CustomSpinner />
                     )}
                   </div>
                   {this.state.keysShown.length > 0 ? (
                     <div>
-                      <div className='status-data-array'>
-                      {this.state.keysShown.map(keyShown => (
-                        <div className='status-data-element'
-                          key={keyShown.key}
-                        >
-                          <p className='status-data-type'>
-                            {keyShown.displayTitle}
-                          </p>
-                          <h3 className={
-                            `status-data-value ${this.checkIfOutOfRange(keyShown.key,sortedData[keyShown.key].values[0].value.toFixed(1))}`
-                          }>
-                            {sortedData[keyShown.key].values[0].value.toFixed(1)} {keyShown.unit}
-                          </h3>
-                        </div>
-                      ))}
+                      <div className="status-data-array">
+                        {this.state.keysShown.map(keyShown => (
+                          <div
+                            className="status-data-element"
+                            key={keyShown.key}
+                          >
+                            <p className="status-data-type">
+                              {keyShown.displayTitle}
+                            </p>
+                            {/* disable the data value blinking func*/}
+                            {/*<h3
+                              className={`status-data-value ${this.checkIfOutOfRange(
+                                keyShown.key,
+                                sortedData[
+                                  keyShown.key
+                                ].values[0].value.toFixed(1)
+                              )}`}
+                            >*/}
+                            <h3 className={'status-data-value'}>
+                              {sortedData[keyShown.key].values[0].value &&
+                                sortedData[
+                                  keyShown.key
+                                ].values[0].value.toFixed(1)}{' '}
+                              {keyShown.unit}
+                            </h3>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
                   ) : (
-                    <div className='selection-prompt-container'>
-                      <h1 className='selection-prompt'>
+                    <div className="selection-prompt-container">
+                      <h1 className="selection-prompt">
                         Select sensors from the settings menu to view live data
                       </h1>
                     </div>
                   )}
                 </div>
 
-              {/* Data Analysis */}
+                {/* Data Analysis */}
 
-                <div className='analysis-container'>
-                  <div className='section-header'>
-                    <h2 className='analysis-title'>Data Analysis</h2>
+                <div className="analysis-container">
+                  <div className="section-header">
+                    <h2 className="analysis-title">Data Analysis</h2>
                   </div>
-                  <div className='analysis-slider'>
+                  <div className="analysis-slider">
                     {!this.state.loaderShown ? (
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginLeft: 'auto',
-                        marginRight: 'auto'
-                      }}>
-                        <div className='slider-range'>
-                          <h5 className='range-title'>
-                            data range
-                          </h5>
-                          <h5 className='range-value'>
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          marginLeft: 'auto',
+                          marginRight: 'auto'
+                        }}
+                      >
+                        <div className="slider-range">
+                          <h5 className="range-title">data range</h5>
+                          <h5 className="range-value">
                             {`${this.state.hoursBackShown} hours`}
                           </h5>
                         </div>
                         <Slider
-                          style={{width: '65%'}}
+                          style={{ width: '65%' }}
                           min={1}
                           max={24}
                           step={1}
                           value={this.state.hoursBack}
-                          onChange={(event,value) => {
+                          onChange={(event, value) => {
                             this.defaultChange = value
                             this.handleSlider(value)
                           }}
                           onDragStop={() => {
-                            this.defaultChange > 0 && this.handleSliderStop(
-                              this.defaultChange
-                            )
+                            this.defaultChange > 0 &&
+                              this.handleSliderStop(this.defaultChange)
                           }}
                         />
                       </div>
                     ) : (
-                      <CircularProgress />
+                      <CustomSpinner />
                     )}
                   </div>
-                <div className='graph-block'>
-                  <div className='graph-menu'>
-                    <Menu>
-                      {sortedGraphs.map(keyShown => (
-                        <div key={`${keyShown.key}Graph`}>
-                          <MenuItem
-                            style={keyShown.key === this.state.selectedGraphKey ? {backgroundColor: '#fbeeee'} : {backgroundColor: 'white'}}
-                            leftIcon={this.checkIfArrayOutOfRange(keyShown.key,sortedData[keyShown.key])}
-                            onTouchTap={() => this.handleGraphSelect(keyShown.key)}
-                            primaryText={keyShown.displayTitle}/>
-                        </div>
-                      ))}
-                    </Menu>
-                  </div>
-                  <div className='graph'>
-                    {this.state.selectedGraphKey ? (
-                      <LineGraph
-                        graphPreference={
-                          sortedGraphs.find(object => (
-                            object.key === this.state.selectedGraphKey)
-                          )
-                        }
-                        values={sortedData[this.state.selectedGraphKey].values}
-                        rangeX={sortedData[this.state.selectedGraphKey].rangeX}
-                        rangeY={sortedData[this.state.selectedGraphKey].rangeY}
-                        upperlimit={
-                          this.alertSettings && this.alertSettings[this.state.selectedGraphKey] ? (
-                          parseFloat(this.alertSettings[this.state.selectedGraphKey]['GT'])
-                        ) : null }
-                        lowerlimit={this.alertSettings && this.alertSettings[this.state.selectedGraphKey] ? (
-                          parseFloat(this.alertSettings[this.state.selectedGraphKey]['LT'])
-                        ) : null }
-                      />
-                    ) : (
-                      false
-                    )}
+                  <div className="graph-block">
+                    <div className="graph-menu">
+                      <Menu>
+                        {sortedGraphs.map(keyShown => (
+                          <div key={`${keyShown.key}Graph`}>
+                            <MenuItem
+                              style={
+                                keyShown.key === this.state.selectedGraphKey
+                                  ? { backgroundColor: '#fbeeee' }
+                                  : { backgroundColor: 'white' }
+                              }
+                              onTouchTap={() =>
+                                this.handleGraphSelect(keyShown.key)
+                              }
+                              primaryText={keyShown.displayTitle}
+                            />
+                          </div>
+                        ))}
+                      </Menu>
+                    </div>
+                    <div className="graph">
+                      {this.state.selectedGraphKey ? (
+                        <LineGraph
+                          graphPreference={sortedGraphs.find(
+                            object => object.key === this.state.selectedGraphKey
+                          )}
+                          values={
+                            sortedData[this.state.selectedGraphKey].values
+                          }
+                          rangeX={
+                            sortedData[this.state.selectedGraphKey].rangeX
+                          }
+                          rangeY={
+                            sortedData[this.state.selectedGraphKey].rangeY
+                          }
+                          upperlimit={
+                            this.alertSettings &&
+                            this.alertSettings[this.state.selectedGraphKey]
+                              ? parseFloat(
+                                  this.alertSettings[
+                                    this.state.selectedGraphKey
+                                  ]['GT']
+                                )
+                              : null
+                          }
+                          lowerlimit={
+                            this.alertSettings &&
+                            this.alertSettings[this.state.selectedGraphKey]
+                              ? parseFloat(
+                                  this.alertSettings[
+                                    this.state.selectedGraphKey
+                                  ]['LT']
+                                )
+                              : null
+                          }
+                        />
+                      ) : (
+                        false
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-              </div>
-            ) : <h3>No Data Associated with this device</h3>}
+            ) : (
+              <h3>No Data Associated with this device</h3>
+            )}
           </div>
         ) : (
-          <CircularProgress />
+          <CustomSpinner />
         )}
       </div>
     )

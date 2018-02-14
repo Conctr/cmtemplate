@@ -1,6 +1,6 @@
 let moment = require("moment");
 //let actionheroClient = require('./actionheroClient')
-let applicationID = '2bf8fdd3b3144deea63aa54402938d68'//process.env.REACT_APP_APP_ID
+let applicationID = process.env.REACT_APP_CONCTR_APP_API_ID
 export function getDevicesData(deviceId, changeState,hoursBack,updateData){
   let query = {
     limit:10000,
@@ -22,7 +22,7 @@ export function getDevicesData(deviceId, changeState,hoursBack,updateData){
   });
 
   let params = {
-    authorization: `jwt:${window.localStorage.getItem('userToken')}`,
+    authorization: `jwt:${window.localStorage.getItem('conctrToken')}`,
     _device_id: deviceId,
     app_id: applicationID,
     where: query.where,
