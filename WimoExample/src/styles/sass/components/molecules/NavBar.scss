@@ -1,0 +1,16 @@
+.fixed-nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 8999;
+  width: 100vw;
+}
+
+.navbar-logo {
+  height: 75%;
+  margin-left: 2.5em;
+}
+
+.float-menu {
+  z-index: 9999;
+}

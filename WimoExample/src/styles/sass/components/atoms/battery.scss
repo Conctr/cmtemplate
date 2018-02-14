@@ -1,0 +1,31 @@
+.battery-container {
+    display: block;
+    float: right;
+
+    .battery-percent {
+       position: absolute;
+       color: darkgreen;
+       z-index: 1;
+       font-size: 0.8em;
+       margin-left: 34px;
+       margin-top: 23px;
+    }
+    .darkgreen {
+        color: darkgreen;
+    }
+    .green {
+        color: green;
+    }
+    .orange {
+        color: orange;
+    }
+    .red {
+        color: red;
+    }
+    .darkred {
+        color: darkred;
+    }
+    .battery {
+        margin-right: 25px;
+    }
+}
